@@ -4,6 +4,11 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-{% block content %}{% endblock %}
+        <!--IF USER IS LOGGED IN SHOW LOGOUT BUTTON-->
+        <button type='button' id='btn_login'>
+            <a href='/logout'>Logout</a>
+        </button>
+
+    {% block content %}{% endblock %}
 </body>
 </html>

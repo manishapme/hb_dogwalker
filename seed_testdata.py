@@ -12,16 +12,22 @@ def populate_users():
     # always clean slate test data
     # User.query.delete()
 
-    users = [{'username': 'mary',
+    users = [{'user_name': 'mary',
                'email': 'mary @ example.com',
+               'first_name': 'Mary',
+               'last_name': 'Smith',
                'password': '1234'
-             }, {'username': 'john',
+             }, {'user_name': 'john',
                'email': 'john @ example.com',
+               'first_name': 'John',
+               'last_name': 'Baker',
                'password': '1234'
              }]
     
     for user in users:
-      u = User(username=user['username'], 
+      u = User(user_name=user['user_name'], 
+               first_name=user['first_name'],
+               last_name=user['last_name'],
                email=user['email'], 
                password=user['password'])
 

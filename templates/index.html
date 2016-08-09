@@ -1,1 +1,32 @@
-<!--all HTML goes here-->
+{% extends 'base.html' %}
+
+{% block title %}Dogwalker{% endblock %}
+
+{% block content %}
+    <!--IF USER IS NOT LOGGED IN SHOW LOGIN BUTTON-->
+    <button type='button' id='btn_login'>
+        <a href='/login'>Login</a>
+    </button>
+    <!--IF USER CLICKS LOGIN BUTTON SHOW LOGIN FORM-->
+    <div id='login_form'>
+        <form action='/login' method='POST'>
+            <input type='text' name='user_name' placeholder='Username' aria-label='Username' required>
+            <input type='password' name='password' placeholder='Password' aria-label='Password' required>
+            <input type='submit' value='Log Me In!'>
+        </form>
+    </div>
+    <!--REGISTRATION FORM IS SHOWN ONLY IF USER IS NOT LOGGED IN-->
+    <div id='registration_form'>
+        <form action='/register' method='POST'>
+            <input type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required>
+            <input type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required>
+            <input type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required>
+            <input type='email' name='register_email' placeholder='Email' aria-label='Email' required>
+            <input type='password' name='register_password' placeholder='Password' aria-label='Password' required>
+            <input type='submit' value='Sign Up'>
+        </form>
+    </div>
+    <p>
+        Use this application to manage your business. Because walking is more fun than typing.
+    </p>
+{% endblock %}
