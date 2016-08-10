@@ -60,6 +60,22 @@ class User(db.Model):
         """
         return False
 
+    def update_user(self, **kwargs):
+        """Update existing user data."""
+
+        self.user_name = kwargs.get('user_name', self.user_name)
+        self.password = kwargs.get('password', self.password)
+        self.first_name = kwargs.get('first_name', self.first_name)
+        self.last_name = kwargs.get('last_name', self.last_name)
+        self.email = kwargs.get('email', self.email)
+        self.business_id = kwargs.get('business_id', self.business_id)
+
+        db.session.commit()
+        return self
+
+
+
+
 
 class Business(db.Model):
     """A business tied to a specific User of application."""
@@ -79,7 +95,7 @@ class Business(db.Model):
 
 
 ##############################################################################
-# CREATE, UPDATE, DELETE functions
+# CREATE, DELETE functions
 def add_user(user_name, password, first_name, last_name, email):
     """Add new user."""
 
@@ -94,34 +110,24 @@ def add_user(user_name, password, first_name, last_name, email):
     return user
 
 
-# def update_user(user_id, business_name):
-#     """Update existing user data."""
-
-#     user = User(user_name=user_name,
-#                 password=password,
-#                 first_name=first_name,
-#                 last_name=last_name,
-#                 email=email)
-
-#     db.session.add(user)
-#     db.session.commit()
-#     return user
-
-
-def add_business(business_name, business_street='', business_city='',
-                 business_state='', business_zip='', business_phone='', url='',
-                 license=''):
+def add_business(**kwargs):
 
     """Add new business."""
 
-    b = Business(business_name=business_name, business_street=business_street,
-                 business_city=business_city, business_state=business_state, 
-                 business_zip=business_zip, business_phone=business_phone, 
-                 url=url, license=license)
+    b = Business(business_name=kwargs.get('business_name', ''), 
+                 business_street=kwargs.get('business_street', ''),
+                 business_city=kwargs.get('business_city', ''), 
+                 business_state=kwargs.get('business_state', ''), 
+                 business_zip=kwargs.get('business_zip', ''), 
+                 business_phone=kwargs.get('business_phone', ''), 
+                 url=kwargs.get('url', ''), 
+                 license=kwargs.get('license', '')
+                 )
 
     db.session.add(b)
     db.session.commit()
     return b
+
 
 ##############################################################################
 

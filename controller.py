@@ -83,8 +83,8 @@ def register():
         # @todo needs to be broken out for future implementation of multiple users
         # @todo needs to check for duplicate businesses
         if business_name:
-            new_business = add_business(business_name)
-            print new_business.business_id, 'biz id'
+            new_business = add_business(business_name=business_name)
+            new_user.update_user(business_id=new_business.business_id)
 
         return redirect('/business')
 
