@@ -4,10 +4,17 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-        <!--IF USER IS LOGGED IN SHOW LOGOUT BUTTON-->
-        <button type='button' id='btn_login'>
+
+    {% if current_user.is_authenticated %}
+        Welcome {{ current_user.first_name }}!
+        <button type='button' id='btn_logout'>
             <a href='/logout'>Logout</a>
         </button>
+    {% endif %}
+    
+    {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+    {% endfor %}
 
     {% block content %}{% endblock %}
 </body>

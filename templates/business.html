@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Business Detail{% endblock %}
+
+{% block content %}
+    <h1>Business Details</h1>
+    <p>Set up the details of your business to get started.</p>
+
+    <!--BUSINESS DETAILS FORM SHOWN -->
+    <div id='registration_form'>
+        <form action='/business' method='POST'>
+            <input type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required>
+            <input type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required>
+            <input type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required>
+            <input type='email' name='register_email' placeholder='Email' aria-label='Email' required>
+            <input type='password' name='register_password' placeholder='Password' aria-label='Password' required>
+            <input type='submit' value='Sign Up'>
+        </form>
+    </div>
+{% endblock %}
