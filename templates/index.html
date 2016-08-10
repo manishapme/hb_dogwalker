@@ -18,12 +18,16 @@
     <!--REGISTRATION FORM IS SHOWN ONLY IF USER IS NOT LOGGED IN-->
     <div id='registration_form'>
         <form action='/register' method='POST'>
-            <input type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required>
-            <input type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required>
-            <input type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required>
-            <input type='email' name='register_email' placeholder='Email' aria-label='Email' required>
-            <input type='password' name='register_password' placeholder='Password' aria-label='Password' required>
-            <input type='submit' value='Sign Up'>
+            <label>
+                <input type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required><br>
+                Usernames are not case sensitive.
+            </label><br>
+            <input type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required><br>
+            <input type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required><br>
+            <input type='email' name='register_email' placeholder='Email' aria-label='Email' required><br>
+            <input type='password' name='register_password' placeholder='Password' aria-label='Password' required><br>
+            <input type='text' name='register_business_name' placeholder='Business Name' aria-label='Business Name' required><br>
+            <input type='submit' value='Sign Up'><br>
         </form>
     </div>
     <p>

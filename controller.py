@@ -4,9 +4,9 @@ import os
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from flask.ext.login import (LoginManager, login_user, logout_user, login_required,
+from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
-from model import User, connect_to_db, db, add_user
+from model import User, connect_to_db, db, add_user, add_business
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] #@todo load from config file
@@ -67,6 +67,7 @@ def register():
     first_name = request.form.get('register_first_name')
     last_name = request.form.get('register_last_name')
     email = request.form.get('register_email')
+    business_name = request.form.get('register_business_name')
     
     # ensure username is unique (case insensitive)
     user = User.query.filter(User.user_name.ilike(user_name)).first()
@@ -78,10 +79,18 @@ def register():
         new_user = add_user(user_name=user_name, password=password, 
                             first_name=first_name, last_name=last_name, email=email)
         login_user(new_user)
+        # if a business name was entered, create that business and associate with this user
+        # @todo needs to be broken out for future implementation of multiple users
+        # @todo needs to check for duplicate businesses
+        if business_name:
+            new_business = add_business(business_name)
+            print new_business.business_id, 'biz id'
+
         return redirect('/business')
 
 
-@app.route('/business')
+@app.route('/business', methods=['GET', 'POST'])
+@login_required
 def show_business():
     """For logged in user, show information about their business."""
 

@@ -7,14 +7,20 @@
     <p>Set up the details of your business to get started.</p>
 
     <!--BUSINESS DETAILS FORM SHOWN -->
-    <div id='registration_form'>
+    <!--current_user available through flask app -->
+    {% if current_user.business is defined %}
+    <div id='business_form'>
         <form action='/business' method='POST'>
-            <input type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required>
-            <input type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required>
-            <input type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required>
-            <input type='email' name='register_email' placeholder='Email' aria-label='Email' required>
-            <input type='password' name='register_password' placeholder='Password' aria-label='Password' required>
-            <input type='submit' value='Sign Up'>
+            <input type='text' name='business_name' placeholder='Business Name' aria-label='Business Name' required value='{{ current_user.business.business_name }}'><br>
+            <input type='text' name='street' placeholder='Street' aria-label='Street' required value='{{ current_user.business.business_street }}'><br>
+            <input type='text' name='city' placeholder='City' aria-label='City' required value='{{ current_user.business.business_city }}'><br>
+            <input type='text' name='state' placeholder='State' aria-label='State' required value='{{ current_user.business.business_state }}'><br>
+            <input type='text' name='zip' placeholder='Zip' aria-label='Zipcode' required value='{{ current_user.business.business_zip }}'><br>
+            <input type='text' name='phone' placeholder='Phone' aria-label='Phone Number' required value='{{ current_user.business.business_phone }}'><br>
+            <input type='text' name='url' placeholder='URL' aria-label='URL' required value='{{ current_user.business.url }}'><br>
+            <input type='text' name='license' placeholder='License' aria-label='Business License' required value='{{ current_user.business.license }}'><br>
+            <input type='submit' value='Update Business Details'><br>
         </form>
     </div>
+    {% endif %}
 {% endblock %}
