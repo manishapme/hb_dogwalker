@@ -1,6 +1,6 @@
 # populate test data
 # @todo use separate db for tests
-from model import User, Business, Animal
+from model import User, Business, Animal, Person
 from model import connect_to_db, db
 from controller import app
 
@@ -134,6 +134,71 @@ def populate_animals():
     db.session.commit()
     return None
 
+def populate_people():
+    """Create minimum sample data for the person table."""
+
+    print "People - begin data creation"
+
+    # always clean slate test data
+    Person.query.delete()
+
+    b = Business.query.all()
+
+    people = [{'business_id': b[0].id,
+               'fullname': 'John Doe',
+               'street': '3200 Grand Ave.',
+               'city': 'Oakland',
+               'state': 'CA',
+               'zipcode': '94610',
+               'phone': '5102222222',
+               'email': 'john@doe',
+               'animal': b[0].animals[0]
+             }, {'business_id': b[0].id,
+               'fullname': 'Jill Jones',
+               'street': '1101 University Avenue',
+               'city': 'Berkeley',
+               'state': 'CA',
+               'zipcode': '94702',
+               'phone': '5105407777',
+               'email': 'jill@jones',
+               'animal': b[0].animals[1]
+             }, {'business_id': b[1].id,
+               'fullname': 'Dan Brown',
+               'street': '5144 Broadway',
+               'city': 'Oakland',
+               'state': 'CA',
+               'zipcode': '94611',
+               'phone': '5106548888',
+               'email': '',
+               'animal': b[1].animals[0]
+             }, {'business_id': b[1].id,
+               'fullname': 'Amy Tan',
+               'street': '1430 Fitzgerald Drive',
+               'city': 'Pinole',
+               'state': 'CA',
+               'zipcode': '94564',
+               'phone': '5107587779',
+               'email': 'amy@tan',
+               'animal': b[1].animals[1]
+             }, ]
+    
+
+    for person in people:
+      p = Person(business_id=person['business_id'],
+               fullname=person['fullname'], 
+               street=person['street'],
+               city=person['city'],
+               state=person['state'], 
+               zipcode=person['zipcode'],
+               phone=person['phone'],
+               email=person['email'])
+      p.animals.append(person['animal'])
+      # p.animals.append(person.animal) @todo find out why these aren't equivalent
+
+      db.session.add(p)
+    db.session.commit()
+    return None
+
 
 ##############################################################################
 if __name__ == "__main__":
@@ -147,4 +212,5 @@ if __name__ == "__main__":
     populate_business()
     populate_users()
     populate_animals()
+    populate_people()
     

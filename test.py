@@ -29,6 +29,7 @@ class ControllerTests(unittest.TestCase):
         populate_business()
         populate_users()
         populate_animals()
+        populate_people()
 
     def tearDown(self):
         """Do at end of every test."""

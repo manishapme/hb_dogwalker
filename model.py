@@ -107,6 +107,13 @@ class Business(db.Model):
         db.session.commit()
         return self
 
+# A many-to-many association requiring only keys DOESN'T require a class definition  
+# note must appear before the classes it joins
+personanimal = db.Table('personanimal', 
+    db.Column('person_id', db.Integer, db.ForeignKey('person.id')),
+    db.Column('animal_id', db.Integer, db.ForeignKey('animal.id'))
+    )
+
 
 class Animal(db.Model):
     """An animal that is serviced by a business."""
@@ -123,39 +130,26 @@ class Animal(db.Model):
     species = db.Column(db.String(64))
 
     business = db.relationship('Business', backref=db.backref('animals', order_by=name))
+    people = db.relationship('Person', secondary=personanimal, backref=db.backref('personanimal'))
 
 
-# class Person(db.Model):
-#     """A person that is responsible for one or more animals."""
+class Person(db.Model):
+    """A person that is responsible for one or more animals."""
 
-#     __tablename__ = 'person'
+    __tablename__ = 'person'
 
-#     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-#     fullname = db.Column(db.String(164), nullable=False)
-#     street = db.Column(db.String(108))
-#     city = db.Column(db.String(64))
-#     state = db.Column(db.String(2))
-#     zip = db.Column(db.String(9))
-#     phone = db.Column(db.String(10))
-#     email = db.Column(db.String(64))
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    business_id = db.Column(db.Integer, db.ForeignKey('business.id'))
+    fullname = db.Column(db.String(164), nullable=False)
+    street = db.Column(db.String(108))
+    city = db.Column(db.String(64))
+    state = db.Column(db.String(2))
+    zipcode = db.Column(db.String(9))
+    phone = db.Column(db.String(10))
+    email = db.Column(db.String(64))
 
-#     business = db.relationship('Business', backref=db.backref('animals', order_by=name))
-
-# personanimal = Table('association', db.metadata,
-#     Column('person_id', Integer, ForeignKey('person.id')),
-#     Column('animal_id', Integer, ForeignKey('animal.id'))
-#     )
-
-# class Personanimal(db.Model):
-#     """An association between a person and an animal."""
-
-#     __tablename__ = 'personanimal'
-
-#     id = db.Column(db.Integer, autoincrement=True)
-#     person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
-#     animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'), primary_key=True)
-
-#     people = db.relationship('Person', backref=db.backref)
+    business = db.relationship('Business', backref=db.backref('people', order_by=fullname))
+    animals = db.relationship('Animal', secondary=personanimal, backref=db.backref('personanimal'))
 
 
 ##############################################################################
@@ -175,7 +169,6 @@ def add_user(user_name, password, first_name, last_name, email):
 
 
 def add_business(**kwargs):
-
     """Add new business."""
 
     b = Business(business_name=kwargs.get('business_name', ''), 
@@ -194,7 +187,6 @@ def add_business(**kwargs):
 
 
 def add_animal(**kwargs):
-
     """Add new animal."""
 
     a = Animal(
@@ -210,6 +202,31 @@ def add_animal(**kwargs):
     db.session.add(a)
     db.session.commit()
     return a
+
+
+def add_person(**kwargs):
+    """Add new person."""
+
+    p = Person(
+                 business_id=kwargs.get('business_id', ''), 
+                 fullname=kwargs.get('fullname', ''),
+                 street=kwargs.get('street', ''), 
+                 city=kwargs.get('city', ''), 
+                 state=kwargs.get('state', ''), 
+                 zipcode=kwargs.get('zipcode', ''),
+                 phone=kwargs.get('phone', ''),
+                 email=kwargs.get('email', '')
+                 )
+
+    db.session.add(p)
+    db.session.commit()
+    return p
+
+def add_personanimal(animal_obj, person_obj):
+    """Create an association between a person and animal."""
+
+    animal_obj.people.append(person_obj)
+    db.session.commit()
 
 
 ##############################################################################
