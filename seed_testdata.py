@@ -1,6 +1,6 @@
 # populate test data
 # @todo use separate db for tests
-from model import User, Business
+from model import User, Business, Animal
 from model import connect_to_db, db
 from controller import app
 
@@ -54,13 +54,13 @@ def populate_users():
 
     b = Business.query.all()
 
-    users = [{'business_id': b[0].business_id,
+    users = [{'business_id': b[0].id,
                'user_name': 'mary',
                'email': 'mary @ example.com',
                'first_name': 'Mary',
                'last_name': 'Smith',
                'password': '1234'
-             }, {'business_id': b[1].business_id,
+             }, {'business_id': b[1].id,
                'user_name': 'john',
                'email': 'john @ example.com',
                'first_name': 'John',
@@ -81,6 +81,59 @@ def populate_users():
     return None
 
 
+def populate_animals():
+    """Create minimum sample data for the animal table."""
+
+    print "Animals - begin data creation"
+
+    # always clean slate test data
+    Animal.query.delete()
+
+    b = Business.query.all()
+
+    animals = [{'business_id': b[0].id,
+               'name': 'marys1Dog',
+               'breed': 'pitbull',
+               'birthday': '4/1/2007',
+               'vet': 'Broadway Pet Hospital',
+               'note': 'marys1Dog note',
+               'species': 'dog'
+             }, {'business_id': b[0].id,
+               'name': 'marys2dog',
+               'breed': 'chihuahua',
+               'birthday': '9/1/2015',
+               'vet': 'Broadway Pet',
+               'note': 'marys2dog notes',
+               'species': 'dog'
+             }, {'business_id': b[1].id,
+               'name': 'johns1Dog',
+               'breed': 'bulldog',
+               'birthday': '5/5/2007',
+               'vet': 'Four Seasons Animal Hospital',
+               'note': 'johns1Dog note',
+               'species': 'dog'
+             }, {'business_id': b[1].id,
+               'name': 'johns2dog',
+               'breed': 'labrador',
+               'birthday': '12/1/2015',
+               'vet': 'Lafayette Pet',
+               'note': 'johns2dog notes',
+               'species': 'dog'
+             }]
+    
+    for animal in animals:
+      a = Animal(business_id=animal['business_id'],
+               name=animal['name'], 
+               breed=animal['breed'],
+               birthday=animal['birthday'],
+               vet=animal['vet'], 
+               note=animal['note'],
+               species=animal['species'])
+
+      db.session.add(a)
+    db.session.commit()
+    return None
+
 
 ##############################################################################
 if __name__ == "__main__":
@@ -93,4 +146,5 @@ if __name__ == "__main__":
     # Populate the test data
     populate_business()
     populate_users()
+    populate_animals()
     

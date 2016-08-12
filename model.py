@@ -13,10 +13,10 @@ db = SQLAlchemy()
 class User(db.Model):
     """Individual User of application."""
 
-    __tablename__ = 'users' # NOTE 'user' is reserved table in psql. can't use as tablename
+    __tablename__ = 'users' # NOTE 'user' is reserved table in postgres. can't use as tablename
 
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    business_id = db.Column(db.Integer, db.ForeignKey('business.business_id'))
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    business_id = db.Column(db.Integer, db.ForeignKey('business.id'))
     user_name = db.Column(db.String(64), nullable=False)
     first_name = db.Column(db.String(64), nullable=False)
     last_name = db.Column(db.String(64), nullable=False)
@@ -25,7 +25,6 @@ class User(db.Model):
 
     business = db.relationship('Business', backref=db.backref('users', order_by=first_name))
 
-    # business = db.relationship('Business', backref=db.backref('users', order_by(first_name, last_name)))
 
     def is_active(self):
         """True, as all users are active in the current implementation. 
@@ -37,9 +36,9 @@ class User(db.Model):
     def get_id(self):
         """Return the id as unicode to satisfy Flask-Login's requirements."""
         try:
-            return unicode(self.user_id)  # python 2
+            return unicode(self.id)  # python 2
         except NameError:
-            return str(self.user_id)  # python 3
+            return str(self.id)  # python 3
 
 
     def is_authenticated(self):
@@ -82,7 +81,7 @@ class Business(db.Model):
 
     __tablename__ = 'business'
 
-    business_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     business_name = db.Column(db.String(108), nullable=False)
     business_street = db.Column(db.String(108))
     business_city = db.Column(db.String(64))
@@ -92,6 +91,71 @@ class Business(db.Model):
     url = db.Column(db.String(64))
     license = db.Column(db.String(64))
 
+
+    def update_business(self, **kwargs):
+        """Update data for this one business."""
+
+        self.business_name = kwargs.get('business_name', self.business_name)
+        self.business_street = kwargs.get('business_street', self.business_street)
+        self.business_city = kwargs.get('business_city', self.business_city)
+        self.business_state = kwargs.get('business_state', self.business_state)
+        self.business_zip = kwargs.get('business_zip', self.business_zip)
+        self.business_phone = kwargs.get('business_phone', self.business_phone)
+        self.url = kwargs.get('url', self.url)
+        self.license = kwargs.get('license', self.license)
+
+        db.session.commit()
+        return self
+
+
+class Animal(db.Model):
+    """An animal that is serviced by a business."""
+
+    __tablename__ = 'animal'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    business_id = db.Column(db.Integer, db.ForeignKey('business.id'))
+    name = db.Column(db.String(64), nullable=False)
+    breed = db.Column(db.String(64))
+    birthday = db.Column(db.DateTime)
+    vet = db.Column(db.Text)
+    note = db.Column(db.Text)
+    species = db.Column(db.String(64))
+
+    business = db.relationship('Business', backref=db.backref('animals', order_by=name))
+
+
+# class Person(db.Model):
+#     """A person that is responsible for one or more animals."""
+
+#     __tablename__ = 'person'
+
+#     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     fullname = db.Column(db.String(164), nullable=False)
+#     street = db.Column(db.String(108))
+#     city = db.Column(db.String(64))
+#     state = db.Column(db.String(2))
+#     zip = db.Column(db.String(9))
+#     phone = db.Column(db.String(10))
+#     email = db.Column(db.String(64))
+
+#     business = db.relationship('Business', backref=db.backref('animals', order_by=name))
+
+# personanimal = Table('association', db.metadata,
+#     Column('person_id', Integer, ForeignKey('person.id')),
+#     Column('animal_id', Integer, ForeignKey('animal.id'))
+#     )
+
+# class Personanimal(db.Model):
+#     """An association between a person and an animal."""
+
+#     __tablename__ = 'personanimal'
+
+#     id = db.Column(db.Integer, autoincrement=True)
+#     person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
+#     animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'), primary_key=True)
+
+#     people = db.relationship('Person', backref=db.backref)
 
 
 ##############################################################################
@@ -127,6 +191,25 @@ def add_business(**kwargs):
     db.session.add(b)
     db.session.commit()
     return b
+
+
+def add_animal(**kwargs):
+
+    """Add new animal."""
+
+    a = Animal(
+                 business_id=kwargs.get('business_id', ''), 
+                 name=kwargs.get('name', ''),
+                 species=kwargs.get('species', ''), 
+                 breed=kwargs.get('breed', ''), 
+                 birthday=kwargs.get('birthday', ''), 
+                 vet=kwargs.get('vet', ''),
+                 note=kwargs.get('note', '')
+                 )
+
+    db.session.add(a)
+    db.session.commit()
+    return a
 
 
 ##############################################################################

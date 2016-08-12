@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
-from model import User, connect_to_db, db, add_user, add_business
+from model import User, connect_to_db, db, add_user, add_business, add_animal
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] #@todo load from config file
@@ -84,18 +84,86 @@ def register():
         # @todo needs to check for duplicate businesses
         if business_name:
             new_business = add_business(business_name=business_name)
-            new_user.update_user(business_id=new_business.business_id)
+            new_user.update_user(business_id=new_business.id)
 
         return redirect('/business')
 
 
-@app.route('/business', methods=['GET', 'POST'])
+@app.route('/business')
 @login_required
 def show_business():
     """For logged in user, show information about their business."""
 
     return render_template('business.html')
 
+
+@app.route('/business/update', methods=['POST'])
+@login_required
+def update_business_():
+    """For logged in user, show information about their business."""
+
+    # suffix of '_' on functionname to avoid name collision with method
+
+    r = request.form
+    b = current_user.business
+    b.update_business(
+                      business_name=r.get('business_name'),
+                      business_street=r.get('street'),
+                      business_city=r.get('city'),
+                      business_state=r.get('state'),
+                      business_zip=r.get('zip'),
+                      business_phone=r.get('phone'),
+                      url=r.get('url'),
+                      license=r.get('license')
+                      )
+
+    return render_template('business.html')
+
+
+@app.route('/business/add', methods=['POST'])
+@login_required
+def add_business_():
+    """For logged in user, show information about their business."""
+
+    # suffix of '_' on functionname to avoid name collision with method
+
+    r = request.form
+    new_business = add_business(
+                                business_name=r.get('business_name'),
+                                business_street=r.get('street'),
+                                business_city=r.get('city'),
+                                business_state=r.get('state'),
+                                business_zip=r.get('zip'),
+                                business_phone=r.get('phone'),
+                                url=r.get('url'),
+                                license=r.get('license')
+                               )
+
+
+    #after creating new business, ensure it is associated with current user
+    #@todo, if we ever have a superadmin role, this breaks
+    current_user.update_user(business_id=new_business.id)
+
+    return render_template('business.html')
+
+
+@app.route('/animal/add', methods=['POST'])
+@login_required
+def add_animal_():
+    """Add animals to a specific business."""
+
+    r = request.form
+    a = add_animal(
+                   business_id=r.get('business_id', current_user.business.id), 
+                   name=r.get('name', ''),
+                   species=r.get('species', ''), 
+                   breed=r.get('breed', ''), 
+                   birthday=r.get('birthday', ''), 
+                   vet=r.get('vet', ''),
+                   note=r.get('note', '')
+                 )
+
+    return render_template('business.html')    
 
 
 if __name__ == '__main__':

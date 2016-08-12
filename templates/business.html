@@ -6,26 +6,10 @@
     <h1>Business Details</h1>
     <p>Set up the details of your business to get started.</p>
 
-    <!--BUSINESS DETAILS FORM SHOWN PREPOPULATED IF EXISTS-->
-    {% if current_user.business %}
-    <div id='business_form'>
-        <form action='/business' method='POST'>
-            <input type='text' name='business_name' placeholder='Business Name' aria-label='Business Name' required value='{{ current_user.business.business_name }}' disabled><br>
-            <input type='text' name='street' placeholder='Street' aria-label='Street' required value='{{ current_user.business.business_street }}' disabled><br>
-            <input type='text' name='city' placeholder='City' aria-label='City' required value='{{ current_user.business.business_city }}' disabled><br>
-            <input type='text' name='state' placeholder='State' aria-label='State' required value='{{ current_user.business.business_state }}' disabled><br>
-            <input type='text' name='zip' placeholder='Zip' aria-label='Zipcode' required value='{{ current_user.business.business_zip }}' disabled><br>
-            <input type='text' name='phone' placeholder='Phone' aria-label='Phone Number' value='{{ current_user.business.business_phone }}' disabled><br>
-            <input type='text' name='url' placeholder='URL' aria-label='URL' value='{{ current_user.business.url }}' disabled><br>
-            <input type='text' name='license' placeholder='License' aria-label='Business License' value='{{ current_user.business.license }}' disabled><br>
-            <input type='submit' value='Edit Business Details' disabled><br>
-        </form>
-    </div>
-    {% endif %}
 
     {% if not current_user.business %}
-    <div id='business_form'>
-        <form action='/business' method='POST'>
+    <div id='business_add'>
+        <form action='/business/add' method='POST' id='business_form_add'>
             <input type='text' name='business_name' placeholder='Business Name' aria-label='Business Name' required><br>
             <input type='text' name='street' placeholder='Street' aria-label='Street' required><br>
             <input type='text' name='city' placeholder='City' aria-label='City' required><br>
@@ -34,8 +18,40 @@
             <input type='text' name='phone' placeholder='Phone' aria-label='Phone Number'><br>
             <input type='text' name='url' placeholder='URL' aria-label='URL'><br>
             <input type='text' name='license' placeholder='License' aria-label='Business License'><br>
-            <input type='submit' value='Update Business Details'><br>
+            <input type='submit' value='Add Business Details'><br>
         </form>
     </div>
     {% endif %}
+
+
+    <!--BUSINESS DETAILS FORM SHOWN PREPOPULATED IF EXISTS-->
+    {% if current_user.business %}
+    <div id='business_update'>
+        <form action='/business/update' method='POST' id='business_form_update'>
+            <input type='text' name='business_name' placeholder='Business Name' aria-label='Business Name' required value='{{ current_user.business.business_name }}' disabled><br>
+            <input type='text' name='street' placeholder='Street' aria-label='Street' required value='{{ current_user.business.business_street }}' disabled><br>
+            <input type='text' name='city' placeholder='City' aria-label='City' required value='{{ current_user.business.business_city }}' disabled><br>
+            <input type='text' name='state' placeholder='State' aria-label='State' required value='{{ current_user.business.business_state }}' disabled><br>
+            <input type='text' name='zip' placeholder='Zip' aria-label='Zipcode' required value='{{ current_user.business.business_zip }}' disabled><br>
+            <input type='text' name='phone' placeholder='Phone' aria-label='Phone Number' value='{{ current_user.business.business_phone }}' disabled><br>
+            <input type='text' name='url' placeholder='URL' aria-label='URL' value='{{ current_user.business.url }}' disabled><br>
+            <input type='text' name='license' placeholder='License' aria-label='Business License' value='{{ current_user.business.license }}' disabled><br>
+            <input type='submit' value='Edit Business Details'><br>
+        </form>
+    </div>
+    {% endif %}
+    {% include '/forms/animal_add_form.html' %}
+
+    {% if current_user.business.animals %}
+    <div id='animal_list'>
+        {% for pet in current_user.business.animals %}
+            <p>{{ pet.name }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+
+
+
 {% endblock %}
