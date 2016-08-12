@@ -1,0 +1,15 @@
+    <div id='business_update'>
+        <form action='/business/update' method='POST' id='business_form_update'>
+            <input type='text' 
+                   name='business_name' placeholder='Business Name' 
+                   aria-label='Business Name' required value='{{ current_user.business.business_name }}' disabled><br>
+            <input type='text' name='street' placeholder='Street' aria-label='Street' required value='{{ current_user.business.business_street }}' disabled><br>
+            <input type='text' name='city' placeholder='City' aria-label='City' required value='{{ current_user.business.business_city }}' disabled><br>
+            <input type='text' name='state' placeholder='State' aria-label='State' required value='{{ current_user.business.business_state }}' disabled><br>
+            <input type='text' name='zip' placeholder='Zip' aria-label='Zipcode' required value='{{ current_user.business.business_zip }}' disabled><br>
+            <input type='text' name='phone' placeholder='Phone' aria-label='Phone Number' value='{{ current_user.business.business_phone }}' disabled><br>
+            <input type='text' name='url' placeholder='URL' aria-label='URL' value='{{ current_user.business.url }}' disabled><br>
+            <input type='text' name='license' placeholder='License' aria-label='Business License' value='{{ current_user.business.license }}' disabled><br>
+            <input type='submit' value='Edit Business Details'><br>
+        </form>
+    </div>
