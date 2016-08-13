@@ -123,7 +123,7 @@ class Animal(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     business_id = db.Column(db.Integer, db.ForeignKey('business.id'))
     name = db.Column(db.String(64), nullable=False)
-    breed = db.Column(db.String(64))
+    breed = db.Column(db.String(64), nullable=True)
     birthday = db.Column(db.DateTime)
     vet = db.Column(db.Text)
     note = db.Column(db.Text)
@@ -171,14 +171,14 @@ def add_user(user_name, password, first_name, last_name, email):
 def add_business(**kwargs):
     """Add new business."""
 
-    b = Business(business_name=kwargs.get('business_name', ''), 
-                 business_street=kwargs.get('business_street', ''),
-                 business_city=kwargs.get('business_city', ''), 
-                 business_state=kwargs.get('business_state', ''), 
-                 business_zip=kwargs.get('business_zip', ''), 
-                 business_phone=kwargs.get('business_phone', ''), 
-                 url=kwargs.get('url', ''), 
-                 license=kwargs.get('license', '')
+    b = Business(business_name=kwargs.get('business_name'), 
+                 business_street=kwargs.get('business_street'),
+                 business_city=kwargs.get('business_city'), 
+                 business_state=kwargs.get('business_state'), 
+                 business_zip=kwargs.get('business_zip'), 
+                 business_phone=kwargs.get('business_phone'), 
+                 url=kwargs.get('url'), 
+                 license=kwargs.get('license')
                  )
 
     db.session.add(b)
@@ -190,13 +190,13 @@ def add_animal(**kwargs):
     """Add new animal."""
 
     a = Animal(
-                 business_id=kwargs.get('business_id', ''), 
-                 name=kwargs.get('name', ''),
-                 species=kwargs.get('species', ''), 
-                 breed=kwargs.get('breed', ''), 
-                 birthday=kwargs.get('birthday', ''), 
-                 vet=kwargs.get('vet', ''),
-                 note=kwargs.get('note', '')
+                 business_id=kwargs.get('business_id'), 
+                 name=kwargs.get('name'),
+                 species=kwargs.get('species'), 
+                 breed=kwargs.get('breed'), 
+                 birthday=kwargs.setdefault('birthday', None), 
+                 vet=kwargs.get('vet'),
+                 note=kwargs.get('note')
                  )
 
     db.session.add(a)
@@ -208,14 +208,14 @@ def add_person(**kwargs):
     """Add new person."""
 
     p = Person(
-                 business_id=kwargs.get('business_id', ''), 
-                 fullname=kwargs.get('fullname', ''),
-                 street=kwargs.get('street', ''), 
-                 city=kwargs.get('city', ''), 
-                 state=kwargs.get('state', ''), 
-                 zipcode=kwargs.get('zipcode', ''),
-                 phone=kwargs.get('phone', ''),
-                 email=kwargs.get('email', '')
+                 business_id=kwargs.get('business_id'), 
+                 fullname=kwargs.get('fullname'),
+                 street=kwargs.get('street'), 
+                 city=kwargs.get('city'), 
+                 state=kwargs.get('state'), 
+                 zipcode=kwargs.get('zipcode'),
+                 phone=kwargs.get('phone'),
+                 email=kwargs.get('email')
                  )
 
     db.session.add(p)

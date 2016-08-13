@@ -6,7 +6,8 @@ from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
-from model import User, connect_to_db, db, add_user, add_business, add_animal
+from model import (User, connect_to_db, db, add_user, add_business, add_animal, 
+                   add_personanimal, add_person) 
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] #@todo load from config file
@@ -29,8 +30,11 @@ def load_user(user_id):
 @app.route('/')
 def index():
     """The homepage."""
-   
-    return render_template('index.html')
+    if current_user.is_authenticated:
+      # @todo, session time checking. expire cookie after certain time
+      return render_template('business.html')
+    else:
+      return render_template('index.html')
 
 
 @app.route('/login', methods=['POST'])
@@ -153,17 +157,37 @@ def add_animal_():
     """Add animals to a specific business."""
 
     r = request.form
+    # because a datetime field cannot accept an empty string, must set value to None
+    if not r.get('birthday'):
+      birthday = None
+
     a = add_animal(
                    business_id=r.get('business_id', current_user.business.id), 
-                   name=r.get('name', ''),
-                   species=r.get('species', ''), 
-                   breed=r.get('breed', ''), 
-                   birthday=r.get('birthday', ''), 
-                   vet=r.get('vet', ''),
-                   note=r.get('note', '')
+                   name=r.get('name'),
+                   species=r.get('species'), 
+                   breed=r.get('breed'), 
+                   birthday=birthday, 
+                   vet=r.get('vet'),
+                   note=r.get('note'),
                  )
+    # if they've included person data we also create a person
+    # @todo optimize so it's not 3 separate commits to db.
+    if r.get('fullname'):
+        p = add_person(
+                       # these fields for adding a person. might not be added at same time @todo??
+                       business_id=r.get('business_id', current_user.business.id), 
+                       fullname=r.get('fullname'),
+                       street=r.get('street'),
+                       city=r.get('city'),
+                       state=r.get('state',),
+                       zipcode=r.get('zipcode'),
+                       phone=r.get('phone'),
+                       email=r.get('email')
+                      )
+        # if they added a person we also add the join record at same time
+        add_personanimal(a, p)
 
-    return render_template('business.html')    
+    return redirect('/business')    
 
 
 if __name__ == '__main__':

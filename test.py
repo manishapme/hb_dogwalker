@@ -48,6 +48,9 @@ class ControllerTests(unittest.TestCase):
 # clicking on edit enables all business form fields
 # clicking on submit changes updates correct record in DB
 # clicking on add new adds business correctly for current user
+# adding a dog from business.html
+# adding a person at same time you add a dog from business.html
+
 # @todo -- how to control what data a user can view
 
 
