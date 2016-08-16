@@ -207,10 +207,11 @@ def show_animal(animal_id):
 
 if __name__ == '__main__':
 
-    app.debug = os.environ['FLASK_DEBUG']
-    # only show toolbar when debug is true
+    app.debug = True # app.debug = os.environ['FLASK_DEBUG']
+   # only show toolbar when debug is true
     if app.debug:
         DebugToolbarExtension(app) 
+
 
     connect_to_db(app)
 

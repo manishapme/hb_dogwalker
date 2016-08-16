@@ -152,6 +152,19 @@ class Person(db.Model):
     animals = db.relationship('Animal', secondary=personanimal, backref=db.backref('personanimal'))
 
 
+class Service(db.Model):
+    """A service that a business provides."""
+
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    business_id = db.Column(db.Integer, db.ForeignKey('business.id'))
+    description = db.Column(db.String(164), nullable=False)
+    cost = db.Column(db.Integer, nullable=False)
+
+    business = db.relationship('Business', backref=db.backref('services', order_by=description))
+
+
+
 ##############################################################################
 # CREATE, DELETE functions
 def add_user(user_name, password, first_name, last_name, email):
@@ -228,6 +241,19 @@ def add_personanimal(animal_obj, person_obj):
     animal_obj.people.append(person_obj)
     db.session.commit()
 
+
+def add_service(**kwargs):
+    """Add new animal."""
+
+    s = Service(
+                 business_id=kwargs.get('business_id'), 
+                 description=kwargs.get('description'),
+                 cost=kwargs.get('cost')
+                 )
+
+    db.session.add(s)
+    db.session.commit()
+    return s
 
 ##############################################################################
 

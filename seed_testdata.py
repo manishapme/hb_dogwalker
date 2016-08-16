@@ -1,6 +1,6 @@
 # populate test data
 # @todo use separate db for tests
-from model import User, Business, Animal, Person
+from model import User, Business, Animal, Person, Service
 from model import connect_to_db, db
 from controller import app
 
@@ -40,6 +40,7 @@ def populate_business():
                      license=business['license'])
 
         db.session.add(b)
+
     db.session.commit()
     return None
 
@@ -209,6 +210,33 @@ def populate_people():
     return None
 
 
+def populate_services():
+    """Create minimum sample data for the services table."""
+
+    print "Services - begin data creation"
+
+    # always clean slate test data
+    Service.query.delete()
+
+    b = Business.query.all()
+
+    services = [{'business_id': b[0].id, 'description': 'Walk', 'cost': 30}, 
+               {'business_id': b[0].id, 'description': 'Board', 'cost': 40},
+               {'business_id': b[0].id, 'description': 'Daycare', 'cost': 60}, 
+               {'business_id': b[1].id, 'description': 'Walk', 'cost': 25}, 
+               {'business_id': b[1].id, 'description': 'Board', 'cost': 35}, 
+               {'business_id': b[1].id, 'description': 'Daycare', 'cost': 55}]
+    
+    for service in services:
+      s = Service(business_id=service['business_id'],
+               description=service['description'],
+               cost=service['cost'])
+
+      db.session.add(s)
+    db.session.commit()
+    return None
+
+
 ##############################################################################
 if __name__ == "__main__":
     connect_to_db(app)
@@ -222,3 +250,4 @@ if __name__ == "__main__":
     populate_users()
     populate_animals()
     populate_people()
+    populate_services()

@@ -1,10 +1,10 @@
 import unittest
 
-from controller import app
+import controller
+# from controller import app
 from model import db, connect_to_db
 from seed_testdata import (populate_business, populate_users, populate_animals,
-                           populate_people)
-import seed_testdata
+                           populate_people, populate_services
 
 # write tests as we go
 class ControllerTests(unittest.TestCase):
@@ -14,31 +14,39 @@ class ControllerTests(unittest.TestCase):
         """Stuff to do before every test."""
 
         # Get the Flask test client
-        self.client = app.test_client()
+        self.client = controller.app.test_client()
 
         # Show Flask errors that happen during tests
-        app.config['TESTING'] = True
+        controller.app.config['TESTING'] = True
 
         # Connect to test database
         # @todo set from environment config
-        connect_to_db(app, "postgresql:///dogwalker")
+        connect_to_db(controller.app, 'postgresql:///dogwalker')
 
-        # Create tables and add sample data
+        # # Create tables and add sample data
         db.drop_all()
         db.create_all()
 
-        # Populate the test data
+        # # Populate the test data
         populate_business()
         populate_users()
         populate_animals()
         populate_people()
-
+        populate_services()
 
     def tearDown(self):
         """Do at end of every test."""
 
         db.session.close()
         db.drop_all()
+
+
+    def test_sees_homepage(self):
+        """Confirm user can log in."""
+
+        result = self.client.get('/')
+
+        self.assertIn('Login', result.data)
 
 
     def test_login(self):
@@ -50,9 +58,13 @@ class ControllerTests(unittest.TestCase):
                                   follow_redirects=True)
         self.assertNotIn('Login', result.data)
 
-
     def test_logout(self):
-        """User is logged out"""
+        """Confirm user can log in."""
+
+        result = self.client.post('/login', 
+                                  data={'user_name': 'mary',
+                                        'password': '1234'},
+                                  follow_redirects=True)
 
         result = self.client.get('/logout', follow_redirects=True)
 
@@ -69,6 +81,7 @@ class ControllerTests(unittest.TestCase):
 # clicking on add new adds business correctly for current user
 # adding a dog from business.html
 # adding a person at same time you add a dog from business.html
+# adding a service
 
 # @todo -- how to control what data a user can view
 
