@@ -8,7 +8,7 @@
 <body>
 
     {% if current_user.is_authenticated %}
-        Welcome {{ current_user.first_name }}!
+        <p>Welcome {{ current_user.first_name }}!</p>
         <button type='button' id='btn_logout'>
             <a href='/logout'>Logout</a>
         </button>

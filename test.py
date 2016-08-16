@@ -2,6 +2,8 @@ import unittest
 
 from controller import app
 from model import db, connect_to_db
+from seed_testdata import (populate_business, populate_users, populate_animals,
+                           populate_people)
 import seed_testdata
 
 # write tests as we go
@@ -31,14 +33,31 @@ class ControllerTests(unittest.TestCase):
         populate_animals()
         populate_people()
 
+
     def tearDown(self):
         """Do at end of every test."""
 
         db.session.close()
         db.drop_all()
 
-# user is logged in
-# user is logged out
+
+    def test_login(self):
+        """Confirm user can log in."""
+
+        result = self.client.post('/login', 
+                                  data={'user_name': 'mary',
+                                        'password': '1234'},
+                                  follow_redirects=True)
+        self.assertNotIn('Login', result.data)
+
+
+    def test_logout(self):
+        """User is logged out"""
+
+        result = self.client.get('/logout', follow_redirects=True)
+
+        self.assertIn('Login', result.data)
+
 # user can register
 # unauthorized user/pass cannot login
 # unauthorized user cannot go to /business

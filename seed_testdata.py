@@ -30,16 +30,16 @@ def populate_business():
                    'license': 'abc123'}]
 
     for business in businesses:
-      b = Business(business_name=business['business_name'], 
-               business_street=business['business_street'],
-               business_city=business['business_city'],
-               business_state=business['business_state'], 
-               business_zip=business['business_zip'], 
-               business_phone=business['business_phone'], 
-               url=business['url'], 
-               license=business['license'])
+        b = Business(business_name=business['business_name'], 
+                     business_street=business['business_street'],
+                     business_city=business['business_city'],
+                     business_state=business['business_state'], 
+                     business_zip=business['business_zip'], 
+                     business_phone=business['business_phone'], 
+                     url=business['url'], 
+                     license=business['license'])
 
-      db.session.add(b)
+        db.session.add(b)
     db.session.commit()
     return None
 
@@ -104,6 +104,13 @@ def populate_animals():
                'birthday': '9/1/2015',
                'vet': 'Broadway Pet',
                'note': 'marys2dog notes',
+               'species': 'dog'
+             }, {'business_id': b[0].id,
+               'name': 'marys3dogsharedhousehold',
+               'breed': 'husky',
+               'birthday': '6/2/2013',
+               'vet': 'Broadway Pet',
+               'note': 'marys3dog notes',
                'species': 'dog'
              }, {'business_id': b[1].id,
                'name': 'johns1Dog',
@@ -184,18 +191,20 @@ def populate_people():
     
 
     for person in people:
-      p = Person(business_id=person['business_id'],
-               fullname=person['fullname'], 
-               street=person['street'],
-               city=person['city'],
-               state=person['state'], 
-               zipcode=person['zipcode'],
-               phone=person['phone'],
-               email=person['email'])
-      p.animals.append(person['animal'])
+        p = Person(business_id=person['business_id'],
+                   fullname=person['fullname'], 
+                   street=person['street'],
+                   city=person['city'],
+                   state=person['state'], 
+                   zipcode=person['zipcode'],
+                   phone=person['phone'],
+                   email=person['email'])
+        p.animals.append(person['animal'])
       # p.animals.append(person.animal) @todo find out why these aren't equivalent
+        if person['fullname'] == 'Jill Jones': 
+            p.animals.append(b[0].animals[2])   
 
-      db.session.add(p)
+        db.session.add(p)
     db.session.commit()
     return None
 
@@ -213,4 +222,3 @@ if __name__ == "__main__":
     populate_users()
     populate_animals()
     populate_people()
-    

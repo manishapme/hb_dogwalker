@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
-from model import (User, connect_to_db, db, add_user, add_business, add_animal, 
+from model import (User, Animal, connect_to_db, db, add_user, add_business, add_animal, 
                    add_personanimal, add_person) 
 
 app = Flask(__name__)
@@ -104,7 +104,7 @@ def show_business():
 @app.route('/business/update', methods=['POST'])
 @login_required
 def update_business_():
-    """For logged in user, show information about their business."""
+    """Allow user to update business info."""
 
     # suffix of '_' on functionname to avoid name collision with method
 
@@ -127,7 +127,7 @@ def update_business_():
 @app.route('/business/add', methods=['POST'])
 @login_required
 def add_business_():
-    """For logged in user, show information about their business."""
+    """Allow user to add business if not already defined."""
 
     # suffix of '_' on functionname to avoid name collision with method
 
@@ -179,7 +179,7 @@ def add_animal_():
                        fullname=r.get('fullname'),
                        street=r.get('street'),
                        city=r.get('city'),
-                       state=r.get('state',),
+                       state=r.get('state'),
                        zipcode=r.get('zipcode'),
                        phone=r.get('phone'),
                        email=r.get('email')
@@ -187,7 +187,22 @@ def add_animal_():
         # if they added a person we also add the join record at same time
         add_personanimal(a, p)
 
-    return redirect('/business')    
+    return redirect('/business')
+
+
+@app.route('/animal/<animal_id>')
+@login_required
+def show_animal(animal_id):
+    """List details for selected animal and relations."""
+
+    a = Animal.query.get(int(animal_id))
+    other_animals = []
+    for p in a.people:
+        for other in p.animals:
+            other_animals.append(other)
+    # @todo ask for cleaner way of writing instead of nested loops
+    # @todo ask about syntax of joined load a = Animal.query.filter(Animal.id == int(animal_id)).options(db.joinedload('person')).all()
+    return render_template('animal.html', animal=a, other_animals=other_animals)
 
 
 if __name__ == '__main__':
