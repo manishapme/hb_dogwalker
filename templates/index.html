@@ -3,34 +3,38 @@
 {% block title %}Dogwalker{% endblock %}
 
 {% block content %}
-    <!--IF USER IS NOT LOGGED IN SHOW LOGIN BUTTON-->
-    <button type='button' id='btn_login'>
-        <a href=''>Login</a>
-    </button>
-    <!--IF USER CLICKS LOGIN BUTTON SHOW LOGIN FORM-->
-    <div id='login_form'>
-        <form action='/login' method='POST'>
-            <input type='text' name='user_name' placeholder='Username' aria-label='Username' required>
-            <input type='password' name='password' placeholder='Password' aria-label='Password' required>
-            <input type='submit' value='Log Me In!'>
-        </form>
-    </div>
     <!--REGISTRATION FORM IS SHOWN ONLY IF USER IS NOT LOGGED IN-->
-    <div id='registration_form'>
+    <div id='registration_form' class='pull-right'>
+        <h1>Sign Up</h1>
+        <p>Start managing your business now.</p>
         <form action='/register' method='POST'>
-            <label>
-                <input type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required><br>
-                Usernames are not case sensitive.
-            </label><br>
-            <input type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required><br>
-            <input type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required><br>
-            <input type='email' name='register_email' placeholder='Email' aria-label='Email' required><br>
-            <input type='password' name='register_password' placeholder='Password' aria-label='Password' required><br>
-            <input type='text' name='register_business_name' placeholder='Business Name' aria-label='Business Name'><br>
-            <input type='submit' value='Sign Up'><br>
+            <div class='form-group'>
+                <label class='text-muted'>
+                    <input class='form-control input-lg' type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required>
+                    Usernames are not case sensitive.
+                </label>
+            </div>
+            <div class='form-group'>
+                <input class='form-control input-lg' type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required>
+            </div>
+            <div class='form-group'>    
+                <input class='form-control input-lg' type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required>
+            </div>
+            <div class='form-group'>
+                <input class='form-control input-lg' type='email' name='register_email' placeholder='Email' aria-label='Email' required>
+            </div>
+            <div class='form-group'>
+                <input class='form-control input-lg' type='password' name='register_password' placeholder='Password' aria-label='Password' required>
+            </div>
+            <div class='form-group'>
+                <input class='form-control input-lg' type='text' name='register_business_name' placeholder='Business Name' aria-label='Business Name'>
+            </div>
+            <input type='submit' value='Sign Up' class='btn btn-lg btn-primary'><br>
         </form>
     </div>
-    <p>
-        Use this application to manage your business. Because walking is more fun than typing.
-    </p>
+    <div>
+        <p>
+            Dogwalker knows that you have fun taking care of pets. Not working in the office. Use this application to handle the basic administration tasks for your pet care business. And spend more time with your furry clients.
+        </p>
+    </div>
 {% endblock %}

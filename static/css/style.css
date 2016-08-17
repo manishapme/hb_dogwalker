@@ -1,1 +1,8 @@
-# all css styles go here
+body {
+    margin: 70px 0;
+    font-family: 'Myriad', 'Oxygen', sans-serif;
+}
+
+.welcomeSlug {
+    color: white;
+}

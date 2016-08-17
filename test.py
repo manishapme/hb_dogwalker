@@ -42,11 +42,12 @@ class ControllerTests(unittest.TestCase):
 
 
     def test_sees_homepage(self):
-        """Confirm user can log in."""
+        """Confirm user sees login button."""
 
         result = self.client.get('/')
 
-        self.assertIn('Login', result.data)
+        self.assertIn('Log Me In', result.data)
+        self.assertNotIn('Logout', result.data)
 
 
     def test_login(self):
@@ -56,10 +57,11 @@ class ControllerTests(unittest.TestCase):
                                   data={'user_name': 'mary',
                                         'password': '1234'},
                                   follow_redirects=True)
-        self.assertNotIn('Login', result.data)
+        self.assertIn('Logout', result.data)
+        self.assertNotIn('Log Me In', result.data)
 
     def test_logout(self):
-        """Confirm user can log in."""
+        """Confirm user can logout."""
 
         result = self.client.post('/login', 
                                   data={'user_name': 'mary',
@@ -68,7 +70,38 @@ class ControllerTests(unittest.TestCase):
 
         result = self.client.get('/logout', follow_redirects=True)
 
-        self.assertIn('Login', result.data)
+        self.assertIn('Log Me In', result.data)
+        self.assertNotIn('Logout', result.data)
+
+    def test_register_no_bizname(self):
+        """Confirm user can register without adding business name."""
+
+        result = self.client.post('/register', 
+                                  data={'register_user_name': 'frank',
+                                        'register_password': '1234'},
+                                        'register_first_name': 'frank'},
+                                        'register_last_name': 'franklast'},
+                                        'register_email': 'frank@frank'},
+                                        'register_business_name': ''},
+                                  follow_redirects=True)
+
+        self.assertIn('Add Business Details', result.data)
+
+
+    def test_register_duplicate_username(self):
+        """Confirm user is unable to register duplicate username."""
+
+        result = self.client.post('/register', 
+                                  data={'register_user_name': 'mary',
+                                        'register_password': '1234'},
+                                        'register_first_name': 'frank'},
+                                        'register_last_name': 'franklast'},
+                                        'register_email': 'frank@frank'},
+                                        'register_business_name': ''},
+                                  follow_redirects=True)
+        
+        self.assertIn('Please select another username.', result.data)
+
 
 # user can register
 # unauthorized user/pass cannot login

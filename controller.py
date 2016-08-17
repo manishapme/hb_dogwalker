@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
 from model import (User, Animal, connect_to_db, db, add_user, add_business, add_animal, 
-                   add_personanimal, add_person) 
+                   add_personanimal, add_person, add_service) 
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] #@todo load from config file
@@ -77,7 +77,7 @@ def register():
     user = User.query.filter(User.user_name.ilike(user_name)).first()
 
     if user:
-        flash('{} is already in use. Please select another'.format(user_name))
+        flash('The username {} is already in use. Please select another username.'.format(user_name))
         return redirect('/')
     else:
         new_user = add_user(user_name=user_name, password=password, 
@@ -203,6 +203,18 @@ def show_animal(animal_id):
     # @todo ask for cleaner way of writing instead of nested loops
     # @todo ask about syntax of joined load a = Animal.query.filter(Animal.id == int(animal_id)).options(db.joinedload('person')).all()
     return render_template('animal.html', animal=a, other_animals=other_animals)
+
+
+@app.route('/service')
+@login_required
+def add_service_():
+    """Add a service for current business."""
+
+    s = add_service(business_id=r.get('business_id', current_user.business.id), 
+                    description=r.get('description'),
+                    cost=r.get('cost'))
+
+    return redirect('/business')
 
 
 if __name__ == '__main__':

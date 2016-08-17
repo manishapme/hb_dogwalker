@@ -1,5 +1,8 @@
 //all js goes here
 $( document ).ready(function() {
+    
+    // OPENING VIEW
+
 
     // BUSINESS FORMS
     // business_update route. disable/enable inputs on update form
