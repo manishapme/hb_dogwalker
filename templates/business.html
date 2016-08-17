@@ -5,35 +5,52 @@
 {% block content %}
     <h1>Business Details</h1>
 
-    {% if not current_user.business %}
-        <!-- when the user hasn't yet populated business details, only the business add form is available on view -->
-        <p>Set up the details of your business to get started.</p>
-        {% include '/forms/business_add.html' %}
-
-    {% endif %}
-
-
-    <!--Most functionality requires that the business already exist for current user -->
-    {% if current_user.business %}
-
-        {% include '/forms/business_update.html' %}
-   
-        {% include '/forms/animal_add.html' %}
-
-        {% if current_user.business.animals %}
-            <div id='animal_list'>
-                {% for pet in current_user.business.animals %}
-                    <p>
-                        <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
-                        {{ pet.people[0].fullname }}
-                    </p>
-                {% endfor %}
+<div class='row'>
+    <div class='col-md-8'>
+        <!--Most functionality requires that the business already exist for current user -->
+        {% if current_user.business %}   
+            <div class='row'>
+                <div class='col-md-6'>
+                    {% if current_user.business.animals %}
+                        <div id='animal_list'>
+                            <h3>My Pets</h3>
+                            {% for pet in current_user.business.animals %}
+                                <p>
+                                    <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
+                                    {{ pet.people[0].fullname }}
+                                </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class='col-md-6'>
+                    {% include '/forms/animal_add.html' %}
+                </div>
             </div>
         {% endif %}
+    </div>
+    <div class='col-md-4'>
+        {% if not current_user.business %}
 
-    {% endif %}
+            <p>Set up the details of your business to get started.</p>
 
+            {% include '/forms/business_add.html' %}
 
+        {% else %}
+
+            {% include '/forms/business_update.html' %}
+            {% include '/forms/service_add.html' %}
+            {% if current_user.business.services %}
+                <ul>
+                    {% for service in current_user.business.services %}
+                        <li>{{ service.description }}, ${{ service.cost }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+        {% endif %}
+    </div>
+</div>
 
 
 

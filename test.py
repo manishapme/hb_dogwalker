@@ -4,7 +4,7 @@ import controller
 # from controller import app
 from model import db, connect_to_db
 from seed_testdata import (populate_business, populate_users, populate_animals,
-                           populate_people, populate_services
+                           populate_people, populate_services)
 
 # write tests as we go
 class ControllerTests(unittest.TestCase):
@@ -78,10 +78,10 @@ class ControllerTests(unittest.TestCase):
 
         result = self.client.post('/register', 
                                   data={'register_user_name': 'frank',
-                                        'register_password': '1234'},
-                                        'register_first_name': 'frank'},
-                                        'register_last_name': 'franklast'},
-                                        'register_email': 'frank@frank'},
+                                        'register_password': '1234',
+                                        'register_first_name': 'frank',
+                                        'register_last_name': 'franklast',
+                                        'register_email': 'frank@frank',
                                         'register_business_name': ''},
                                   follow_redirects=True)
 
@@ -93,10 +93,10 @@ class ControllerTests(unittest.TestCase):
 
         result = self.client.post('/register', 
                                   data={'register_user_name': 'mary',
-                                        'register_password': '1234'},
-                                        'register_first_name': 'frank'},
-                                        'register_last_name': 'franklast'},
-                                        'register_email': 'frank@frank'},
+                                        'register_password': '1234',
+                                        'register_first_name': 'frank',
+                                        'register_last_name': 'franklast',
+                                        'register_email': 'frank@frank',
                                         'register_business_name': ''},
                                   follow_redirects=True)
         

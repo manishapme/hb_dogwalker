@@ -3,26 +3,30 @@
 {% block title %}Pet Detail{% endblock %}
 
 {% block content %}
-    <h1>{{ current_user.business.business_name }}</h1>
-    <h2>{{ animal.name }}</h2>
+    <h1>{{ animal.name }}</h1>
 
 
-   
-
-    <div id='animal_detail'>
-        {% for person in animal.people %}
-            <p>{{ person.fullname }}</p>
-        {% endfor %}
+<div class='row'>
+    <div class='col-md-8'>   
+        <div id='animal_detail'>
+            <h3>This animals people</h3>
+            {% for person in animal.people %}
+                <p>{{ person.fullname }}</p>
+            {% endfor %}
+        </div>
+        <div id='animal_others'>
+            <h3>Other pets for these people</h3>
+            {% for other in other_animals %}
+                {% if animal.id != other.id %}
+                    <p>{{ other.name }}</p>
+                {% endif%}
+            {% endfor %}
+        </div>
     </div>
-    <div id='animal_others'>
-        <h3>Other pets in household</h3>
-        {% for other in other_animals %}
-            {% if animal.id != other.id %}
-                <p>{{ other.name }}</p>
-            {% endif%}
-        {% endfor %}
+    <div class='col-md-4'>
+<!-- @todo don't think this goes here. or it also goes on the business page--> 
+        {% include '/forms/animal_add.html' %}
     </div>
-
-
+</div>
 
 {% endblock %}

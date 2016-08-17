@@ -200,16 +200,17 @@ def show_animal(animal_id):
     for p in a.people:
         for other in p.animals:
             other_animals.append(other)
-    # @todo ask for cleaner way of writing instead of nested loops
-    # @todo ask about syntax of joined load a = Animal.query.filter(Animal.id == int(animal_id)).options(db.joinedload('person')).all()
+
+    # @todo ask about syntax of joined load a = db.session.query.filter(Animal.id == int(animal_id)).options(db.joinedload('person')).all()
     return render_template('animal.html', animal=a, other_animals=other_animals)
 
 
-@app.route('/service')
+@app.route('/service/add', methods=['POST'])
 @login_required
 def add_service_():
     """Add a service for current business."""
 
+    r = request.form
     s = add_service(business_id=r.get('business_id', current_user.business.id), 
                     description=r.get('description'),
                     cost=r.get('cost'))

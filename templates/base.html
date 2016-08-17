@@ -22,6 +22,9 @@
                     <span class='icon-bar'></span>
                 </button>
                 <a class='navbar-brand' href='#'>Dogwalker</a>
+                {% if current_user.business %}
+                     <span class='navbar-brand'>&#9; &gt; &#9; <a href='/business'>{{ current_user.business.business_name }}</a></span>
+                {% endif %}
             </div>
             <div id='navbar' class='navbar-collapse collapse'>
                 <form  action='/login' method='POST' class='navbar-form navbar-right'>
@@ -51,7 +54,9 @@
     {% block nav %}{% endblock %}
     
     {% for message in get_flashed_messages() %}
-        <p>{{ message }}</p>
+        <div class='bg-info'>
+            <p>{{ message }}</p>
+        </div>
     {% endfor %}
 
     {% block content %}{% endblock %}

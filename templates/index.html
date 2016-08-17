@@ -3,38 +3,15 @@
 {% block title %}Dogwalker{% endblock %}
 
 {% block content %}
-    <!--REGISTRATION FORM IS SHOWN ONLY IF USER IS NOT LOGGED IN-->
-    <div id='registration_form' class='pull-right'>
-        <h1>Sign Up</h1>
-        <p>Start managing your business now.</p>
-        <form action='/register' method='POST'>
-            <div class='form-group'>
-                <label class='text-muted'>
-                    <input class='form-control input-lg' type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required>
-                    Usernames are not case sensitive.
-                </label>
-            </div>
-            <div class='form-group'>
-                <input class='form-control input-lg' type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required>
-            </div>
-            <div class='form-group'>    
-                <input class='form-control input-lg' type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required>
-            </div>
-            <div class='form-group'>
-                <input class='form-control input-lg' type='email' name='register_email' placeholder='Email' aria-label='Email' required>
-            </div>
-            <div class='form-group'>
-                <input class='form-control input-lg' type='password' name='register_password' placeholder='Password' aria-label='Password' required>
-            </div>
-            <div class='form-group'>
-                <input class='form-control input-lg' type='text' name='register_business_name' placeholder='Business Name' aria-label='Business Name'>
-            </div>
-            <input type='submit' value='Sign Up' class='btn btn-lg btn-primary'><br>
-        </form>
-    </div>
-    <div>
+
+<div class='row'>
+    <div class='col-md-8'>
         <p>
             Dogwalker knows that you have fun taking care of pets. Not working in the office. Use this application to handle the basic administration tasks for your pet care business. And spend more time with your furry clients.
         </p>
     </div>
+    <div class='col-md-4'>
+        {% include '/forms/registration.html' %}
+    </div>
+</div>
 {% endblock %}
