@@ -3,26 +3,58 @@
         <p>Start managing your business now.</p>
         <form action='/register' method='POST'>
             <div class='form-group'>
-                <label class='text-muted'>
-                    <input class='form-control input-lg' type='text' name='register_user_name' placeholder='Username' aria-label='Register Username' required>
+                <input class='form-control'
+                       type='text' 
+                       id='register_user_name' 
+                       name='register_user_name' 
+                       placeholder='Username' 
+                       aria-label='Register Username' 
+                       required>
+                <label class='text-muted' for='register_user_name'>
                     Usernames are not case sensitive.
                 </label>
             </div>
             <div class='form-group'>
-                <input class='form-control input-lg' type='text' name='register_first_name' placeholder='First Name' aria-label='First Name' required>
+                <input class='form-control' 
+                       type='text' 
+                       name='register_first_name' 
+                       placeholder='First Name' 
+                       aria-label='First Name' 
+                       required>
             </div>
             <div class='form-group'>    
-                <input class='form-control input-lg' type='text' name='register_last_name' placeholder='Last Name' aria-label='Last Name' required>
+                <input class='form-control' 
+                       type='text' 
+                       name='register_last_name' 
+                       placeholder='Last Name' 
+                       aria-label='Last Name' 
+                       required>
             </div>
             <div class='form-group'>
-                <input class='form-control input-lg' type='email' name='register_email' placeholder='Email' aria-label='Email' required>
+                <input class='form-control' 
+                       type='email' 
+                       name='register_email' 
+                       placeholder='Email' 
+                       aria-label='Email' 
+                       required>
             </div>
             <div class='form-group'>
-                <input class='form-control input-lg' type='password' name='register_password' placeholder='Password' aria-label='Password' required>
+                <input class='form-control' 
+                       type='password' 
+                       name='register_password' 
+                       placeholder='Password' 
+                       aria-label='Password' 
+                       required>
             </div>
             <div class='form-group'>
-                <input class='form-control input-lg' type='text' name='register_business_name' placeholder='Business Name' aria-label='Business Name'>
+                <input class='form-control' 
+                       type='text' 
+                       name='register_business_name' 
+                       placeholder='Business Name' 
+                       aria-label='Business Name'>
             </div>
-            <input type='submit' value='Sign Up' class='btn btn-lg btn-primary'><br>
+            <div class='form-group'>
+                <input type='submit' value='Sign Up' class='btn btn-lg btn-primary'>
+            </div>
         </form>
     </div>

@@ -22,7 +22,7 @@
                     <span class='icon-bar'></span>
                 </button>
                 <a class='navbar-brand' href='#'>Dogwalker</a>
-                {% if current_user.business %}
+                {% if current_user.is_authenticated and current_user.business.business_name is defined %}
                      <span class='navbar-brand'>&#9; &gt; &#9; <a href='/business'>{{ current_user.business.business_name }}</a></span>
                 {% endif %}
             </div>
