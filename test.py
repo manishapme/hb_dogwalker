@@ -115,6 +115,7 @@ class ControllerTests(unittest.TestCase):
 # adding a dog from business.html
 # adding a person at same time you add a dog from business.html
 # adding a service
+# person telephone number longer than 10 isn't allowed
 
 # @todo -- how to control what data a user can view
 

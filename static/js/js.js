@@ -17,6 +17,7 @@ $( document ).ready(function() {
     });
 
     //@todo validate that state is 2 characters
+    //@todo validate that telephone is no longer than 10 characters
 
 
 
