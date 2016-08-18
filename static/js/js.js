@@ -16,6 +16,16 @@ $( document ).ready(function() {
         } 
     });
 
+    //RESERVATION
+    $('.service-radio').on('click', function(evt){
+        console.log('here i am');
+        var cost = $(this).data('service-cost');
+        console.log(cost);
+        console.log('--');
+        console.log($(this));
+        $('#cost').val(cost);
+    });
+
     //@todo validate that state is 2 characters
     //@todo validate that telephone is no longer than 10 characters
 

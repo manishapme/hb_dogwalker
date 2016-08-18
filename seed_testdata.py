@@ -202,6 +202,7 @@ def populate_people():
                    email=person['email'])
         p.animals.append(person['animal'])
       # p.animals.append(person.animal) @todo find out why these aren't equivalent
+      # answer, javascript respects dot, not python. 
         if person['fullname'] == 'Jill Jones': 
             p.animals.append(b[0].animals[2])   
 

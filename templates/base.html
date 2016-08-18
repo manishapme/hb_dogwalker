@@ -22,15 +22,19 @@
                     <span class='icon-bar'></span>
                 </button>
                 <a class='navbar-brand' href='#'>Dogwalker</a>
-                {% if current_user.is_authenticated and current_user.business.business_name is defined %}
-                     <span class='navbar-brand'>&#9; &gt; &#9; <a href='/business'>{{ current_user.business.business_name }}</a></span>
-                {% endif %}
             </div>
             <div id='navbar' class='navbar-collapse collapse'>
+                <!--@todo create global function to test?? -->
+                {% if current_user.is_authenticated and current_user.business.business_name is defined%}
+                    <ul class='nav navbar-nav whiteText'>
+                        <li><a href='/business'>{{ current_user.business.business_name }}</a></li>
+                        <li><a href='/reservation'>Reservations</a></li>
+                    </ul>
+                {% endif %}
                 <form  action='/login' method='POST' class='navbar-form navbar-right'>
                     {% if current_user.is_authenticated %}
                         <div class='form-group'>
-                            <label class='welcomeSlug'>Welcome {{ current_user.first_name }}!</label>
+                            <label class='whiteText'>Welcome {{ current_user.first_name }}!&#9;</label>
                         </div>
                         <button type='button' id='btn_logout' class='btn'>
                         <a href='/logout'>Logout</a>

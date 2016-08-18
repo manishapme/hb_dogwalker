@@ -1,11 +1,36 @@
     <div id='reservation_add'>
         <h3>Make a reservations for this dog to receive a service.</h3>
-        <form action='/service/add' method='POST' id='service_form_add'>
-            <div class='form-group'>
-                <input class='form-control' type='text' name='description' placeholder='Description' aria-label='Description' required>
+        <form action='/reservation/add' method='POST' id='reservation_form_add'>
+            <select class='form-control'>
+                {% for animal in current_user.business.animals %}
+                    <option>{{ animal.name }}</option>
+                {% endfor %}
+            </select>
+            <div class='radio'>
+                {% for service in current_user.business.services %}
+                    <label>
+                        <input class='service-radio' 
+                               type='radio' 
+                               name='descriptionRadio' 
+                               aria-label='{{ service.description }}' 
+                               id='serviceId{{ service.id }}' 
+                               value='{{ service.id }}'
+                               data-service-cost='{{ service.cost }}'>
+                        {{ service.description }}
+                    </label>
+                {% endfor %}
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='cost' placeholder='Cost' aria-label='Cost' required>
+                <input id='cost' class='form-control' type='text' name='cost' placeholder='Cost' aria-label='Cost' required>
+            </div>
+            <div class='form-group'>
+                <input class='form-control' type='datetime-local' name='startDateTime' placeholder='Start Date' aria-label='Start Date' required>
+            </div>
+            <div class='form-group'>
+                <input class='form-control' type='datetime-local' name='endDateTime' placeholder='End Date' aria-label='End Date' required>
+            </div>
+            <div class='form-group'>
+                <input class='form-control' type='text' name='note' placeholder='Note' aria-label='Note'>
             </div>
             <div class='form-group'>
                 <input class='btn btn-primary' type='submit' value='Add Service'>

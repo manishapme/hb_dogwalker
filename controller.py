@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
-from model import (User, Animal, connect_to_db, db, add_user, add_business, add_animal, 
+from model import (User, Animal, Service, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
                    add_personanimal, add_person, add_service) 
 
 app = Flask(__name__)
@@ -213,6 +213,26 @@ def add_service_():
                     cost=r.get('cost'))
 
     return redirect('/business')
+
+@app.route('/reservation')
+@login_required
+def show_reservations():
+    """Show all reservations for a specific business."""
+
+    # join using the relationship attribute.                 gives you access to other table
+    res = Reservation.query.join(Reservation.service).filter(Service.business_id
+                                 == current_user.business.id).all()
+
+    return render_template('reservation.html', reservations=res)
+
+# @app.route('/reservation/<animal_id>')
+# @login_required
+# def add_reservation_(animal_id):
+#     """Show all reservations for a specific business."""
+
+#     res = Reservation.query.filter(Reservation.service.any(business_id == current_user.business.id)).all()
+
+#     return render_template('reservation.html', reservations=res)   
 
 
 if __name__ == '__main__':
