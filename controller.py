@@ -157,16 +157,13 @@ def add_animal_():
     """Add animals to a specific business."""
 
     r = request.form
-    # because a datetime field cannot accept an empty string, must set value to None
-    if not r.get('birthday'):
-      birthday = None
-
     a = add_animal(
                    business_id=r.get('business_id', current_user.business.id), 
                    name=r.get('name'),
                    species=r.get('species'), 
                    breed=r.get('breed'), 
-                   birthday=birthday, 
+                   # because a datetime field cannot accept an empty string, must set value to None
+                   birthday=r.get('birthday') or None, 
                    vet=r.get('vet'),
                    note=r.get('note'),
                  )
