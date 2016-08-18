@@ -22,6 +22,7 @@ class User(db.Model):
     last_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(64), nullable=False)
+    # @todo how to store password in encoded format
 
     business = db.relationship('Business', backref=db.backref('users', order_by=first_name))
 
@@ -113,6 +114,7 @@ personanimal = db.Table('personanimal',
     db.Column('person_id', db.Integer, db.ForeignKey('person.id')),
     db.Column('animal_id', db.Integer, db.ForeignKey('animal.id'))
     )
+# @todo need to actually capture billable party as a boolean on the join. convert to association object
 
 
 class Animal(db.Model):
@@ -155,6 +157,7 @@ class Person(db.Model):
 class Service(db.Model):
     """A service that a business provides."""
 
+    __tablename__ = 'service'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     business_id = db.Column(db.Integer, db.ForeignKey('business.id'))
@@ -163,6 +166,24 @@ class Service(db.Model):
 
     business = db.relationship('Business', backref=db.backref('services', order_by=description))
 
+
+class Reservation(db.Model):
+    """A service provided to an animal on a specific date."""
+
+    __tablename__ = 'reservation'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'))
+    service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
+    event_id = db.Column(db.Integer) #placeholder for future relationship
+    invoice_id = db.Column(db.Integer) #placeholder for future relationship
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
+    cost = db.Column(db.Integer)
+    note = db.Column(db.Text)
+
+    animal = db.relationship('Animal', backref=db.backref('reservations', order_by=start_date))
+    service = db.relationship('Service', backref=db.backref('reservations', order_by=start_date))
 
 
 ##############################################################################
@@ -254,6 +275,26 @@ def add_service(**kwargs):
     db.session.add(s)
     db.session.commit()
     return s
+
+
+def add_reservation(**kwargs):
+    """Add new reservation."""
+
+    r = Reservation(
+                 animal_id=kwargs.get('animal_id '), 
+                 service_id=kwargs.get('service_id'),
+                 event_id=kwargs.get('event_id'),
+                 invoice_id=kwargs.get('invoice_id'),
+                 start_date=kwargs.get('start_date'),
+                 end_date=kwargs.get('end_date'),
+                 rate=kwargs.get('rate'),
+                 note=kwargs.get('note')
+                 )
+
+    db.session.add(r)
+    db.session.commit()
+    return r
+
 
 ##############################################################################
 

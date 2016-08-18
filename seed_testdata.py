@@ -1,6 +1,6 @@
 # populate test data
 # @todo use separate db for tests
-from model import User, Business, Animal, Person, Service
+from model import User, Business, Animal, Person, Service, Reservation
 from model import connect_to_db, db
 from controller import app
 
@@ -237,6 +237,36 @@ def populate_services():
     return None
 
 
+def populate_reservations():
+    """Create minimum sample data for the reservations table."""
+
+    print 'Reservations - begin data creation.'
+
+    Reservation.query.delete()
+
+    animals = Animal.query.all()
+    
+    for animal in animals:
+
+        animalid = animal.id
+        serviceid = animal.business.services[0].id
+        cost = animal.business.services[0].cost
+        note = '{} owner likes you to wipe off poison oak before drop off'.format(animalid)
+
+        r = Reservation(
+                        animal_id=animalid,
+                        service_id=serviceid,
+                        start_date='2016-08-20 10:00:00',
+                        end_date='2016-08-20 11:00:00',
+                        cost=cost,
+                        note=note
+            )
+        db.session.add(r)
+    db.session.commit()
+    return None
+
+
+
 ##############################################################################
 if __name__ == "__main__":
     connect_to_db(app)
@@ -251,3 +281,4 @@ if __name__ == "__main__":
     populate_animals()
     populate_people()
     populate_services()
+    populate_reservations()

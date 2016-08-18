@@ -4,7 +4,8 @@ import controller
 # from controller import app
 from model import db, connect_to_db
 from seed_testdata import (populate_business, populate_users, populate_animals,
-                           populate_people, populate_services)
+                           populate_people, populate_services, 
+                           populate_reservations)
 
 # write tests as we go
 class ControllerTests(unittest.TestCase):
@@ -33,6 +34,7 @@ class ControllerTests(unittest.TestCase):
         populate_animals()
         populate_people()
         populate_services()
+        populate_reservations()
 
     def tearDown(self):
         """Do at end of every test."""
