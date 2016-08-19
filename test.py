@@ -75,6 +75,22 @@ class ControllerTests(unittest.TestCase):
         self.assertIn('Log Me In', result.data)
         self.assertNotIn('Logout', result.data)
 
+
+    def test_register_duplicate_username(self):
+        """Confirm user is unable to register duplicate username."""
+
+        result = self.client.post('/register', 
+                                  data={'register_user_name': 'mary',
+                                        'register_password': '1234',
+                                        'register_first_name': 'frank',
+                                        'register_last_name': 'franklast',
+                                        'register_email': 'frank@frank',
+                                        'register_business_name': ''},
+                                  follow_redirects=True)
+        
+        self.assertIn('Please select another username.', result.data)
+
+
     def test_register_no_bizname(self):
         """Confirm user can register without adding business name."""
 
@@ -90,19 +106,73 @@ class ControllerTests(unittest.TestCase):
         self.assertIn('Add Business Details', result.data)
 
 
-    def test_register_duplicate_username(self):
-        """Confirm user is unable to register duplicate username."""
+    def test_register_later_bizname(self):
+        """Confirm user can register and seperately add business name."""
 
         result = self.client.post('/register', 
-                                  data={'register_user_name': 'mary',
+                                  data={'register_user_name': 'frank',
                                         'register_password': '1234',
                                         'register_first_name': 'frank',
                                         'register_last_name': 'franklast',
                                         'register_email': 'frank@frank',
                                         'register_business_name': ''},
                                   follow_redirects=True)
-        
-        self.assertIn('Please select another username.', result.data)
+        self.assertIn('Add Business Details', result.data)
+
+        result = self.client.post('/business/add', 
+                                  data={'business_name': 'franksdogs',
+                                        'street': '683 Sutter Street',
+                                        'city': 'San Francisco',
+                                        'state': 'CA',
+                                        'zip': '94103',
+                                        'phone': '4155555555',
+                                        'url': 'franksurl',
+                                        'license': 'frankslicense'},
+                                  follow_redirects=True)
+
+        self.assertIn('Edit Business Details', result.data)
+        self.assertIn('franksdogs', result.data)
+        self.assertIn('683 Sutter Street', result.data)
+        self.assertIn('San Francisco', result.data)
+        self.assertIn('CA', result.data)
+        self.assertIn('94103', result.data)
+        self.assertIn('4155555555', result.data)
+        self.assertIn('franksurl', result.data)
+        self.assertIn('frankslicense', result.data)
+
+    def test_business_update(self):
+        """Confirm user can update business details."""
+
+        result = self.client.post('/login', 
+                                  data={'user_name': 'mary',
+                                        'password': '1234'},
+                                  follow_redirects=True)
+        self.assertIn('Logout', result.data)
+        self.assertNotIn('Log Me In', result.data)
+
+
+        result = self.client.post('/business/update', 
+                                  data={'business_name': 'franksdogs',
+                                        'street': '683 Sutter Street',
+                                        'city': 'San Francisco',
+                                        'state': 'CA',
+                                        'zip': '94103',
+                                        'phone': '4155555555',
+                                        'url': 'franksurl',
+                                        'license': 'frankslicense'},
+                                  follow_redirects=True)
+
+        self.assertIn('Edit Business Details', result.data)
+        self.assertIn('franksdogs', result.data)
+        self.assertIn('683 Sutter Street', result.data)
+        self.assertIn('San Francisco', result.data)
+        self.assertIn('CA', result.data)
+        self.assertIn('94103', result.data)
+        self.assertIn('4155555555', result.data)
+        self.assertIn('franksurl', result.data)
+        self.assertIn('frankslicense', result.data)
+        self.assertIn('disabled', result.data)
+
 
     def test_register(self):
         """User can register with a business name."""
@@ -120,6 +190,7 @@ class ControllerTests(unittest.TestCase):
         self.assertIn('Sally&#39;s Pets', result.data)
         self.assertIn('Welcome Sally', result.data)
         self.assertIn('Edit Business Details', result.data)
+
 
     def test_unauthorized_login(self):
         """Unauthorized user/pass cannot login."""
@@ -139,12 +210,7 @@ class ControllerTests(unittest.TestCase):
         self.assertIn('Unauthorized', result.data)
 
 
-# user can enter business name when registering and it exists in db
-# user can create business separate from registration
-# user can update business data
-# clicking on edit enables all business form fields
-# clicking on submit changes updates correct record in DB
-# clicking on add new adds business correctly for current user
+# JAVASCRIPT clicking on edit enables all business form fields
 # adding a dog from business.html
 # adding a person at same time you add a dog from business.html
 # adding a service
