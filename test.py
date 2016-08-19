@@ -104,10 +104,41 @@ class ControllerTests(unittest.TestCase):
         
         self.assertIn('Please select another username.', result.data)
 
+    def test_register(self):
+        """User can register with a business name."""
 
-# user can register
-# unauthorized user/pass cannot login
-# unauthorized user cannot go to /business
+        result = self.client.post('/register',
+                                   data={'register_user_name': 'sally',
+                                        'register_password': '1234',
+                                        'register_first_name': 'Sally',
+                                        'register_last_name': 'Sallylast',
+                                        'register_email': 'sally@sally',
+                                        'register_business_name': 'Sally\'s Pets'                                  
+                                   },
+                                   follow_redirects=True
+                                   )
+        self.assertIn('Sally&#39;s Pets', result.data)
+        self.assertIn('Welcome Sally', result.data)
+        self.assertIn('Edit Business Details', result.data)
+
+    def test_unauthorized_login(self):
+        """Unauthorized user/pass cannot login."""
+
+        result = self.client.post('/login',
+                                  data={'user_name': 'mary',
+                                        'password': '12345'},
+                                  follow_redirects=True)
+        self.assertIn('did not match a registered user', result.data)
+
+
+    def test_route_blocked(self):
+        """Unauthorized user/pass cannot view route requiring login."""
+
+        result = self.client.get('/business', follow_redirects=True)
+
+        self.assertIn('Unauthorized', result.data)
+
+
 # user can enter business name when registering and it exists in db
 # user can create business separate from registration
 # user can update business data
