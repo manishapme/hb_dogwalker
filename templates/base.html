@@ -25,7 +25,7 @@
             </div>
             <div id='navbar' class='navbar-collapse collapse'>
                 <!--@todo create global function to test?? -->
-                {% if current_user.is_authenticated and current_user.business.business_name is defined%}
+                {% if current_user.is_authenticated and current_user.business.business_name is defined %}
                     <ul class='nav navbar-nav whiteText'>
                         <li><a href='/business'>{{ current_user.business.business_name }}</a></li>
                         <li><a href='/reservation'>Reservations</a></li>

@@ -222,17 +222,18 @@ def show_reservations():
     # join using the relationship attribute.                 gives you access to other table
     res = Reservation.query.join(Reservation.service).filter(Service.business_id
                                  == current_user.business.id).all()
+    ser = current_user.business.services
 
-    return render_template('reservation.html', reservations=res)
+    return render_template('reservation.html', reservations=res, services=ser)
 
-# @app.route('/reservation/<animal_id>')
-# @login_required
-# def add_reservation_(animal_id):
-#     """Show all reservations for a specific business."""
+@app.route('/reservation/add')
+@login_required
+def add_reservation_():
+    """Add a reservation for a specific business."""
 
-#     res = Reservation.query.filter(Reservation.service.any(business_id == current_user.business.id)).all()
+    r = request.form
 
-#     return render_template('reservation.html', reservations=res)   
+    return None   
 
 
 if __name__ == '__main__':

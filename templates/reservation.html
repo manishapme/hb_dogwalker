@@ -5,30 +5,37 @@
 {% block content %}
 <div class='row'>
     <div class='col-md-8'>
-
-        <table class='table table-bordered'>
-            <tr>
-                <th>Pet</th>
-                <th>Service</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Cost</th>
-                <th>Note</th>
-            </tr>
-            {% for res in reservations %}
+        {% if reservations %}
+            <table class='table table-bordered'>
                 <tr>
-                    <td>{{ res.animal.name }}</td>
-                    <td>{{ res.service.description }}</td>
-                    <td>{{ res.start_date}}</td>
-                    <td>{{ res.end_date}}</td>
-                    <td>{{ res.cost }}</td>
-                    <td>{{ res.note }}</td>
+                    <th>Pet</th>
+                    <th>Service</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Cost</th>
+                    <th>Note</th>
                 </tr>
+                {% for res in reservations %}
+                    <tr>
+                        <td>{{ res.animal.name }}</td>
+                        <td>{{ res.service.description }}</td>
+                        <td>{{ res.start_date}}</td>
+                        <td>{{ res.end_date}}</td>
+                        <td>{{ res.cost }}</td>
+                        <td>{{ res.note }}</td>
+                    </tr>                
                 {% endfor %}
-        </table>
+            </table>
+        {% else %}
+            <p>No reservations have been created.</p>
+        {% endif %}
     </div>
     <div class='col-md-4'>
-        {% include '/forms/reservation_add.html' %}
+        {% if services %}
+            {% include '/forms/reservation_add.html' %}
+        {% else %}
+            {% include '/helpers/call_to_action_business_details.html' %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

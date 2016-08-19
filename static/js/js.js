@@ -5,9 +5,8 @@ $( document ).ready(function() {
 
 
     // BUSINESS FORMS
-    // business_update route. disable/enable inputs on update form
     $( '#business_form_update').on( 'submit', function(evt) {
-        
+        // business_update route. disable/enable inputs on update form
         if ($('#business_form_update input').prop('disabled')){
             
             evt.preventDefault();
@@ -18,11 +17,7 @@ $( document ).ready(function() {
 
     //RESERVATION
     $('.service-radio').on('click', function(evt){
-        console.log('here i am');
         var cost = $(this).data('service-cost');
-        console.log(cost);
-        console.log('--');
-        console.log($(this));
         $('#cost').val(cost);
     });
 

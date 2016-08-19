@@ -3,7 +3,9 @@
         <form action='/reservation/add' method='POST' id='reservation_form_add'>
             <select class='form-control'>
                 {% for animal in current_user.business.animals %}
-                    <option>{{ animal.name }}</option>
+                    <option name='animal_id_{{ animal.id }}' value='{{ animal.id }}'>
+                        {{ animal.name }}
+                    </option>
                 {% endfor %}
             </select>
             <div class='radio'>
@@ -33,7 +35,7 @@
                 <input class='form-control' type='text' name='note' placeholder='Note' aria-label='Note'>
             </div>
             <div class='form-group'>
-                <input class='btn btn-primary' type='submit' value='Add Service'>
+                <input class='btn btn-primary' type='submit' value='Add Reservation'>
             </div>
         </form>
     </div>
