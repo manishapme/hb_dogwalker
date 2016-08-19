@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
 from model import (User, Animal, Service, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
-                   add_personanimal, add_person, add_service) 
+                   add_personanimal, add_person, add_service, add_reservation) 
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] #@todo load from config file
@@ -168,7 +168,6 @@ def add_animal_():
                    note=r.get('note'),
                  )
     # if they've included person data we also create a person
-    # @todo optimize so it's not 3 separate commits to db.
     if r.get('fullname'):
         p = add_person(
                        # these fields for adding a person. might not be added at same time @todo??
@@ -226,14 +225,25 @@ def show_reservations():
 
     return render_template('reservation.html', reservations=res, services=ser)
 
-@app.route('/reservation/add')
+@app.route('/reservation/add', methods=['POST'])
 @login_required
 def add_reservation_():
     """Add a reservation for a specific business."""
 
     r = request.form
 
-    return None   
+    res = add_reservation(
+                 animal_id=r.get('animal_id'), 
+                 service_id=r.get('service_id'),
+                 event_id=r.get('event_id') or None,
+                 invoice_id=r.get('invoice_id') or None,
+                 start_date=r.get('start_date'),
+                 end_date=r.get('end_date'),
+                 cost=r.get('cost'),
+                 note=r.get('note')
+                 )
+
+    return redirect('/reservation')   
 
 
 if __name__ == '__main__':

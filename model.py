@@ -281,13 +281,13 @@ def add_reservation(**kwargs):
     """Add new reservation."""
 
     r = Reservation(
-                 animal_id=kwargs.get('animal_id '), 
+                 animal_id=kwargs.get('animal_id'), 
                  service_id=kwargs.get('service_id'),
                  event_id=kwargs.get('event_id'),
                  invoice_id=kwargs.get('invoice_id'),
                  start_date=kwargs.get('start_date'),
                  end_date=kwargs.get('end_date'),
-                 rate=kwargs.get('rate'),
+                 cost=kwargs.get('cost'),
                  note=kwargs.get('note')
                  )
 

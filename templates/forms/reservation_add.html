@@ -1,9 +1,9 @@
     <div id='reservation_add'>
         <h3>Make a reservations for this dog to receive a service.</h3>
         <form action='/reservation/add' method='POST' id='reservation_form_add'>
-            <select class='form-control'>
+            <select class='form-control' name='animal_id'>
                 {% for animal in current_user.business.animals %}
-                    <option name='animal_id_{{ animal.id }}' value='{{ animal.id }}'>
+                    <option value='{{ animal.id }}'>
                         {{ animal.name }}
                     </option>
                 {% endfor %}
@@ -13,9 +13,9 @@
                     <label>
                         <input class='service-radio' 
                                type='radio' 
-                               name='descriptionRadio' 
+                               name='service_id' 
                                aria-label='{{ service.description }}' 
-                               id='serviceId{{ service.id }}' 
+                               id='service_id{{ service.id }}' 
                                value='{{ service.id }}'
                                data-service-cost='{{ service.cost }}'>
                         {{ service.description }}
@@ -26,10 +26,10 @@
                 <input id='cost' class='form-control' type='text' name='cost' placeholder='Cost' aria-label='Cost' required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='datetime-local' name='startDateTime' placeholder='Start Date' aria-label='Start Date' required>
+                <input class='form-control' type='datetime-local' name='start_date' placeholder='Start Date' aria-label='Start Date' required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='datetime-local' name='endDateTime' placeholder='End Date' aria-label='End Date' required>
+                <input class='form-control' type='datetime-local' name='end_date' placeholder='End Date' aria-label='End Date' required>
             </div>
             <div class='form-group'>
                 <input class='form-control' type='text' name='note' placeholder='Note' aria-label='Note'>
