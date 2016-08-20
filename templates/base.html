@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <script src='https://maps.googleapis.com/maps/api/js'></script>
     <script src='https://code.jquery.com/jquery.js'></script>
     <script src='/static/js/js.js'></script>
     <meta charset='utf-8'>
@@ -29,12 +30,13 @@
                     <ul class='nav navbar-nav whiteText'>
                         <li><a href='/business'>{{ current_user.business.business_name }}</a></li>
                         <li><a href='/reservation'>Reservations</a></li>
+                        <li><a href='/schedule'>Schedule</a></li>
                     </ul>
                 {% endif %}
                 <form  action='/login' method='POST' class='navbar-form navbar-right'>
                     {% if current_user.is_authenticated %}
-                        <div class='form-group'>
-                            <label class='whiteText'>Welcome {{ current_user.first_name }}!&#9;</label>
+                        <div class='form-group whiteText p-r-2'>
+                            Welcome {{ current_user.first_name }}!
                         </div>
                         <button type='button' id='btn_logout' class='btn'>
                         <a href='/logout'>Logout</a>

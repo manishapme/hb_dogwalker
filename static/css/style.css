@@ -6,3 +6,7 @@ body {
 .whiteText {
     color: white;
 }
+
+.p-r-2{
+    padding-right: 1.5em;
+}
