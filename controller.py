@@ -234,6 +234,7 @@ def add_reservation_():
 
     res = add_reservation(
                  animal_id=r.get('animal_id'), 
+                 person_id=r.get('person_id'), 
                  service_id=r.get('service_id'),
                  event_id=r.get('event_id') or None,
                  invoice_id=r.get('invoice_id') or None,
@@ -243,7 +244,30 @@ def add_reservation_():
                  note=r.get('note')
                  )
 
-    return redirect('/reservation')   
+    return redirect('/reservation')
+
+@app.route('/schedule')
+@login_required
+def show_schedule():
+    """Allow user to view reservations on a map."""
+
+    # begin with all reservations
+    res = Reservation.query.join(Reservation.service).filter(Service.business_id
+                                 == current_user.business.id).all()
+    #then grab the animal each reservation pertains to
+    animals = []
+    for r in res:
+        animals.append(r.animal)
+
+    #then grab the person/address for each animal
+    # @todo modify relationships so this works if there is more than one person
+    # @todo, grab person id when making the reservation
+    print animals
+
+    # return render_template('schedule.html', people=people)
+    return render_template('schedule.html')
+
+
 
 
 if __name__ == '__main__':

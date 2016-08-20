@@ -174,6 +174,7 @@ class Reservation(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'))
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
     event_id = db.Column(db.Integer) #placeholder for future relationship
     invoice_id = db.Column(db.Integer) #placeholder for future relationship
@@ -184,6 +185,7 @@ class Reservation(db.Model):
 
     animal = db.relationship('Animal', backref=db.backref('reservations', order_by=start_date))
     service = db.relationship('Service', backref=db.backref('reservations', order_by=start_date))
+    person = db.relationship('Person', backref=db.backref('reservations', order_by=start_date))
 
 
 ##############################################################################
@@ -282,6 +284,7 @@ def add_reservation(**kwargs):
 
     r = Reservation(
                  animal_id=kwargs.get('animal_id'), 
+                 person_id=kwargs.get('person_id'), 
                  service_id=kwargs.get('service_id'),
                  event_id=kwargs.get('event_id'),
                  invoice_id=kwargs.get('invoice_id'),

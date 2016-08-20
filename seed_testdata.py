@@ -250,12 +250,14 @@ def populate_reservations():
     for animal in animals:
 
         animalid = animal.id
+        personid = animal.people[0].id
         serviceid = animal.business.services[0].id
         cost = animal.business.services[0].cost
         note = '{} owner likes you to wipe off poison oak before drop off'.format(animalid)
 
         r = Reservation(
                         animal_id=animalid,
+                        person_id=personid,
                         service_id=serviceid,
                         start_date='2016-08-20 10:00:00',
                         end_date='2016-08-20 11:00:00',
