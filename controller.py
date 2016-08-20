@@ -231,10 +231,13 @@ def add_reservation_():
     """Add a reservation for a specific business."""
 
     r = request.form
+    a = Animal.query.get(r.get('animal_id'))
+    person_id = p.people[0].id
+    print person_id
 
     res = add_reservation(
                  animal_id=r.get('animal_id'), 
-                 person_id=r.get('person_id'), 
+                 person_id=r.get('person_id') or person_id, 
                  service_id=r.get('service_id'),
                  event_id=r.get('event_id') or None,
                  invoice_id=r.get('invoice_id') or None,
