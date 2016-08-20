@@ -8,6 +8,8 @@
                     </option>
                 {% endfor %}
             </select>
+<!-- @todo need mechanism to choose from multiple addresses if more than one found for that animal
+@todo could be ajax call after animal selected -->
             <div class='radio'>
                 {% for service in current_user.business.services %}
                     <label>
