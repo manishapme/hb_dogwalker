@@ -140,6 +140,25 @@ class ControllerTests(unittest.TestCase):
         self.assertIn('franksurl', result.data)
         self.assertIn('frankslicense', result.data)
 
+
+    def test_register(self):
+        """User can register with a business name."""
+
+        result = self.client.post('/register',
+                                   data={'register_user_name': 'sally',
+                                        'register_password': '1234',
+                                        'register_first_name': 'Sally',
+                                        'register_last_name': 'Sallylast',
+                                        'register_email': 'sally@sally',
+                                        'register_business_name': 'Sally\'s Pets'                                  
+                                   },
+                                   follow_redirects=True
+                                   )
+        self.assertIn('Sally&#39;s Pets', result.data)
+        self.assertIn('Welcome Sally', result.data)
+        self.assertIn('Edit Business Details', result.data)
+
+
     def test_business_update(self):
         """Confirm user can update business details."""
 
@@ -174,24 +193,6 @@ class ControllerTests(unittest.TestCase):
         self.assertIn('disabled', result.data)
 
 
-    def test_register(self):
-        """User can register with a business name."""
-
-        result = self.client.post('/register',
-                                   data={'register_user_name': 'sally',
-                                        'register_password': '1234',
-                                        'register_first_name': 'Sally',
-                                        'register_last_name': 'Sallylast',
-                                        'register_email': 'sally@sally',
-                                        'register_business_name': 'Sally\'s Pets'                                  
-                                   },
-                                   follow_redirects=True
-                                   )
-        self.assertIn('Sally&#39;s Pets', result.data)
-        self.assertIn('Welcome Sally', result.data)
-        self.assertIn('Edit Business Details', result.data)
-
-
     def test_unauthorized_login(self):
         """Unauthorized user/pass cannot login."""
 
@@ -209,10 +210,41 @@ class ControllerTests(unittest.TestCase):
 
         self.assertIn('Unauthorized', result.data)
 
+    def test_add_animal(self):
+        """adding a person at same time you add a dog from business.html"""
+
+        result = self.client.post('/login',
+                                  data={'user_name': 'mary',
+                                        'password': '1234'},
+                                  follow_redirects=True)
+        self.assertIn('Logout', result.data)
+        self.assertNotIn('Log Me In', result.data)
+
+        result = self.client.post('/animal/add',
+                                   data={'business_id': '1',
+                                        'name': 'Julius',
+                                        'species': 'Dog',
+                                        'breed': 'German Shepard',
+                                        'birthday': '3/1/2005',
+                                        'vet': 'Four Seasons Pet Hospital',
+                                        'note': 'Needs muzzle on trail',
+                                        'fullname': 'Sally Brown',
+                                        'street': '200 Irving Street',
+                                        'city': 'San Francisco',
+                                        'state': 'CA',
+                                        'zipcode': '94122',
+                                        'phone': '3101111111',
+                                        'email': 'sally@brown'                         
+                                   },
+                                   follow_redirects=True
+                                   )
+        self.assertIn('Julius', result.data)
+        self.assertIn('Sally Brown', result.data)
+
+
 
 # JAVASCRIPT clicking on edit enables all business form fields
 # adding a dog from business.html
-# adding a person at same time you add a dog from business.html
 # adding a service
 # person telephone number longer than 10 isn't allowed
 # add a reservation

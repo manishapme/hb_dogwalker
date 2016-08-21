@@ -232,7 +232,7 @@ def add_reservation_():
 
     r = request.form
     a = Animal.query.get(r.get('animal_id'))
-    person_id = p.people[0].id
+    person_id = a.people[0].id
     print person_id
 
     res = add_reservation(
@@ -258,17 +258,17 @@ def show_schedule():
     res = Reservation.query.join(Reservation.service).filter(Service.business_id
                                  == current_user.business.id).all()
     #then grab the animal each reservation pertains to
-    animals = []
+    animals_list = []
     for r in res:
-        animals.append(r.animal)
+        animals_list.append(r.animal)
 
     #then grab the person/address for each animal
     # @todo modify relationships so this works if there is more than one person
     # @todo, grab person id when making the reservation
-    print animals
+    # print animals
 
     # return render_template('schedule.html', people=people)
-    return render_template('schedule.html')
+    return render_template('schedule.html', animals=animals_list)
 
 
 

@@ -2,7 +2,9 @@
 $( document ).ready(function() {
     
     // OPENING VIEW
-
+    // var url = window.location;
+    // // Will only work if string in href matches with location
+    // $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
 
     // BUSINESS FORMS
     $( '#business_form_update').on( 'submit', function(evt) {
