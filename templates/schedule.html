@@ -5,9 +5,9 @@
 {% block content %}
     <h1>Schedule</h1>
     <h3>Plan your day. View the scheduled items on a map and timeline.</h3>
-    <ul>
+    <ul id='scheduled_address_list'>
         {% for animal in animals %}
-            <li id='{{ animal.people[0].id }}'>
+            <li id='{{ animal.id }}'>
                 {{ animal.people[0].street }}, 
                 {{ animal.people[0].city }}, 
                 {{ animal.people[0].state }},
@@ -15,6 +15,7 @@
             </li>
         {% endfor %}
     </ul>
+    <button id='draw_map'>Click here to update directions</button>
     <div class="embed-responsive embed-responsive-16by9">
         <div id='map' class='embed-responsive-item'>
         </div>
@@ -23,14 +24,68 @@
 
 {% block scripts %}
 <script>
-    var map;
+
+    //@todo get business address as default starting route using geocode latlong
+
     function initMap() {
-        //Constructor creates a new map - only center and zoom are required.
-        map = new google.maps.Map(document.getElementById('map'), {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer();        //Constructor creates a new map - only center and zoom are required.
+        var map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 40.7413549, lng: -73.9980244},
             zoom: 13
         });
+        //documentation for this implementation of directionsservice
+        //https://developers.google.com/maps/documentation/javascript/directions
+        directionsDisplay.setMap(map);
+
+        $('#draw_map').on('click', function(evt){
+            calcRoute(directionsService, directionsDisplay);
+        });
+
     }
+    function calcRoute(directionsService, directionsDisplay) {
+        //@todo get business address as default starting route using geocode latlong
+        var start = '43621 Pacific Commons Blvd.,Fremont,CA 94538';
+        var end = '2 Graham Place, Oakland, CA 94619';
+        var waypoints = getWaypoints();
+        var request = {
+            origin: start,
+            destination: end,
+            waypoints: waypoints,
+            travelMode: 'DRIVING'
+        };
+        directionsService.route(request, function(result, status) {
+            if (status == 'OK') {
+                directionsDisplay.setDirections(result);
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
+        });
+    }
+
+
+    //no need to declare index_position. here so I understand what gets passed by default
+    //this loop grabs all necessary address
+    function getWaypoints(){
+        var locations = '[';
+        $('#scheduled_address_list li').each(function(index_position){
+            var waypoint = $(this).text();
+            locations = locations.concat("{ location: '" + 
+                                           waypoint + 
+                                         "', stopover: true },");
+                    //     get lat/long for each address
+                    // append each lat/long as marker to map
+        });
+        locations = locations.slice(0,-1);
+        locations = locations.concat(']');
+        console.log(locations);
+        return locations
+    }
+
+    function getLatLong() {
+
+    }
+
 </script>
 <script async defer 
     src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDJrUJ_x_0O4NilSjfVXjkLk4mQye80-dw&v=3&callback=initMap'>
