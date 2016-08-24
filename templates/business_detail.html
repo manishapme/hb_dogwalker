@@ -5,9 +5,21 @@
 {% block content %}
 <div class='page-header'>
         <div class='btn-group pull-right' role='group' aria-label=''>
-            <button id='bizToolbarEdit' type='button' class='btn btn-default' aria-label='Edit Details'>Edit Business Details</button>
-            <button id='bizToolbarAddPet' type='button' class='btn btn-default' aria-label='Add Pet'>Add pet</button>
-            <button id='bizToolbarAddService' type='button' class='btn btn-default' aria-label='Add Service'>Add Service</button>
+            <button id='bizToolbarEdit' 
+                    type='button' 
+                    class='btn btn-default' 
+                    aria-label='Edit Details' 
+                    data-target-div-id='business_update'>Edit Business Details</button>
+            <button id='bizToolbarAddPet' 
+                    type='button' 
+                    class='btn btn-default' 
+                    aria-label='Add Pet' 
+                    data-target-div-id='animal_add'>Add pet</button>
+            <button id='bizToolbarAddService' 
+                    type='button' 
+                    class='btn btn-default' 
+                    aria-label='Add Service'   
+                    data-target-div-id='service_add'>Add Service</button>
         </div>
         <h1>Business Details</h1>
 </div>
