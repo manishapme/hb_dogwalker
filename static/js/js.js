@@ -23,40 +23,39 @@ $( document ).ready(function() {
         } 
     });
 
-
-
-    function cleanupAfterAjax(divID, formID){
-        $(divID).toggleClass('hidden');
-        $(formID).trigger('reset');
-    }
-
     function divToggleHidden(event){
+        // activated on button click. shows correct form.
         var divID = '#' + $(this).data('target-div-id');
         $(divID).toggleClass('hidden');
         // as javascript    this.attr('data-target-div-id')
         // jquery target    console.log(event.target.attr('data-target-div-id');
     }
 
+
+    function cleanupAfterAjax(divID, formID){
+        // activated on ajax success. hides and resets form.
+        $(divID).toggleClass('hidden');
+        $(formID).trigger('reset');
+    }
+
+
     function animalDrawList(result){
+        // activated on ajax success. parses result object and writes values to correct div.
         var divID = '#animal_list';
-        console.log(result);
         //clear div before repopulating contents
         $(divID).empty();
-        // for each animal object in result, write paragraph
+
         $(result).each(function(){
-            console.log($(this));
             var name = $(this).attr('name');
-            console.log(name);
             var person = $(this).attr('person');
-            console.log(person);
             var id = $(this).attr('id');
-            console.log(id);
-            $(divID).append("<p><a href='/animal/" + id + "'>"+ name + "</a>," + person + "</p>");
+            $(divID).append("<p><a href='/animal/" + id + "'>"+ name + "</a>, " + person + "</p>");
         });
     }
 
+
     function animalAdd(evt){
-        // ADD PET via POST call
+        // activated on form submit. ADD PET via POST call
         evt.preventDefault();
         var formID = '#animal_form_add';
         var divID = '#animal_add';
