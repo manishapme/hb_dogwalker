@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
 from model import (User, Animal, Service, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
-                   add_personanimal, add_person, add_service, add_reservation) 
+                   add_personanimal, add_person, add_service, add_reservation, get_animals_for_biz) 
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] #@todo load from config file
@@ -204,10 +204,9 @@ def add_animal_():
         # if they added a person we also add the join record at same time
         add_personanimal(a, p)
 
-    animals = Animal.query.filter(Animal.id==current_user.business_id).all() 
-    print animals
+    animals = get_animals_for_biz(current_user.business_id, 'json') 
     # return redirect('/business/{}'.format(current_user.business.id))
-    return jsonify(result='prince')
+    return jsonify(animals)
 
 
 @app.route('/animal/<animal_id>')

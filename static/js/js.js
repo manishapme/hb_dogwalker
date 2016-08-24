@@ -10,8 +10,8 @@ $( document ).ready(function() {
 
     // // EVENT LISTENERS
     $('#bizToolbarAddPet').on('click', divToggleHidden);
-
-    $('#bizToolbarAddService').on('click', function(evt){});
+    $('#bizToolbarAddService').on('click', divToggleHidden);
+    $('#animal_form_add').on('submit', animalAdd);
 
     // BUSINESS TOOLBAR
     $('#bizToolbarEdit').on('click', function(evt){
@@ -37,6 +37,38 @@ $( document ).ready(function() {
         // jquery target    console.log(event.target.attr('data-target-div-id');
     }
 
+    function animalDrawList(result){
+        var divID = '#animal_list';
+        console.log(result);
+        //clear div before repopulating contents
+        $(divID).empty();
+        // for each animal object in result, write paragraph
+        $(result).each(function(){
+            console.log($(this));
+            var name = $(this).attr('name');
+            console.log(name);
+            var person = $(this).attr('person');
+            console.log(person);
+            var id = $(this).attr('id');
+            console.log(id);
+            $(divID).append("<p><a href='/animal/" + id + "'>"+ name + "</a>," + person + "</p>");
+        });
+    }
+
+    function animalAdd(evt){
+        // ADD PET via POST call
+        evt.preventDefault();
+        var formID = '#animal_form_add';
+        var divID = '#animal_add';
+        var formData = $(formID).serialize();
+
+        $.post('/animal/add', formData, function(result){
+            //result is list of sorted Animal objects 
+            animalDrawList(result);
+            cleanupAfterAjax(divID, formID);
+        });
+    }
+
 
     // BUSINESS FORMS
     // BUSINESS UPDATE
@@ -56,16 +88,9 @@ $( document ).ready(function() {
         }
     });
 
-    // ADD PET
-    $('#animal_form_add').on('submit', function(evt){
-        evt.preventDefault();
+    
 
-        var formData = $('#animal_form_add').serialize();
 
-        $.post('/animal/add', formData, function(result){
-            console.log(result);
-        });
-    });
 
 
 

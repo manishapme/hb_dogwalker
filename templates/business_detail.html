@@ -27,8 +27,8 @@
     <div class='col-xs-8'>
             {% include '/forms/animal_add.html' %}
             {% if current_user.business.animals %}
+                <h3>My Pets</h3>
                 <div id='animal_list'>
-                    <h3>My Pets</h3>
                     {% for pet in current_user.business.animals %}
                         <p>
                             <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
