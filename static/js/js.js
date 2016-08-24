@@ -6,6 +6,12 @@ $( document ).ready(function() {
     // // Will only work if string in href matches with location
     // $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
 
+    // BUSINESS
+
+    // // EVENT LISTENERS
+    $('#bizToolbarAddPet').on('click', divToggleHidden);
+
+    $('#bizToolbarAddService').on('click', function(evt){});
 
     // BUSINESS TOOLBAR
     $('#bizToolbarEdit').on('click', function(evt){
@@ -17,12 +23,19 @@ $( document ).ready(function() {
         } 
     });
 
-    $('#bizToolbarAddPet').on('click', function(evt){
-        $('#animal_add').toggleClass('hidden');
-    });
 
-    $('#bizToolbarAddService').on('click', function(evt){});
 
+    function cleanupAfterAjax(divID, formID){
+        $(divID).toggleClass('hidden');
+        $(formID).trigger('reset');
+    }
+
+    function divToggleHidden(event){
+        var divID = '#' + $(this).data('target-div-id');
+        $(divID).toggleClass('hidden');
+        // as javascript    this.attr('data-target-div-id')
+        // jquery target    console.log(event.target.attr('data-target-div-id');
+    }
 
 
     // BUSINESS FORMS
@@ -31,13 +44,8 @@ $( document ).ready(function() {
         evt.preventDefault();
 
         if ($('#business_form_update input').is(':enabled')){
-           //if form was enabled, allow them to submit and post to DB.
-           var formData = {}
-           $('#business_form_update .form-control').each(function(){
-                var key = $(this).attr('name');
-                var val = $(this).val();
-                formData[key] = val;
-           });
+
+           var formData = $('#business_form_update').serialize();
            //update screen with returned json
            $.post('/business/update', formData, function(result){
                 $('#business_form_update :input').prop( 'disabled', true);
@@ -50,12 +58,9 @@ $( document ).ready(function() {
 
     // ADD PET
     $('#animal_form_add').on('submit', function(evt){
-        var formData = {}
-        $('#animal_form_add .form-control').each(function(){
-            var key = $(this).attr('name');
-            var val = $(this).val();
-            formData[key] = val;
-        });
+        evt.preventDefault();
+
+        var formData = $('#animal_form_add').serialize();
 
         $.post('/animal/add', formData, function(result){
             console.log(result);
@@ -74,6 +79,10 @@ $( document ).ready(function() {
     //@todo validate that telephone is no longer than 10 characters
     //@todo convert first and last to title case by default
 
-
+//Common pattern
+//test for success
+//clear form
+//hide form
+//redraw part of screen
 
 });
