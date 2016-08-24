@@ -7,7 +7,6 @@ from controller import app
 def populate_business():
     """Create minimum sample data for the business table."""
 
-    print "Business - begin data creation"
 
     # always clean slate test data
     Business.query.delete()
@@ -48,8 +47,6 @@ def populate_business():
 def populate_users():
     """Create minimum sample data for the user table."""
 
-    print "User - begin data creation"
-
     # always clean slate test data
     User.query.delete()
 
@@ -84,8 +81,6 @@ def populate_users():
 
 def populate_animals():
     """Create minimum sample data for the animal table."""
-
-    print "Animals - begin data creation"
 
     # always clean slate test data
     Animal.query.delete()
@@ -144,8 +139,6 @@ def populate_animals():
 
 def populate_people():
     """Create minimum sample data for the person table."""
-
-    print "People - begin data creation"
 
     # always clean slate test data
     Person.query.delete()
@@ -214,8 +207,6 @@ def populate_people():
 def populate_services():
     """Create minimum sample data for the services table."""
 
-    print "Services - begin data creation"
-
     # always clean slate test data
     Service.query.delete()
 
@@ -240,8 +231,6 @@ def populate_services():
 
 def populate_reservations():
     """Create minimum sample data for the reservations table."""
-
-    print 'Reservations - begin data creation.'
 
     Reservation.query.delete()
 
@@ -280,8 +269,14 @@ if __name__ == "__main__":
 
     # Populate the test data
     populate_business()
+    print "Business - begin data creation"
     populate_users()
-    populate_animals()
+    print "User - begin data creation"    
+    populate_animals()    
+    print "Animals - begin data creation"
     populate_people()
+    print "People - begin data creation"
     populate_services()
+    print "Services - begin data creation"
     populate_reservations()
+    print 'Reservations - begin data creation.'
