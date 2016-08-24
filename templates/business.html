@@ -7,48 +7,13 @@
 
 <div class='row'>
     <div class='col-xs-8'>
-        <!--Most functionality requires that the business already exist for current user -->
-        {% if current_user.business %}   
-            <div class='row'>
-                <div class='col-xs-6'>
-                    {% if current_user.business.animals %}
-                        <div id='animal_list'>
-                            <h3>My Pets</h3>
-                            {% for pet in current_user.business.animals %}
-                                <p>
-                                    <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
-                                    {{ pet.people[0].fullname }}
-                                </p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
-                <div class='col-xs-6'>
-                    {% include '/forms/animal_add.html' %}
-                </div>
-            </div>
-        {% endif %}
+        {% include '/helpers/call_to_action_business_details.html' %}
     </div>
+
     <div class='col-xs-4'>
-        {% if not current_user.business %}
+        <p>Set up the details of your business to get started.</p>
 
-            <p>Set up the details of your business to get started.</p>
-
-            {% include '/forms/business_add.html' %}
-
-        {% else %}
-
-            {% include '/forms/business_update.html' %}
-            {% include '/forms/service_add.html' %}
-            {% if current_user.business.services %}
-                <ul>
-                    {% for service in current_user.business.services %}
-                        <li>{{ service.description }}, ${{ service.cost }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-
-        {% endif %}
+        {% include '/forms/business_add.html' %}
     </div>
 </div>
 

@@ -2,7 +2,7 @@
 
 import os
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, redirect, request, flash, session
+from flask import Flask, render_template, redirect, request, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
@@ -30,11 +30,17 @@ def load_user(user_id):
 @app.route('/')
 def index():
     """The homepage."""
-    if current_user.is_authenticated:
+    if not current_user.is_authenticated:
       # @todo, session time checking. expire cookie after certain time
-      return render_template('business.html')
+        return render_template('index.html')
+
+    elif current_user.business_id:
+        #a user who's signed up AND entered some business detail
+        return redirect('/business/{}'.format(current_user.business.id))
+
     else:
-      return render_template('index.html')
+        # a user who doesn't have a related business
+        return redirect('/business')
 
 
 @app.route('/login', methods=['POST'])
@@ -48,6 +54,7 @@ def login():
     if user:
         login_user(user)
         return redirect('/business')
+
     else:
         flash('Error, {} and password did not match a registered user'.format(user_name))
         return redirect('/')
@@ -79,26 +86,41 @@ def register():
     if user:
         flash('The username {} is already in use. Please select another username.'.format(user_name))
         return redirect('/')
+
     else:
         new_user = add_user(user_name=user_name, password=password, 
                             first_name=first_name, last_name=last_name, email=email)
         login_user(new_user)
-        # if a business name was entered, create that business and associate with this user
         # @todo needs to be broken out for future implementation of multiple users
         # @todo needs to check for duplicate businesses
         if business_name:
+            # if a business name was entered, create that business and associate with this user
             new_business = add_business(business_name=business_name)
             new_user.update_user(business_id=new_business.id)
-
-        return redirect('/business')
+            return redirect('/business/{}'.format(new_business.id))
+        else:
+            return redirect('/business')
 
 
 @app.route('/business')
 @login_required
-def show_business():
+def show_business_page():
+    """For logged in user, show detail or form to add details."""
+
+    if current_user.business_id:
+        #a user who's signed up AND entered some business detail
+        return redirect('/business/{}'.format(current_user.business.id))
+    else:
+        #a user who's signed up, but not entered at minimum a business name
+       return render_template('business.html')
+
+
+@app.route('/business/<business_id>')
+@login_required
+def show_business(business_id):
     """For logged in user, show information about their business."""
 
-    return render_template('business.html')
+    return render_template('business_detail.html')
 
 
 @app.route('/business/update', methods=['POST'])
@@ -120,8 +142,7 @@ def update_business_():
                       url=r.get('url'),
                       license=r.get('license')
                       )
-
-    return render_template('business.html')
+    return jsonify(result=b.business_name)
 
 
 @app.route('/business/add', methods=['POST'])
@@ -148,7 +169,7 @@ def add_business_():
     #@todo, if we ever have a superadmin role, this breaks
     current_user.update_user(business_id=new_business.id)
 
-    return render_template('business.html')
+    return redirect('/business/{}'.format(current_user.business.id))
 
 
 @app.route('/animal/add', methods=['POST'])
@@ -183,7 +204,7 @@ def add_animal_():
         # if they added a person we also add the join record at same time
         add_personanimal(a, p)
 
-    return redirect('/business')
+    return redirect('/business/{}'.format(current_user.business.id))
 
 
 @app.route('/animal/<animal_id>')
@@ -211,7 +232,7 @@ def add_service_():
                     description=r.get('description'),
                     cost=r.get('cost'))
 
-    return redirect('/business')
+    return redirect('/business/{}'.format(current_user.business.id))
 
 @app.route('/reservation')
 @login_required
@@ -271,6 +292,7 @@ def show_schedule():
     return render_template('schedule.html', animals=animals_list)
 
 
+# @app.route('/schedule/<start_date>/<end_date>')
 
 
 if __name__ == '__main__':
