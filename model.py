@@ -299,6 +299,32 @@ def add_reservation(**kwargs):
     return r
 
 
+def get_animals_for_biz(business_id, output_format='json'):
+    """For specified business return all animals in specified format."""
+
+    animals = Animal.query.filter(Animal.business_id==business_id).all() 
+    if output_format == 'json':
+        output = []
+        for animal in animals:
+            animal_details = {}
+            key = 'id'
+            val = animal.id
+            animal_details[key] = val
+
+            key = 'name'
+            val = animal.name
+            animal_details[key] = val
+
+            key = 'person'
+            val = animal.people[0].fullname
+            animal_details[key] = val
+
+            output.append(animal_details)
+        return output
+    else:
+        return animals
+
+
 ##############################################################################
 
 def connect_to_db(app, db_uri='postgresql:///dogwalker'):
