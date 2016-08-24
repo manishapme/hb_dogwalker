@@ -204,7 +204,10 @@ def add_animal_():
         # if they added a person we also add the join record at same time
         add_personanimal(a, p)
 
-    return redirect('/business/{}'.format(current_user.business.id))
+    animals = Animal.query.filter(Animal.id==current_user.business_id).all() 
+    print animals
+    # return redirect('/business/{}'.format(current_user.business.id))
+    return jsonify(result='prince')
 
 
 @app.route('/animal/<animal_id>')

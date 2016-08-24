@@ -3,28 +3,30 @@
 {% block title %}Business Detail{% endblock %}
 
 {% block content %}
-    <h1>Business Details</h1>
-
+<div class='page-header'>
+        <div class='btn-group pull-right' role='group' aria-label=''>
+            <button id='bizToolbarEdit' type='button' class='btn btn-default' aria-label='Edit Details'>Edit Business Details</button>
+            <button id='bizToolbarAddPet' type='button' class='btn btn-default' aria-label='Add Pet'>Add pet</button>
+            <button id='bizToolbarAddService' type='button' class='btn btn-default' aria-label='Add Service'>Add Service</button>
+        </div>
+        <h1>Business Details</h1>
+</div>
 <div class='row'>
     <div class='col-xs-8'>
-        <div class='row'>
-            <div class='col-xs-6'>
-                {% if current_user.business.animals %}
-                    <div id='animal_list'>
-                        <h3>My Pets</h3>
-                        {% for pet in current_user.business.animals %}
-                            <p>
-                                <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
-                                {{ pet.people[0].fullname }}
-                            </p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            <div class='col-xs-6'>
-                {% include '/forms/animal_add.html' %}
-            </div>
-        </div>
+            {% include '/forms/animal_add.html' %}
+            {% if current_user.business.animals %}
+                <div id='animal_list'>
+                    <h3>My Pets</h3>
+                    {% for pet in current_user.business.animals %}
+                        <p>
+                            <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
+                            {{ pet.people[0].fullname }}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class='lead'>You have not yet added any pets.</p>
+            {% endif %}
     </div>
     <div class='col-xs-4'>
         {% include '/forms/business_update.html' %}
