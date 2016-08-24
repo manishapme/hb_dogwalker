@@ -7,6 +7,10 @@ body {
     color: white;
 }
 
-.p-r-2{
+.p-r-2 {
     padding-right: 1.5em;
+}
+
+.rounded {
+    border-radius: 10px;
 }
