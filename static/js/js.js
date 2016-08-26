@@ -11,7 +11,10 @@ $( document ).ready(function() {
     // // EVENT LISTENERS
     $('#bizToolbarEdit').on('click', divToggleHidden);
     $('#bizToolbarAddPet').on('click', divToggleHidden);
+    $('#bizToolbarEditPet').on('click', divToggleHidden);
     $('#bizToolbarAddService').on('click', divToggleHidden);
+    $('#bizToolbarAddPerson').on('click', divToggleHidden);
+    $('.service_li').on('click', divToggleHidden);
     $('#animal_form_add').on('submit', animalAdd);
     $('#business_form_update').on( 'submit', businessUpdate);
 
@@ -19,6 +22,9 @@ $( document ).ready(function() {
         // activated on button click. shows correct form.
         var divID = '#' + $(this).data('target-div-id');
         $(divID).toggleClass('hidden');
+        if( $(this).data('service-id') ){
+            $(divID+' form div input[name=id]').val($(this).data('service-id'));            
+        }
         // as javascript    this.attr('data-target-div-id')
         // jquery target    console.log(event.target.attr('data-target-div-id');
     }

@@ -176,6 +176,14 @@ class Service(db.Model):
 
     business = db.relationship('Business', backref=db.backref('services', order_by=description))
 
+    def update_service(self, **kwargs):
+        """Update data for this one business."""
+
+        self.description = kwargs.get('description', self.description)
+        self.cost = kwargs.get('cost', self.cost)
+
+        db.session.commit()
+
 
 class Reservation(db.Model):
     """A service provided to an animal on a specific date."""

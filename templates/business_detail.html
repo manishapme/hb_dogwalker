@@ -38,9 +38,9 @@
 
         {% if current_user.business.services %}
             <h3>Services</h3>
-            <ul>
+            <ul id='service_list'>
                 {% for service in current_user.business.services %}
-                    <li><a href='' data-service-id='{{ service.id }}'>{{ service.description }}</a>, ${{ service.cost }}</li>
+                    <li class='service_li' data-target-div-id='service_update' data-service-id='{{ service.id }}'><a href='#'>{{ service.description }}</a>, ${{ service.cost }}</li>
                 {% endfor %}
             </ul>
         {% else %}

@@ -3,8 +3,21 @@
 {% block title %}Pet Detail{% endblock %}
 
 {% block content %}
-    <h1>{{ animal.name }}</h1>
-
+<div class='page-header'>
+        <div class='btn-group pull-right' role='group' aria-label=''>
+            <button id='bizToolbarEditPet' 
+                    type='button' 
+                    class='btn btn-default' 
+                    aria-label='Add Pet' 
+                    data-target-div-id='animal_update'>Add pet</button>
+            <button id='bizToolbarAddPerson' 
+                    type='button' 
+                    class='btn btn-default' 
+                    aria-label='Add Person'   
+                    data-target-div-id='service_add'>Add Person</button>
+        </div>
+        <h1>{{ animal.name }}</h1>
+</div>
 
 <div class='row'>
     <div class='col-xs-8'>   
@@ -17,15 +30,15 @@
         <div id='animal_others'>
             <h3>Other pets for these people</h3>
             {% for other in other_animals %}
-                {% if animal.id != other.id %}
-                    <p>{{ other.name }}</p>
-                {% endif%}
+                <p><a href='{{ other.id }}'>{{ other.name }}</a></p>
             {% endfor %}
         </div>
     </div>
     <div class='col-xs-4'>
 <!-- @todo don't think this goes here. or it also goes on the business page--> 
         {% include '/forms/animal_add.html' %}
+        {% include '/forms/animal_update.html' %}
+        {% include '/forms/person_add.html' %}
     </div>
 </div>
 

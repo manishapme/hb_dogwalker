@@ -224,7 +224,8 @@ def show_animal(animal_id):
     other_animals = []
     for p in a.people:
         for other in p.animals:
-            other_animals.append(other)
+            if other.id != a.id:
+                other_animals.append(other)
 
     # @todo ask about syntax of joined load a = db.session.query.filter(Animal.id == int(animal_id)).options(db.joinedload('person')).all()
     return render_template('animal.html', animal=a, other_animals=other_animals)
@@ -241,6 +242,21 @@ def add_service_():
                     cost=r.get('cost'))
 
     return redirect('/business/{}'.format(current_user.business.id))
+
+
+
+@app.route('/service/update', methods=['POST'])
+@login_required
+def update_service_():
+    """Add a service for current business."""
+
+    r = request.form
+    s = Service.query.get(r.get('id'))
+    s.update_service(description=r.get('description'),
+                    cost=r.get('cost'))
+
+    return redirect('/business/{}'.format(current_user.business.id))
+
 
 @app.route('/reservation')
 @login_required

@@ -2,13 +2,16 @@
         <h3>Edit this service.</h3>
         <form action='/service/update' method='POST' id='service_form_update'>
             <div class='form-group'>
+                <input class='form-control' type='hidden' name='id' placeholder='Id' aria-label='Id' required value=''>
+            </div>
+            <div class='form-group'>
                 <input class='form-control' type='text' name='description' placeholder='Description' aria-label='Description' required>
             </div>
             <div class='form-group'>
                 <input class='form-control' type='text' name='cost' placeholder='Cost' aria-label='Cost' required>
             </div>
             <div class='form-group'>
-                <input class='btn btn-primary' type='submit' value='Add Service'>
+                <input class='btn btn-primary' type='submit' value='Update Service'>
             </div>
         </form>
     </div>
