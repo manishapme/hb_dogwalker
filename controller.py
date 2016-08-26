@@ -327,6 +327,21 @@ def show_reservations():
 
     return render_template('reservation.html', reservations=res, services=ser)
 
+
+@app.route('/reservation/date')
+@login_required
+def filter_reservations():
+    """Show the reservations for a specficied date"""
+
+    res_date = request.form.get('date_filter')
+    res = Reservation.query.join(Reservation.service).filter(Service.business_id
+                                 == current_user.business.id, Reservation.start_date == res_date ).all()
+    ser = current_user.business.services
+
+    print res
+    return render_template('reservation.html', reservations=res, services=ser)    
+
+
 @app.route('/reservation/add', methods=['POST'])
 @login_required
 def add_reservation_():

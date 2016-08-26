@@ -6,6 +6,8 @@
 <div class='row'>
     <div class='col-xs-8'>
         {% if reservations %}
+        {% include '/forms/date_filter.html' %}
+        <div class='table-responsive'>
             <table class='table table-bordered'>
                 <tr>
                     <th>Pet</th>
@@ -26,6 +28,7 @@
                     </tr>                
                 {% endfor %}
             </table>
+        </div>
         {% else %}
             <p>No reservations have been created.</p>
         {% endif %}

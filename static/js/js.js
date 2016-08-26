@@ -2,9 +2,11 @@
 $( document ).ready(function() {
     
     // OPENING VIEW
-    // var url = window.location;
-    // // Will only work if string in href matches with location
-    // $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
+    var url = window.location.pathname;
+    // remove id and slash if included in route
+    url = url.substring(0, url.length - 2);
+    var searchString = 'a[href*="' + url + '"]';
+    $(searchString).parent().addClass('active');
 
     // BUSINESS
 
