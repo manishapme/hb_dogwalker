@@ -9,19 +9,11 @@ $( document ).ready(function() {
     // BUSINESS
 
     // // EVENT LISTENERS
+    $('#bizToolbarEdit').on('click', divToggleHidden);
     $('#bizToolbarAddPet').on('click', divToggleHidden);
     $('#bizToolbarAddService').on('click', divToggleHidden);
     $('#animal_form_add').on('submit', animalAdd);
-
-    // BUSINESS TOOLBAR
-    $('#bizToolbarEdit').on('click', function(evt){
-        // enable inputs on update form when toolbar clicked
-        if ($('#business_form_update input').prop('disabled')){
-            
-            $('#business_form_update :input').prop( 'disabled', false );
-            $('#business_form_update input[type=submit]').removeClass('hidden');
-        } 
-    });
+    $('#business_form_update').on( 'submit', businessUpdate);
 
     function divToggleHidden(event){
         // activated on button click. shows correct form.
@@ -71,23 +63,38 @@ $( document ).ready(function() {
 
     // BUSINESS FORMS
     // BUSINESS UPDATE
-    $( '#business_form_update').on( 'submit', function(evt) {
+    function businessUpdate(evt) {
         evt.preventDefault();
+        var formID = '#business_form_update';
+        var divID = '#business_update';
+        var formData = $(formID).serialize();
+        //update screen with returned json
+        $.post('/business/update', formData, function(result){
+            businessDrawDetails(result);
+            cleanupAfterAjax(divID, formID);
+       });
+    }
 
-        if ($('#business_form_update input').is(':enabled')){
+    function businessDrawDetails(result){
+        // activated on ajax success. parses result object and writes values to correct div.
+        var divID = '#business_details';
+        //clear div before repopulating contents
+        $(divID).empty();
 
-           var formData = $('#business_form_update').serialize();
-           //update screen with returned json
-           $.post('/business/update', formData, function(result){
-                $('#business_form_update :input').prop( 'disabled', true);
-            $('#business_form_update input[type=submit]').addClass('hidden');
-                console.log(result);
-           });
-
-        }
-    });
-
-    
+        var business_name = $(result).attr('business_name');
+        var street = $(result).attr('business_street');
+        var city = $(result).attr('business_city');
+        var state = $(result).attr('business_state');
+        var zip = $(result).attr('business_zip');
+        var phone = $(result).attr('business_phone');
+        var url = $(result).attr('url');
+        var license = $(result).attr('license');
+        $(divID).append('<h3>'+business_name+'<h3>');
+        $(divID).append('<p>'+ street + ', ' +  city + ', ' +  state + ' ' + zip + '</p>');
+        $(divID).append('<p>'+ phone +'</p>');
+        $(divID).append('<p>'+ url +'</p>');
+        $(divID).append('<p>'+ license +'</p>');
+    }    
 
 
 

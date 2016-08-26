@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, request, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
-from model import (User, Animal, Service, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
+from model import (User, Animal, Service, Business, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
                    add_personanimal, add_person, add_service, add_reservation, get_animals_for_biz) 
 
 app = Flask(__name__)
@@ -142,7 +142,13 @@ def update_business_():
                       url=r.get('url'),
                       license=r.get('license')
                       )
-    return jsonify(result=b.business_name)
+
+    # jsonb = lambda b: {c.name: str(getattr(b, c.name)) for c in b.__table__.columns}
+    # print jsonify(jsonb)
+    # print b.__dict__
+    # return jsonb
+    print b.to_dict()
+    return jsonify(b.to_dict())
 
 
 @app.route('/business/add', methods=['POST'])
@@ -301,8 +307,8 @@ if __name__ == '__main__':
 
     app.debug = True # app.debug = os.environ['FLASK_DEBUG']
    # only show toolbar when debug is true
-    if app.debug:
-        DebugToolbarExtension(app) 
+    # if app.debug:
+    #     DebugToolbarExtension(app) 
 
 
     connect_to_db(app)

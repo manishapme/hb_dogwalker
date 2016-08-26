@@ -25,31 +25,49 @@
 </div>
 <div class='row'>
     <div class='col-xs-8'>
-            {% include '/forms/animal_add.html' %}
-            {% if current_user.business.animals %}
-                <h3>My Pets</h3>
-                <div id='animal_list'>
-                    {% for pet in current_user.business.animals %}
-                        <p>
-                            <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
-                            {{ pet.people[0].fullname }}
-                        </p>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class='lead'>You have not yet added any pets.</p>
-            {% endif %}
-    </div>
-    <div class='col-xs-4'>
-        {% include '/forms/business_update.html' %}
-        {% include '/forms/service_add.html' %}
+        {% if current_user.business %}
+            <div id='business_details'>
+                <h3>{{ current_user.business.business_name }}</h3>
+                <p>{{ current_user.business.business_street }}, {{ current_user.business.business_city }}, {{ current_user.business.business_state }} {{ current_user.business.business_zip }}</p>
+                <p>{{ current_user.business.business_phone }}</p>
+                <p>{{ current_user.business.url }}</p>
+                <p>{{ current_user.business.license }}</p>
+            </div>
+        {% endif %}
+
+
         {% if current_user.business.services %}
+            <h3>Services</h3>
             <ul>
                 {% for service in current_user.business.services %}
-                    <li>{{ service.description }}, ${{ service.cost }}</li>
+                    <li><a href='' data-service-id='{{ service.id }}'>{{ service.description }}</a>, ${{ service.cost }}</li>
                 {% endfor %}
             </ul>
+        {% else %}
+            <p class='lead'>You have not yet added any services.</p>
         {% endif %}
+
+
+        {% if current_user.business.animals %}
+            <h3>Pets</h3>
+            <div id='animal_list'>
+                {% for pet in current_user.business.animals %}
+                    <p>
+                        <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
+                        {{ pet.people[0].fullname }}
+                    </p>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class='lead'>You have not yet added any pets.</p>
+        {% endif %}
+
+    </div>
+    <div class='col-xs-4'>
+        {% include '/forms/animal_add.html' %}
+        {% include '/forms/business_update.html' %}
+        {% include '/forms/service_add.html' %}
+        {% include '/forms/service_update.html' %}
     </div>
 </div>
 

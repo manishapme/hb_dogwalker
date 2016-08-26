@@ -181,7 +181,6 @@ class ControllerTests(unittest.TestCase):
                                         'license': 'frankslicense'},
                                   follow_redirects=True)
 
-        self.assertIn('Edit Business Details', result.data)
         self.assertIn('franksdogs', result.data)
         self.assertIn('683 Sutter Street', result.data)
         self.assertIn('San Francisco', result.data)

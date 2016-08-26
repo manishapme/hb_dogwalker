@@ -2,7 +2,6 @@
 
 from flask_sqlalchemy import SQLAlchemy
 
-
 # create instance of SQLAlchemy from which we will call all db functions
 db = SQLAlchemy()
 
@@ -71,10 +70,6 @@ class User(db.Model):
         self.business_id = kwargs.get('business_id', self.business_id)
 
         db.session.commit()
-        return self
-
-
-
 
 
 class Business(db.Model):
@@ -106,7 +101,21 @@ class Business(db.Model):
         self.license = kwargs.get('license', self.license)
 
         db.session.commit()
-        return self
+
+
+    def to_dict(self):
+        return dict(id=self.id,
+                    business_name=self.business_name,
+                    business_street=self.business_street,
+                    business_city=self.business_city,
+                    business_state=self.business_state,
+                    business_zip=self.business_zip,
+                    business_phone=self.business_phone,
+                    url=self.url,
+                    license = self.license
+                    )
+
+
 
 # A many-to-many association requiring only keys DOESN'T require a class definition  
 # note must appear before the classes it joins
@@ -133,6 +142,7 @@ class Animal(db.Model):
 
     business = db.relationship('Business', backref=db.backref('animals', order_by=name))
     people = db.relationship('Person', secondary=personanimal, backref=db.backref('personanimal'))
+
 
 
 class Person(db.Model):
@@ -323,6 +333,7 @@ def get_animals_for_biz(business_id, output_format='json'):
         return output
     else:
         return animals
+
 
 
 ##############################################################################
