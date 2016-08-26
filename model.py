@@ -143,6 +143,17 @@ class Animal(db.Model):
     business = db.relationship('Business', backref=db.backref('animals', order_by=name))
     people = db.relationship('Person', secondary=personanimal, backref=db.backref('personanimal'))
 
+    def update_animal(self, **kwargs):
+        """Update existing animal data."""
+
+        self.name = kwargs.get('name', self.name)
+        self.breed = kwargs.get('breed', self.breed)
+        self.birthday = kwargs.get('birthday', self.birthday)
+        self.vet = kwargs.get('vet', self.vet)
+        self.note = kwargs.get('note', self.note)
+        self.species = kwargs.get('species', self.species)
+
+        db.session.commit()
 
 
 class Person(db.Model):
@@ -163,6 +174,19 @@ class Person(db.Model):
     business = db.relationship('Business', backref=db.backref('people', order_by=fullname))
     animals = db.relationship('Animal', secondary=personanimal, backref=db.backref('personanimal'))
 
+    def update_person(self, **kwargs):
+        """Update existing person data."""
+
+        self.fullname = kwargs.get('fullname', self.fullname)
+        self.street = kwargs.get('street', self.street)
+        self.city = kwargs.get('city', self.city)
+        self.state = kwargs.get('state', self.state)
+        self.zipcode = kwargs.get('zipcode', self.zipcode)
+        self.phone = kwargs.get('phone', self.phone)
+        self.email = kwargs.get('email', self.email)
+
+        db.session.commit()
+
 
 class Service(db.Model):
     """A service that a business provides."""
@@ -177,7 +201,7 @@ class Service(db.Model):
     business = db.relationship('Business', backref=db.backref('services', order_by=description))
 
     def update_service(self, **kwargs):
-        """Update data for this one business."""
+        """Update data for this one service."""
 
         self.description = kwargs.get('description', self.description)
         self.cost = kwargs.get('cost', self.cost)

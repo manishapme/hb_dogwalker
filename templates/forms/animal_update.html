@@ -1,48 +1,136 @@
     <div id='animal_update' class='hidden'>
         <h3>Update this pets information</h3>
-        <form id='animal_form_update'>
+        <form action='/animal/{{ animal.id }}/update' method='POST' id='animal_form_update'>
             <div class='form-group'>
-                <input class='form-control' type='text' name='name' placeholder='Animal Name' aria-label='Pet Name' required>
+                <input 
+                    class='form-control' 
+                    type='text' 
+                    name='name' 
+                    placeholder='Animal Name' 
+                    aria-label='Pet Name' 
+                    value='{{ animal.name }}' 
+                    required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='species' placeholder='Species (dog/cat)' aria-label='Species' required>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='species' 
+                placeholder='Species (dog/cat)' 
+                aria-label='Species' 
+                value='{{ animal.species }}' 
+                required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='breed' placeholder='Breed' aria-label='Breed'>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='breed' 
+                placeholder='Breed' 
+                aria-label='Breed'
+                value='{{ animal.breed }}'
+                >
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='birthday' placeholder='Birthday' aria-label='Birthday'>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='birthday' 
+                placeholder='Birthday' 
+                aria-label='Birthday'
+                value='{{ animal.birthday }}'>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='vet' placeholder='Vet info' aria-label='Vet'>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='vet' 
+                placeholder='Vet info' 
+                aria-label='Vet'
+                value='{{ animal.vet }}'>
             </div>
             <div class='form-group'>
-                <input class='form-control' rows='3' type='textarea' name='note' placeholder='Notes' aria-label='Note'>
+                <textarea 
+                class='form-control' 
+                rows='3' 
+                type='textarea' 
+                name='note' 
+                placeholder='Notes' 
+                aria-label='Note'
+                >{{ animal.note }}</textarea>
             </div>
             <p>Update information for this pet's human.</p>
             <div class='form-group'>
-                <input class='form-control' type='text' name='fullname' placeholder='Pet Owner Fullname' aria-label='Pet Owner Fullname' required>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='fullname' 
+                placeholder='Pet Owner Fullname' 
+                aria-label='Pet Owner Fullname' 
+                value='{{ animal.people[0].fullname }}'
+                required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='street' placeholder='Street' aria-label='Street' required>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='street' 
+                placeholder='Street' 
+                aria-label='Street' 
+                value='{{ animal.people[0].street }}'
+                required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='city' placeholder='City' aria-label='City' required>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='city' 
+                placeholder='City' 
+                aria-label='City' 
+                value='{{ animal.people[0].city }}'
+                required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='state' placeholder='State' aria-label='State' required>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='state' 
+                placeholder='State' 
+                aria-label='State' 
+                value='{{ animal.people[0].state }}'
+                required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='zipcode' placeholder='Zip' aria-label='Zip' required>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='zipcode' 
+                placeholder='Zip' 
+                aria-label='Zip' 
+                value='{{ animal.people[0].zipcode }}'
+                required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='phone' placeholder='Phone' aria-label='Phone' required>
+                <input 
+                class='form-control' 
+                type='text' 
+                name='phone' 
+                placeholder='Phone' 
+                aria-label='Phone' 
+                value='{{ animal.people[0].phone }}'
+                required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='email' name='email' placeholder='email' aria-label='Email'>
+                <input 
+                class='form-control' 
+                type='email' 
+                name='email' 
+                placeholder='email' 
+                aria-label='Email'
+                value='{{ animal.people[0].email }}'>
             </div>
             <div class='form-group'>
-                <input class='btn btn-primary' type='submit' value='Add Pet'>
+                <input class='btn btn-primary' type='submit' value='Edit Pet'>
             </div>
         </form>
     </div>

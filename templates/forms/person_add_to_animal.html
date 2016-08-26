@@ -1,25 +1,7 @@
-    <div id='animal_add' class='hidden'>
+    <div id='person_add_to_animal' class='hidden'>
         <h3>Add a pet to this business</h3>
-        <form id='animal_form_add'>
-            <div class='form-group'>
-                <input class='form-control' type='text' name='name' placeholder='Animal Name' aria-label='Pet Name' required>
-            </div>
-            <div class='form-group'>
-                <input class='form-control' type='text' name='species' placeholder='Species (dog/cat)' aria-label='Species' required>
-            </div>
-            <div class='form-group'>
-                <input class='form-control' type='text' name='breed' placeholder='Breed' aria-label='Breed'>
-            </div>
-            <div class='form-group'>
-                <input class='form-control' type='text' name='birthday' placeholder='Birthday' aria-label='Birthday'>
-            </div>
-            <div class='form-group'>
-                <input class='form-control' type='text' name='vet' placeholder='Vet info' aria-label='Vet'>
-            </div>
-            <div class='form-group'>
-                <textarea class='form-control' rows='3' type='textarea' name='note' placeholder='Notes' aria-label='Note'></textarea>
-            </div>
-            <p>Enter information for this pet's human.</p>
+        <form action='/person/add/{{ animal.id }}' method='POST' id='person_form_add_to_animal'>
+            <p>Enter information for an additional human for this pet.</p>
             <div class='form-group'>
                 <input class='form-control' type='text' name='fullname' placeholder='Pet Owner Fullname' aria-label='Pet Owner Fullname' required>
             </div>
@@ -42,7 +24,7 @@
                 <input class='form-control' type='email' name='email' placeholder='email' aria-label='Email'>
             </div>
             <div class='form-group'>
-                <input class='btn btn-primary' type='submit' value='Add Pet'>
+                <input class='btn btn-primary' type='submit' value='Add Person'>
             </div>
         </form>
     </div>

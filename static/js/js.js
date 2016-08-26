@@ -13,7 +13,7 @@ $( document ).ready(function() {
     $('#bizToolbarAddPet').on('click', divToggleHidden);
     $('#bizToolbarEditPet').on('click', divToggleHidden);
     $('#bizToolbarAddService').on('click', divToggleHidden);
-    $('#bizToolbarAddPerson').on('click', divToggleHidden);
+    $('#bizToolbarAddPersonToAnimal').on('click', divToggleHidden);
     $('.service_li').on('click', divToggleHidden);
     $('#animal_form_add').on('submit', animalAdd);
     $('#business_form_update').on( 'submit', businessUpdate);

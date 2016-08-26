@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, request, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
-from model import (User, Animal, Service, Business, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
+from model import (User, Person, Animal, Service, Business, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
                    add_personanimal, add_person, add_service, add_reservation, get_animals_for_biz) 
 
 app = Flask(__name__)
@@ -229,6 +229,38 @@ def show_animal(animal_id):
 
     # @todo ask about syntax of joined load a = db.session.query.filter(Animal.id == int(animal_id)).options(db.joinedload('person')).all()
     return render_template('animal.html', animal=a, other_animals=other_animals)
+
+
+@app.route('/animal/<animal_id>/update', methods=['POST'])
+@login_required
+def update_animal_(animal_id):
+    """Add a service for current business."""
+
+    r = request.form
+    a = Animal.query.get(animal_id)
+    a.update_animal(
+                   name=r.get('name'),
+                   species=r.get('species'), 
+                   breed=r.get('breed'), 
+                   # because a datetime field cannot accept an empty string, must set value to None
+                   birthday=r.get('birthday') or None, 
+                   vet=r.get('vet'),
+                   note=r.get('note'),
+                 )
+
+    if r.get('fullname'):
+        p = Person.query.get(a.people[0].id)
+        p.update_person(
+                       # these fields for adding a person. might not be added at same time @todo??
+                       fullname=r.get('fullname'),
+                       street=r.get('street'),
+                       city=r.get('city'),
+                       state=r.get('state'),
+                       zipcode=r.get('zipcode'),
+                       phone=r.get('phone'),
+                       email=r.get('email')
+                      )
+    return redirect('/animal/{}'.format(animal_id))
 
 
 @app.route('/service/add', methods=['POST'])
