@@ -147,7 +147,7 @@ def update_business_():
     # print jsonify(jsonb)
     # print b.__dict__
     # return jsonb
-    print b.to_dict()
+    # print b.to_dict()
     return jsonify(b.to_dict())
 
 
@@ -263,6 +263,31 @@ def update_animal_(animal_id):
     return redirect('/animal/{}'.format(animal_id))
 
 
+@app.route('/animal/<animal_id>/add/person', methods=['POST'])
+@login_required
+def add_person_(animal_id):
+    """Add person to existing animal."""
+
+    r = request.form
+
+    a = Animal.query.get(animal_id)
+    p = add_person(
+                   # these fields for adding a person. might not be added at same time @todo??
+                   business_id=r.get('business_id', current_user.business.id), 
+                   fullname=r.get('fullname'),
+                   street=r.get('street'),
+                   city=r.get('city'),
+                   state=r.get('state'),
+                   zipcode=r.get('zipcode'),
+                   phone=r.get('phone'),
+                   email=r.get('email')
+                  )
+    # if they added a person we also add the join record at same time
+    add_personanimal(a, p)
+
+    return redirect('/animal/{}'.format(animal_id))
+
+
 @app.route('/service/add', methods=['POST'])
 @login_required
 def add_service_():
@@ -310,7 +335,6 @@ def add_reservation_():
     r = request.form
     a = Animal.query.get(r.get('animal_id'))
     person_id = a.people[0].id
-    print person_id
 
     res = add_reservation(
                  animal_id=r.get('animal_id'), 

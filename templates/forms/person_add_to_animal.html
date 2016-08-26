@@ -1,6 +1,6 @@
     <div id='person_add_to_animal' class='hidden'>
         <h3>Add a pet to this business</h3>
-        <form action='/person/add/{{ animal.id }}' method='POST' id='person_form_add_to_animal'>
+        <form action='/animal/{{ animal.id }}/add/person' method='POST' id='person_form_add_to_animal'>
             <p>Enter information for an additional human for this pet.</p>
             <div class='form-group'>
                 <input class='form-control' type='text' name='fullname' placeholder='Pet Owner Fullname' aria-label='Pet Owner Fullname' required>
