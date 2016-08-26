@@ -189,7 +189,6 @@ class ControllerTests(unittest.TestCase):
         self.assertIn('4155555555', result.data)
         self.assertIn('franksurl', result.data)
         self.assertIn('frankslicense', result.data)
-        self.assertIn('disabled', result.data)
 
 
     def test_unauthorized_login(self):
@@ -245,9 +244,15 @@ class ControllerTests(unittest.TestCase):
 # JAVASCRIPT clicking on edit enables all business form fields
 # adding a dog from business.html
 # adding a service
+# edit a service
 # person telephone number longer than 10 isn't allowed
 # add a reservation
 # edit a reservation
+# add a person to a dog
+# edit an animal
+# edit a person
+# add a dog to a household
+
 
 # @todo -- how to control what data a user can view
 # @todo http://pythonhosted.org/dictalchemy/#utilities
