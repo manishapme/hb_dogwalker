@@ -8,6 +8,8 @@ from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
 from model import (User, Person, Animal, Service, Business, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
                    add_personanimal, add_person, add_service, add_reservation, get_animals_for_biz) 
+from sqlalchemy.sql import func
+
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] #@todo load from config file
@@ -333,9 +335,11 @@ def show_reservations():
 def filter_reservations():
     """Show the reservations for a specficied date"""
 
-    res_date = request.form.get('date_filter')
-    res = Reservation.query.join(Reservation.service).filter(Service.business_id
-                                 == current_user.business.id, Reservation.start_date == res_date ).all()
+    res_date = request.args.get('date_filter')
+    biz_id = current_user.business_id
+    
+    res = Reservation.query.join(Reservation.service).filter(Service.business_id == biz_id, func.date(Reservation.start_date) == res_date).all()
+
     ser = current_user.business.services
 
     print res
