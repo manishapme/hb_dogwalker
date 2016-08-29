@@ -19,6 +19,7 @@ $( document ).ready(function() {
     $('.service_li').on('click', divToggleHidden);
     $('#animal_form_add').on('submit', animalAdd);
     $('#business_form_update').on( 'submit', businessUpdate);
+    $('#schedule_date_filter #date_form_filter').on( 'submit', scheduleShow);
 
     function divToggleHidden(event){
         // activated on button click. shows correct form.
@@ -113,6 +114,18 @@ $( document ).ready(function() {
         var cost = $(this).data('service-cost');
         $('#cost').val(cost);
     });
+
+
+    //SCHEDULE
+    function scheduleShow(evt){
+        evt.preventDefault();
+        var formID = '#date_form_filter';
+        var formData = $(formID).serialize();
+        $.get('/reservation/date/format_json', formData, function(result){
+            console.log(result);
+       });
+    }  
+    
 
     //@todo validate that state is 2 characters
     //@todo validate that telephone is no longer than 10 characters

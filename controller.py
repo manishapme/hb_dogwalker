@@ -331,9 +331,10 @@ def show_reservations():
     return render_template('reservation.html', reservations=res, services=ser)
 
 
+@app.route('/reservation/date/<format_json>')
 @app.route('/reservation/date')
 @login_required
-def filter_reservations():
+def filter_reservations(format_json=None):
     """Show the reservations for a specficied date"""
 
     res_date = request.args.get('date_filter')
@@ -349,7 +350,10 @@ def filter_reservations():
       res_dict.append(r_dict)
 
     print res_dict
-    return render_template('reservation.html', reservations=res, services=ser)    
+    if not format_json:
+        return render_template('reservation.html', reservations=res, services=ser)
+    else:
+        return jsonify(res_dict) 
 
 
 @app.route('/reservation/add', methods=['POST'])
