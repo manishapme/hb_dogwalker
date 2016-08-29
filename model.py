@@ -188,6 +188,11 @@ class Person(db.Model):
 
         db.session.commit()
 
+    def format_address(self):
+        """Return the address as a waypoint string"""
+
+        return '{},{},{},{}'.format(self.street, self.city, self.state, self.zipcode)
+
 
 class Service(db.Model):
     """A service that a business provides."""

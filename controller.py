@@ -339,23 +339,26 @@ def filter_reservations(format_json=None):
 
     res_date = request.args.get('date_filter')
     biz_id = current_user.business_id
+    # stash res_date so it can be prepopulated 
+    session['start_date'] = res_date
     
     res = Reservation.query.join(Reservation.service).filter(Service.business_id == biz_id, func.date(Reservation.start_date) == res_date).all()
 
     ser = current_user.business.services
 
-    res_dict = []
-    for r in res:
-        # when returning the json, we need the animal/address info more than the reservation
-        r_dict = dictalchemy.utils.asdict(r.animal.people[0])
-        r_dict['animal_id'] = r.animal_id
-        r_dict['animal_name'] = r.animal.name
-        res_dict.append(r_dict)
-
-    print res_dict
     if not format_json:
         return render_template('reservation.html', reservations=res, services=ser)
     else:
+        # coming from the schedule page and asking for addresses as json
+        res_dict = []
+        for r in res:
+            # need the animal/address info more than the reservation
+            r_dict = {}
+            r_dict['address'] = r.animal.people[0].format_address()
+            r_dict['animal_id'] = r.animal_id
+            r_dict['animal_name'] = r.animal.name
+            res_dict.append(r_dict)
+
         return jsonify(res_dict) 
 
 
