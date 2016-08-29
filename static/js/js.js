@@ -105,7 +105,21 @@ $( document ).ready(function() {
         $(divID).append('<p>'+ license +'</p>');
     }    
 
-
+    function scheduleDrawWaypoints(result){
+        // activated on ajax success. parses result object and writes values to correct div.
+        var divID = '#scheduled_address_list';
+        //clear div before repopulating contents
+        $(divID).empty();
+        $(result).each(function(){
+            var animal_id = $(this).attr('animal_id');
+            var animal_name = $(this).attr('animal_name');
+            var street = $(this).attr('street');
+            var city = $(this).attr('city');
+            var state = $(this).attr('state');
+            var zip = $(this).attr('zipcode');
+            $(divID).append('<li id='+animal_id+'>'+ street + ',' +  city + ',' +  state + ',' + zip + '</li>');
+        });
+    }  
 
 
 
@@ -123,6 +137,7 @@ $( document ).ready(function() {
         var formData = $(formID).serialize();
         $.get('/reservation/date/format_json', formData, function(result){
             console.log(result);
+            scheduleDrawWaypoints(result);
        });
     }  
     

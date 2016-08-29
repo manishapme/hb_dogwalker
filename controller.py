@@ -346,8 +346,11 @@ def filter_reservations(format_json=None):
 
     res_dict = []
     for r in res:
-      r_dict = dictalchemy.utils.asdict(r)
-      res_dict.append(r_dict)
+        # when returning the json, we need the animal/address info more than the reservation
+        r_dict = dictalchemy.utils.asdict(r.animal.people[0])
+        r_dict['animal_id'] = r.animal_id
+        r_dict['animal_name'] = r.animal.name
+        res_dict.append(r_dict)
 
     print res_dict
     if not format_json:
