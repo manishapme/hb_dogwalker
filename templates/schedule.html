@@ -5,6 +5,7 @@
 {% block content %}
     <h1>Schedule</h1>
     <h3>Plan your day. View the scheduled items on a map and timeline.</h3>
+    {% include date_filter.html %}
     <ul id='scheduled_address_list'>
         {% for animal in animals %}
             <li id='{{ animal.id }}'>
@@ -75,7 +76,6 @@
                     // append each lat/long as marker to map
         });
 
-        console.log(locations);
         return locations
     }
 

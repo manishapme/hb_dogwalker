@@ -1,6 +1,7 @@
 """Models and database functions for dogwalker application."""
 
 from flask_sqlalchemy import SQLAlchemy
+import dictalchemy
 
 # create instance of SQLAlchemy from which we will call all db functions
 db = SQLAlchemy()
@@ -229,6 +230,13 @@ class Reservation(db.Model):
     service = db.relationship('Service', backref=db.backref('reservations', order_by=start_date))
     person = db.relationship('Person', backref=db.backref('reservations', order_by=start_date))
 
+
+dictalchemy.utils.make_class_dictable(User)
+dictalchemy.utils.make_class_dictable(Business)
+dictalchemy.utils.make_class_dictable(Animal)
+dictalchemy.utils.make_class_dictable(Person)
+dictalchemy.utils.make_class_dictable(Service)
+dictalchemy.utils.make_class_dictable(Reservation)
 
 ##############################################################################
 # CREATE, DELETE functions

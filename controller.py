@@ -9,6 +9,7 @@ from flask_login import (LoginManager, login_user, logout_user, login_required,
 from model import (User, Person, Animal, Service, Business, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
                    add_personanimal, add_person, add_service, add_reservation, get_animals_for_biz) 
 from sqlalchemy.sql import func
+import dictalchemy
 
 
 app = Flask(__name__)
@@ -342,7 +343,12 @@ def filter_reservations():
 
     ser = current_user.business.services
 
-    print res
+    res_dict = []
+    for r in res:
+      r_dict = dictalchemy.utils.asdict(r)
+      res_dict.append(r_dict)
+
+    print res_dict
     return render_template('reservation.html', reservations=res, services=ser)    
 
 
