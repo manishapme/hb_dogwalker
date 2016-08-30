@@ -391,8 +391,15 @@ def show_schedule():
     """Allow user to view reservations on a map."""
 
     # begin with all reservations
-    res = Reservation.query.join(Reservation.service).filter(Service.business_id
-                                 == current_user.business.id).all()
+    if not session['start_date']: 
+        res = Reservation.query.join(Reservation.service).filter(Service.business_id
+                                     == current_user.business.id).all()
+    else:
+        res_date = session['start_date']
+        res = Reservation.query.join(Reservation.service).filter(Service.business_id
+                                             == current_user.business.id, 
+                                             func.date(Reservation.start_date) == res_date).all()
+
     #then grab the animal each reservation pertains to
     animals_list = []
     for r in res:
