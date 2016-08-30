@@ -121,11 +121,18 @@ $( document ).ready(function() {
         //https://developers.google.com/maps/documentation/javascript/directions
         directionsDisplay.setMap(map);
 
-        $('#draw_map').on('click', function(evt){
+        if ($('#date_form_filter input[name=date_filter').val()){
+            //render map if the date filter is already populated from session data
+            calcRoute(directionsService, directionsDisplay);
+        }
+
+        $('#schedule_date_filter #date_form_filter').on('change', function(evt){
             calcRoute(directionsService, directionsDisplay);
         });
 
     }
+
+
     function calcRoute(directionsService, directionsDisplay) {
         //@todo get business address as default starting route using geocode latlong
         var start = '43621 Pacific Commons Blvd.,Fremont,CA 94538';
