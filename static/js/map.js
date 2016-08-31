@@ -36,6 +36,7 @@ $( document ).ready(function() {
             origin: start,
             destination: end,
             waypoints: waypoints,
+            optimizeWaypoints: true,
             travelMode: 'DRIVING'
         };
         directionsService.route(request, function(result, status) {
@@ -52,11 +53,12 @@ $( document ).ready(function() {
     //this loop grabs all necessary address
     function getWaypoints(){
         var locations = [];
+
         $('#scheduled_address_list li').each(function(index_position){
             var waypoint = $(this).data('address');
             locations.push({ location: waypoint, stopover: true });
                     //     get lat/long for each address
-                    // append each lat/long as marker to map
+                    // @todo append each lat/long as marker to map
         });
 
         return locations
