@@ -3,6 +3,8 @@
 import os
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session, jsonify
+import requests
+import json
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
@@ -146,11 +148,6 @@ def update_business_():
                       license=r.get('license')
                       )
 
-    # jsonb = lambda b: {c.name: str(getattr(b, c.name)) for c in b.__table__.columns}
-    # print jsonify(jsonb)
-    # print b.__dict__
-    # return jsonb
-    # print b.to_dict()
     return jsonify(b.to_dict())
 
 
@@ -324,8 +321,16 @@ def show_reservations():
     """Show all reservations for a specific business."""
 
     # join using the relationship attribute.                 gives you access to other table
-    res = Reservation.query.join(Reservation.service).filter(Service.business_id
-                                 == current_user.business.id).all()
+    # filter reservations if date chosen
+    if session.get('start_date'): 
+        res_date = session['start_date']
+        res = Reservation.query.join(Reservation.service).filter(Service.business_id
+                                             == current_user.business.id, 
+                                             func.date(Reservation.start_date) == res_date).all()
+    else:
+        res = Reservation.query.join(Reservation.service).filter(Service.business_id
+                                     == current_user.business.id).all()
+
     ser = current_user.business.services
 
     return render_template('reservation.html', reservations=res, services=ser)
@@ -385,37 +390,47 @@ def add_reservation_():
 
     return redirect('/reservation')
 
+
 @app.route('/schedule')
 @login_required
 def show_schedule():
     """Allow user to view reservations on a map."""
 
-    # begin with all reservations
-    if not session['start_date']: 
-        res = Reservation.query.join(Reservation.service).filter(Service.business_id
-                                     == current_user.business.id).all()
-    else:
+    # filter reservations if date chosen
+    if session.get('start_date'): 
         res_date = session['start_date']
         res = Reservation.query.join(Reservation.service).filter(Service.business_id
                                              == current_user.business.id, 
                                              func.date(Reservation.start_date) == res_date).all()
+    else:
+        res = Reservation.query.join(Reservation.service).filter(Service.business_id
+                                     == current_user.business.id).all()
+
 
     #then grab the animal each reservation pertains to
     animals_list = []
     for r in res:
         animals_list.append(r.animal)
 
-    #then grab the person/address for each animal
-    # @todo modify relationships so this works if there is more than one person
-    # @todo, grab person id when making the reservation
-    # print animals
-
-    # return render_template('schedule.html', people=people)
     return render_template('schedule.html', animals=animals_list)
 
 
-# @app.route('/schedule/<start_date>/<end_date>')
+@app.route('/geocode')
+def geocode_address():
+    """Take a given address and geocode it."""
 
+    address = current_user.business.format_address().replace(' ', '%20')
+    print address
+    url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+address+'&key='+os.environ['GOOGLE_MAPS_KEY']
+    print url
+    r = requests.get(url).content
+    r = json.loads(r)
+    r = r.get('results')
+    r = r[0].get('geometry')
+    r = r.get('location')
+    print 
+
+    return "hello"
 
 if __name__ == '__main__':
 

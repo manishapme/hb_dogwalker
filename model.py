@@ -88,6 +88,11 @@ class Business(db.Model):
     url = db.Column(db.String(64))
     license = db.Column(db.String(64))
 
+    def format_address(self):
+        """Return the address as a waypoint string"""
+
+        return '{},{},{},{}'.format(self.business_street, self.business_city, self.business_state, self.business_zip)
+
 
     def update_business(self, **kwargs):
         """Update data for this one business."""

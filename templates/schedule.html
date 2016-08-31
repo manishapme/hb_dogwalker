@@ -3,18 +3,32 @@
 {% block title %}Schedule{% endblock %}
 
 {% block content %}
+<div class='page-header'>
+    <div class='btn-group pull-right' role='group' aria-label=''>
+        <button id='scheduleMap' 
+                type='button' 
+                class='btn btn-default' 
+                aria-label='Map' 
+                data-target-div-id='business_update'>Map</button>
+        <button id='scheduleTimeLine' 
+                type='button' 
+                class='btn btn-default' 
+                aria-label='Timeline' 
+                data-target-div-id='animal_add'>Timeline</button>
+    </div>
     <h1>Schedule</h1>
-    <h3>Plan your day. View the scheduled items on a map and timeline.</h3>
+</div>
     <div id='schedule_date_filter'>{% include '/forms/date_filter.html' %}</div>
     <ul id='scheduled_address_list'>
         {% for animal in animals %}
-            <li id='{{ animal.id }}'>
+            <li id='{{ animal.id }}' data-address='{{ animal.people[0].format_address() }}'>
+                {{ animal.name }},  
                 {{ animal.people[0].street }}, 
                 {{ animal.people[0].city }}, 
                 {{ animal.people[0].state }},
                 {{ animal.people[0].zipcode }}
             </li>
-        {% endfor %}
+        {% endfor %}  
     </ul>
     <div class="embed-responsive embed-responsive-16by9">
         <div id='map' class='embed-responsive-item'>
@@ -24,5 +38,8 @@
 {% endblock %}
 
 {% block scripts %}
-
+    <script type='text/javascript' src='/static/js/map.js'></script>
+    <script  
+        src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDJrUJ_x_0O4NilSjfVXjkLk4mQye80-dw&v=3'>
+    </script>
 {% endblock %}
