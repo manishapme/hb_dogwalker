@@ -367,6 +367,32 @@ def filter_reservations(format_json=None):
         return jsonify(res_dict) 
 
 
+@app.route('/reservation/timeline')
+@login_required
+def show_reservations_on_timeline():
+    """Return all reservations as json for display on timeline"""
+
+    biz_id = current_user.business_id
+    
+    res = Reservation.query.join(Reservation.service).filter(Service.business_id == biz_id).all()
+    res_dict = []
+    for r in res:
+        # need the animal/address info more than the reservation
+        r_dict = {}
+        r_dict['id'] = r.id
+        r_dict['content'] = r.animal.name
+        r_dict['title'] = r.service.description
+        r_dict['start'] = '{:%Y-%m-%d}'.format(r.start_date)
+        if r_dict['start'] != '{:%Y-%m-%d}'.format(r.end_date):
+            r_dict['type'] = 'range'
+            r_dict['end'] = '{:%Y-%m-%d}'.format(r.end_date)
+        else:
+            r_dict['type'] = 'point'
+        res_dict.append(r_dict)
+
+    return jsonify(res_dict) 
+
+
 @app.route('/reservation/add', methods=['POST'])
 @login_required
 def add_reservation_():

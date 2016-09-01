@@ -2,6 +2,7 @@
 $( document ).ready(function() {
     
     // // EVENT LISTENERS
+    $('#scheduleTimeLine').on( 'click', drawTimeLine);
     $('#schedule_date_filter #date_form_filter').on( 'submit', scheduleShow);
     if ($('#date_form_filter input[name=date_filter').val()){
         //render map if the date filter is already populated from session data
@@ -92,7 +93,20 @@ $( document ).ready(function() {
             scheduleDrawWaypoints(result);
             initMap();
        });
-    }  
+    }
+
+
+    function drawTimeLine(evt){
+        //http://visjs.org/docs/timeline/
+        //jquery returns a list, and we want only the div so need to call index position
+        var container = $('#visualization')[0]; 
+        // var container = document.getElementById('visualization')
+        $.get('/reservation/timeline', function(result){
+            var items = new vis.DataSet(result);
+            var options = {};
+            var timeline = new vis.Timeline(container, items, options);
+        });
+    }
 
 // initMap();
 });
