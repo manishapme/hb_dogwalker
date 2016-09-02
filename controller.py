@@ -119,6 +119,17 @@ def show_business_page(business_id=None):
     if current_user.business_id:
         #a user who's signed up AND entered some business detail
         # return redirect('/business/{}'.format(current_user.business.id))
+        b = current_user.business
+        print b.id
+        print b.business_name
+        print b.business_street
+        print b.business_city
+        print b.business_state
+        print b.business_zip
+        print b.business_phone
+        print b.url
+        print b.license
+
         return render_template('business_detail.html')
     else:
         #a user who's signed up, but not entered at minimum a business name

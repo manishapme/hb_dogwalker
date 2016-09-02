@@ -88,12 +88,12 @@ $( document ).ready(function() {
         var formData = $(formID).serialize();
         //update screen with returned json
         $.post('/business/update', formData, function(result){
-            businessDrawDetails(result);
+            businessDrawDetails(result, formID);
             cleanupAfterAjax(divID, formID);
        });
     }
 
-    function businessDrawDetails(result){
+    function businessDrawDetails(result, formID){
         // activated on ajax success. parses result object and writes values to correct div.
         var divID = '#business_details';
         //clear div before repopulating contents
@@ -112,6 +112,16 @@ $( document ).ready(function() {
         $(divID).append('<p>'+ phone +'</p>');
         $(divID).append('<p>'+ url +'</p>');
         $(divID).append('<p>'+ license +'</p>');
+        // update hidden form with new values
+        $(formID + ' input[name=business_name]').attr('value', business_name);            
+        $(formID + ' input[name=street]').attr('value', street);            
+        $(formID + ' input[name=city]').attr('value', city);            
+        $(formID + ' input[name=state]').attr('value', state);            
+        $(formID + ' input[name=zip]').attr('value', zip);            
+        $(formID + ' input[name=phone]').attr('value', phone);            
+        $(formID + ' input[name=url]').attr('value', url);            
+        $(formID + ' input[name=license]').attr('value', license);            
+
     }    
 
 

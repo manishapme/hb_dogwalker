@@ -8,6 +8,7 @@
                        placeholder='Business Name' 
                        aria-label='Business Name' 
                        required
+                       value='{{ current_user.business.business_name }}'
                        >
             </div>
             <div class='form-group'>
@@ -17,6 +18,7 @@
                        placeholder='Street' 
                        aria-label='Street' 
                        required
+                       value='{{ current_user.business.business_street }}'
                        >
             </div>
             <div class='form-group'>
@@ -26,6 +28,7 @@
                        placeholder='City' 
                        aria-label='City' 
                        required
+                       value='{{ current_user.business.business_city }}'
                        >
             </div>
             <div class='form-group'>
@@ -35,6 +38,7 @@
                        placeholder='State' 
                        aria-label='State' 
                        required
+                       value='{{ current_user.business.business_state }}'
                        >
             </div>
             <div class='form-group'>
@@ -44,6 +48,7 @@
                        placeholder='Zip' 
                        aria-label='Zipcode' 
                        required
+                       value='{{ current_user.business.business_zip }}'
                        >
             </div>
             <div class='form-group'>
@@ -52,6 +57,7 @@
                        name='phone' 
                        placeholder='Phone' 
                        aria-label='Phone Number' 
+                       value='{{ current_user.business.business_phone }}'
                        >
             </div>
             <div class='form-group'>
@@ -60,6 +66,7 @@
                        name='url' 
                        placeholder='URL' 
                        aria-label='URL' 
+                       value='{{ current_user.business.url }}'
                        >
             </div>
             <div class='form-group'>
@@ -68,6 +75,7 @@
                        name='license' 
                        placeholder='License' 
                        aria-label='Business License' 
+                       value='{{ current_user.business.license }}'
                        >
             </div>
             <div class='form-group'>
