@@ -104,7 +104,14 @@ def register():
         # @todo needs to check for duplicate businesses
         if business_name:
             # if a business name was entered, create that business and associate with this user
-            new_business = add_business(business_name=business_name)
+            new_business = add_business(business_name=business_name,
+                                business_street='',
+                                business_city='',
+                                business_state='',
+                                business_zip='',
+                                business_phone='',
+                                url='',
+                                license='')
             new_user.update_user(business_id=new_business.id)
             return redirect('/business/{}'.format(current_user.business_id))
         else:
@@ -119,18 +126,6 @@ def show_business_page(business_id=None):
 
     if current_user.business_id:
         #a user who's signed up AND entered some business detail
-        # return redirect('/business/{}'.format(current_user.business_id))
-        # b = current_user.business
-        # print b.id
-        # print b.business_name
-        # print b.business_street
-        # print b.business_city
-        # print b.business_state
-        # print b.business_zip
-        # print b.business_phone
-        # print b.url
-        # print b.license
-
         return render_template('business_detail.html')
     else:
         #a user who's signed up, but not entered at minimum a business name

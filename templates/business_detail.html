@@ -28,10 +28,15 @@
         {% if current_user.business %}
             <div id='business_details'>
                 <h3>{{ current_user.business.business_name }}</h3>
-                <p>{{ current_user.business.business_street }}, {{ current_user.business.business_city }}, {{ current_user.business.business_state }} {{ current_user.business.business_zip }}</p>
-                <p>{{ current_user.business.business_phone }}</p>
-                <p>{{ current_user.business.url }}</p>
-                <p>{{ current_user.business.license }}</p>
+<!-- if a user has only specified the business name, we don't want None display errors by calling info that doesn't exist -->
+                {% if current_user.business.business_street %}
+                    <p>{{ current_user.business.business_street }}, {{ current_user.business.business_city }}, {{ current_user.business.business_state }} {{ current_user.business.business_zip }}</p>
+                    <p>{{ current_user.business.business_phone }}</p>
+                    <p>{{ current_user.business.url }}</p>
+                    <p>{{ current_user.business.license }}</p>
+                {% else %}
+                    <p class='lead'>You have not entered any details for your business.</p>
+                {% endif %}
             </div>
         {% endif %}
 
