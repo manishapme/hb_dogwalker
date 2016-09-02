@@ -109,19 +109,6 @@ class Business(db.Model):
         db.session.commit()
 
 
-    def to_dict(self):
-        return dict(id=self.id,
-                    business_name=self.business_name,
-                    business_street=self.business_street,
-                    business_city=self.business_city,
-                    business_state=self.business_state,
-                    business_zip=self.business_zip,
-                    business_phone=self.business_phone,
-                    url=self.url,
-                    license = self.license
-                    )
-
-
 
 # A many-to-many association requiring only keys DOESN'T require a class definition  
 # note must appear before the classes it joins
