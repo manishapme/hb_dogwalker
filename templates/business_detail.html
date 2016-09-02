@@ -37,12 +37,11 @@
                 {% else %}
                     <p class='lead'>You have not entered any details for your business.</p>
                 {% endif %}
-            </div>
+            </div><!--close #business_details-->
         {% endif %}
 
-
+        <h3>Services</h3>
         {% if current_user.business.services %}
-            <h3>Services</h3>
             <ul id='service_list'>
                 {% for service in current_user.business.services %}
                     <li class='service_li' data-target-div-id='service_update' 
@@ -59,20 +58,18 @@
         {% endif %}
 
 
-        {% if current_user.business.animals %}
-            <h3>Pets</h3>
-            <div id='animal_list'>
-                {% for pet in current_user.business.animals %}
-                    <p>
-                        <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
-                        {{ pet.people[0].fullname }}
-                    </p>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p class='lead'>You have not yet added any pets.</p>
-        {% endif %}
-
+        <h3>Pets</h3>
+        <div id='animal_list'>
+            {% for pet in current_user.business.animals %}
+                <p>
+                    <a href='/animal/{{ pet.id }}'>{{ pet.name }}</a>, 
+                    {{ pet.people[0].fullname }}
+                </p>
+            {% endfor %}
+            {% if not current_user.business.animals %}
+                <p class='lead'>You have not yet added any pets.</p>
+            {% endif %}
+        </div><!--close #animal_list-->
     </div>
     <div class='col-xs-4'>
         {% include '/forms/animal_add.html' %}

@@ -152,8 +152,6 @@ def update_business_():
                       license=r.get('license')
                       )
 
-    # return jsonify(b.to_dict())
-    print dictalchemy.utils.asdict(b)
     return jsonify(dictalchemy.utils.asdict(b))
 
 

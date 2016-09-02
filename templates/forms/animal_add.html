@@ -30,7 +30,7 @@
                 <input class='form-control' type='text' name='city' placeholder='City' aria-label='City' required>
             </div>
             <div class='form-group'>
-                <input class='form-control' type='text' name='state' placeholder='State' aria-label='State' required>
+                <input class='form-control' type='text' name='state' placeholder='State' aria-label='State' required value='{{ current_user.business.business_state }}'>
             </div>
             <div class='form-group'>
                 <input class='form-control' type='text' name='zipcode' placeholder='Zip' aria-label='Zip' required>

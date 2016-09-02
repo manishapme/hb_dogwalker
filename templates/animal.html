@@ -15,6 +15,7 @@
                 {{ pet.people[0].fullname }}
             </p>
         {% endfor %}
+        {% if current_user.business.animals is defined %}<p class='lead'>You have not yet added any pets.</p>{% endif %}
     </div>
     <div class='col-xs-4'>
 <!-- nothing at the moment--> 
