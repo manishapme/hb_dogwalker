@@ -60,7 +60,8 @@ def login():
 
     if user and bcrypt.check_password_hash(user.password, password):
         login_user(user)
-        return redirect('/business')
+        return redirect('/')
+
     else:
         flash('Error, {} and password did not match a registered user'.format(user_name))
         return redirect('/')
@@ -119,16 +120,16 @@ def show_business_page(business_id=None):
     if current_user.business_id:
         #a user who's signed up AND entered some business detail
         # return redirect('/business/{}'.format(current_user.business.id))
-        b = current_user.business
-        print b.id
-        print b.business_name
-        print b.business_street
-        print b.business_city
-        print b.business_state
-        print b.business_zip
-        print b.business_phone
-        print b.url
-        print b.license
+        # b = current_user.business
+        # print b.id
+        # print b.business_name
+        # print b.business_street
+        # print b.business_city
+        # print b.business_state
+        # print b.business_zip
+        # print b.business_phone
+        # print b.url
+        # print b.license
 
         return render_template('business_detail.html')
     else:
@@ -237,7 +238,7 @@ def add_animal_():
 def show_animal(animal_id):
     """List details for selected animal and relations."""
 
-    a = Animal.query.get(int(animal_id))
+    a = Animal.query.get(animal_id)
     other_animals = []
     for p in a.people:
         for other in p.animals:
@@ -484,8 +485,8 @@ if __name__ == '__main__':
 
     app.debug = True # app.debug = os.environ['FLASK_DEBUG']
    # only show toolbar when debug is true
-    # if app.debug:
-    #     DebugToolbarExtension(app) 
+    if app.debug:
+        DebugToolbarExtension(app) 
 
 
     connect_to_db(app)
