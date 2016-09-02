@@ -85,6 +85,7 @@ def register():
     last_name = request.form.get('register_last_name')
     email = request.form.get('register_email')
     business_name = request.form.get('register_business_name')
+    # store password as hash
     password = bcrypt.generate_password_hash(password)
     
     # ensure username is unique (case insensitive)
@@ -104,30 +105,24 @@ def register():
             # if a business name was entered, create that business and associate with this user
             new_business = add_business(business_name=business_name)
             new_user.update_user(business_id=new_business.id)
-            return redirect('/business/{}'.format(new_business.id))
+            return redirect('/business/{}'.format(current_user.business.id))
         else:
             return redirect('/business')
 
 
+@app.route('/business/<business_id>')
 @app.route('/business')
 @login_required
-def show_business_page():
+def show_business_page(business_id=None):
     """For logged in user, show detail or form to add details."""
 
     if current_user.business_id:
         #a user who's signed up AND entered some business detail
-        return redirect('/business/{}'.format(current_user.business.id))
+        # return redirect('/business/{}'.format(current_user.business.id))
+        return render_template('business_detail.html')
     else:
         #a user who's signed up, but not entered at minimum a business name
        return render_template('business.html')
-
-
-@app.route('/business/<business_id>')
-@login_required
-def show_business(business_id):
-    """For logged in user, show information about their business."""
-
-    return render_template('business_detail.html')
 
 
 @app.route('/business/update', methods=['POST'])
