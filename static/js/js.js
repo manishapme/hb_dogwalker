@@ -1,11 +1,21 @@
 //all js goes here
 $( document ).ready(function() {
     // OPENING VIEW
-    var url = window.location.pathname;
-    // arbitrary number to get beginning of path without / or ids
-    url = url.substring(0, 7);
-    var searchString = 'a[href*="' + url + '"]';
-    $(searchString).parent().addClass('active');
+    function highlightNav(){
+        var url = window.location.pathname;
+        if(url.substring(0,12) === '/reservation'){
+            // handle reservation/map & reservation/schedule
+            $('.dropdown-toggle').parent().addClass('active');
+            var searchString = 'a[href="' + url + '"]';
+        } else {
+            // arbitrary number to get beginning of path without / or ids
+            url = url.substring(0, 7);
+            var searchString = 'a[href*="' + url + '"]';
+        }       
+            $(searchString).parent().addClass('active');
+    }
+    highlightNav();
+
 
     // BUSINESS
 

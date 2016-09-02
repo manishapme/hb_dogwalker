@@ -178,6 +178,15 @@ def add_business_():
     return redirect('/business/{}'.format(current_user.business.id))
 
 
+
+@app.route('/animal')
+@login_required
+def show_animal_all():
+    """List all animals for this business."""
+
+    return render_template('animal.html')
+
+
 @app.route('/animal/add', methods=['POST'])
 @login_required
 def add_animal_():
@@ -228,7 +237,7 @@ def show_animal(animal_id):
                 other_animals.append(other)
 
     # @todo ask about syntax of joined load a = db.session.query.filter(Animal.id == int(animal_id)).options(db.joinedload('person')).all()
-    return render_template('animal.html', animal=a, other_animals=other_animals)
+    return render_template('animal_detail.html', animal=a, other_animals=other_animals)
 
 
 @app.route('/animal/<animal_id>/update', methods=['POST'])
@@ -354,7 +363,7 @@ def filter_reservations(format_json=None):
     if not format_json:
         return render_template('reservation.html', reservations=res, services=ser)
     else:
-        # coming from the schedule page and asking for addresses as json
+        # coming from the map page and asking for addresses as json
         res_dict = []
         for r in res:
             # need the animal/address info more than the reservation
@@ -367,9 +376,10 @@ def filter_reservations(format_json=None):
         return jsonify(res_dict) 
 
 
+@app.route('/reservation/timeline/<format_json>')
 @app.route('/reservation/timeline')
 @login_required
-def show_reservations_on_timeline():
+def show_reservations_on_timeline(format_json=None):
     """Return all reservations as json for display on timeline"""
 
     biz_id = current_user.business_id
@@ -386,11 +396,16 @@ def show_reservations_on_timeline():
         if r_dict['start'] != '{:%Y-%m-%d}'.format(r.end_date):
             r_dict['type'] = 'range'
             r_dict['end'] = '{:%Y-%m-%d}'.format(r.end_date)
+            r_dict['group'] = 1
         else:
             r_dict['type'] = 'point'
+            r_dict['group'] = 0
         res_dict.append(r_dict)
 
-    return jsonify(res_dict) 
+    if not format_json:
+        return render_template('timeline.html')
+    else:
+        return jsonify(res_dict) 
 
 
 @app.route('/reservation/add', methods=['POST'])
@@ -417,9 +432,9 @@ def add_reservation_():
     return redirect('/reservation')
 
 
-@app.route('/schedule')
+@app.route('/reservation/map')
 @login_required
-def show_schedule():
+def show_map():
     """Allow user to view reservations on a map."""
 
     # filter reservations if date chosen
@@ -438,7 +453,7 @@ def show_schedule():
     for r in res:
         animals_list.append(r.animal)
 
-    return render_template('schedule.html', animals=animals_list)
+    return render_template('map.html', animals=animals_list)
 
 
 @app.route('/geocode')

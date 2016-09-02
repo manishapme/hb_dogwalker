@@ -33,8 +33,15 @@
                 {% if current_user.is_authenticated and current_user.business.business_name is defined %}
                     <ul class='nav navbar-nav whiteText'>
                         <li><a href='/business'>{{ current_user.business.business_name }}</a></li>
-                        <li><a href='/reservation'>Reservations</a></li>
-                        <li><a href='/schedule'>Schedule</a></li>
+                        <li><a href='/animal'>Pets</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reservations <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href='/reservation'>Overview</a></li>
+                                <li><a href='/reservation/map'>Map View</a></li>
+                                <li><a href='/reservation/timeline'>Timeline View</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 {% endif %}
                 <form  action='/login' method='POST' class='navbar-form navbar-right'>

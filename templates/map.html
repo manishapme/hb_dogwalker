@@ -1,22 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Schedule{% endblock %}
+{% block title %}Map View{% endblock %}
 
 {% block content %}
 <div class='page-header'>
-    <div class='btn-group pull-right' role='group' aria-label=''>
-        <button id='scheduleMap' 
-                type='button' 
-                class='btn btn-default' 
-                aria-label='Map' 
-                data-target-div-id='business_update'>Map</button>
-        <button id='scheduleTimeLine' 
-                type='button' 
-                class='btn btn-default' 
-                aria-label='Timeline' 
-                data-target-div-id='animal_add'>Timeline</button>
-    </div>
-    <h1>Schedule</h1>
+    <h1>Map View</h1>
 </div>
     <div id='schedule_date_filter'>{% include '/forms/date_filter.html' %}</div>
     <ul id='scheduled_address_list'>
@@ -34,7 +22,6 @@
         <div id='map' class='embed-responsive-item'>
         </div>
     </div>
-    <div id='visualization'></div>
 
 {% endblock %}
 

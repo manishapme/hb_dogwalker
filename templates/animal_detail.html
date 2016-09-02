@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Pet Detail{% endblock %}
+
+{% block content %}
+<div class='page-header'>
+    <div class='btn-group pull-right' role='group' aria-label=''>
+        <button id='bizToolbarEditPet' 
+                type='button' 
+                class='btn btn-default' 
+                aria-label='Edit Pet' 
+                data-target-div-id='animal_update'>Edit Pet</button>
+        <button id='bizToolbarAddPersonToAnimal' 
+                type='button' 
+                class='btn btn-default' 
+                aria-label='Add Person'   
+                data-target-div-id='person_add_to_animal'>Add Person</button>
+    </div>
+    <h1>{{ animal.name }}</h1>
+</div>
+
+<div class='row'>
+    <div class='col-xs-8'>   
+        <dl class='dl-horizontal'>
+            <dt>Species</dt>
+            <dd>{{ animal.species }}</dd>
+
+            <dt>Breed</dt>
+            <dd>{{ animal.breed }}</dd>
+
+            <dt>Birthday</dt>
+            <dd>{{ animal.birthday }}</dd>
+
+            <dt>Vet</dt>
+            <dd>{{ animal.vet }}</dd>
+
+            <dt>Note</dt>
+            <dd>{{ animal.note }}</dd>
+        </dl>
+        <dl class='dl-horizontal'>
+            <dt>Primary Person</dt>
+            <dd>{{ animal.people[0].fullname }}</dd>
+
+            <dt>Street</dt>
+            <dd>{{ animal.people[0].street }}</dd>
+
+            <dt>City</dt>
+            <dd>{{ animal.people[0].city }}</dd>
+
+            <dt>State</dt>
+            <dd>{{ animal.people[0].state }}</dd>
+
+            <dt>Zip</dt>
+            <dd>{{ animal.people[0].zipcode }}</dd>
+
+            <dt>Phone</dt>
+            <dd>{{ animal.people[0].phone }}</dd>
+
+            <dt>Email</dt>
+            <dd>{{ animal.people[0].email }}</dd>
+        </dl>
+        <div id='animal_detail'>
+            <h3>Pets people</h3>
+            {% for person in animal.people %}
+                <p>{{ person.fullname }}</p>
+            {% endfor %}
+        </div>
+        <div id='animal_others'>
+            <h3>Other pets for these people</h3>
+            {% for other in other_animals %}
+                <p><a href='{{ other.id }}'>{{ other.name }}</a></p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class='col-xs-4'>
+<!-- @todo don't think this goes here. or it also goes on the business page--> 
+        {% include '/forms/animal_add.html' %}
+        {% include '/forms/animal_update.html' %}
+        {% include '/forms/person_add_to_animal.html' %}
+    </div>
+</div>
+
+{% endblock %}

@@ -256,6 +256,7 @@ class ControllerTests(unittest.TestCase):
 
 # @todo -- how to control what data a user can view
 # @todo http://pythonhosted.org/dictalchemy/#utilities
-
+# coverage run --source=. --omit=env/*,seed_testdata.py,seed_testdata_csv.py test.py
+# coverage report -m
 if __name__ == "__main__":
     unittest.main()
