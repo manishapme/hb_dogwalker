@@ -12,11 +12,13 @@ from model import (User, Person, Animal, Service, Business, Reservation, connect
                    add_personanimal, add_person, add_service, add_reservation, get_animals_for_biz) 
 from sqlalchemy.sql import func
 import dictalchemy
+from flask_bcrypt import Bcrypt
 
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] #@todo load from config file
 app.jinja_env.undefined = StrictUndefined #prevent silent jinja undefined failure
+bcrypt = Bcrypt(app)
 
 #login functions provided by Flask-login
 login_manager = LoginManager()
@@ -54,12 +56,11 @@ def login():
 
     user_name = request.form.get('user_name')
     password = request.form.get('password')
-    user = User.query.filter_by(user_name=user_name, password=password).first()
+    user = User.query.filter_by(user_name=user_name).first()
 
-    if user:
+    if bcrypt.check_password_hash(user.password, password):
         login_user(user)
         return redirect('/business')
-
     else:
         flash('Error, {} and password did not match a registered user'.format(user_name))
         return redirect('/')
@@ -84,6 +85,7 @@ def register():
     last_name = request.form.get('register_last_name')
     email = request.form.get('register_email')
     business_name = request.form.get('register_business_name')
+    password = bcrypt.generate_password_hash(password)
     
     # ensure username is unique (case insensitive)
     user = User.query.filter(User.user_name.ilike(user_name)).first()
@@ -446,7 +448,6 @@ def show_map():
     else:
         res = Reservation.query.join(Reservation.service).filter(Service.business_id
                                      == current_user.business.id).all()
-
 
     #then grab the animal each reservation pertains to
     animals_list = []

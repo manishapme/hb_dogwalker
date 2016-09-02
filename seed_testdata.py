@@ -2,7 +2,7 @@
 # @todo use separate db for tests
 from model import User, Business, Animal, Person, Service, Reservation
 from model import connect_to_db, db
-from controller import app
+from controller import app, bcrypt
 
 def populate_business():
     """Create minimum sample data for the business table."""
@@ -51,19 +51,21 @@ def populate_users():
     User.query.delete()
 
     b = Business.query.all()
+    p1 = bcrypt.generate_password_hash('1234')
+    p2 = bcrypt.generate_password_hash('1234')
 
     users = [{'business_id': b[0].id,
                'user_name': 'mary',
                'email': 'mary @ example.com',
                'first_name': 'Mary',
                'last_name': 'Smith',
-               'password': '1234'
+               'password': p1
              }, {'business_id': b[1].id,
                'user_name': 'john',
                'email': 'john @ example.com',
                'first_name': 'John',
                'last_name': 'Baker',
-               'password': '1234'
+               'password': p2
              }]
     
     for user in users:
