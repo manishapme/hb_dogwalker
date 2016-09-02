@@ -43,7 +43,7 @@ def index():
 
     elif current_user.business_id:
         #a user who's signed up AND entered some business detail
-        return redirect('/business/{}'.format(current_user.business.id))
+        return redirect('/business/{}'.format(current_user.business_id))
 
     else:
         # a user who doesn't have a related business
@@ -106,7 +106,7 @@ def register():
             # if a business name was entered, create that business and associate with this user
             new_business = add_business(business_name=business_name)
             new_user.update_user(business_id=new_business.id)
-            return redirect('/business/{}'.format(current_user.business.id))
+            return redirect('/business/{}'.format(current_user.business_id))
         else:
             return redirect('/business')
 
@@ -119,7 +119,7 @@ def show_business_page(business_id=None):
 
     if current_user.business_id:
         #a user who's signed up AND entered some business detail
-        # return redirect('/business/{}'.format(current_user.business.id))
+        # return redirect('/business/{}'.format(current_user.business_id))
         # b = current_user.business
         # print b.id
         # print b.business_name
@@ -184,7 +184,7 @@ def add_business_():
     #@todo, if we ever have a superadmin role, this breaks
     current_user.update_user(business_id=new_business.id)
 
-    return redirect('/business/{}'.format(current_user.business.id))
+    return redirect('/business/{}'.format(current_user.business_id))
 
 
 
@@ -203,7 +203,7 @@ def add_animal_():
 
     r = request.form
     a = add_animal(
-                   business_id=r.get('business_id', current_user.business.id), 
+                   business_id=r.get('business_id', current_user.business_id), 
                    name=r.get('name'),
                    species=r.get('species'), 
                    breed=r.get('breed'), 
@@ -216,7 +216,7 @@ def add_animal_():
     if r.get('fullname'):
         p = add_person(
                        # these fields for adding a person. might not be added at same time @todo??
-                       business_id=r.get('business_id', current_user.business.id), 
+                       business_id=r.get('business_id', current_user.business_id), 
                        fullname=r.get('fullname'),
                        street=r.get('street'),
                        city=r.get('city'),
@@ -229,7 +229,7 @@ def add_animal_():
         add_personanimal(a, p)
 
     animals = get_animals_for_biz(current_user.business_id, 'json') 
-    # return redirect('/business/{}'.format(current_user.business.id))
+    # return redirect('/business/{}'.format(current_user.business_id))
     return jsonify(animals)
 
 
@@ -291,7 +291,7 @@ def add_person_(animal_id):
     a = Animal.query.get(animal_id)
     p = add_person(
                    # these fields for adding a person. might not be added at same time @todo??
-                   business_id=r.get('business_id', current_user.business.id), 
+                   business_id=r.get('business_id', current_user.business_id), 
                    fullname=r.get('fullname'),
                    street=r.get('street'),
                    city=r.get('city'),
@@ -312,11 +312,11 @@ def add_service_():
     """Add a service for current business."""
 
     r = request.form
-    s = add_service(business_id=r.get('business_id', current_user.business.id), 
+    s = add_service(business_id=r.get('business_id', current_user.business_id), 
                     description=r.get('description'),
                     cost=r.get('cost'))
 
-    return redirect('/business/{}'.format(current_user.business.id))
+    return redirect('/business/{}'.format(current_user.business_id))
 
 
 
@@ -330,7 +330,7 @@ def update_service_():
     s.update_service(description=r.get('description'),
                     cost=r.get('cost'))
 
-    return redirect('/business/{}'.format(current_user.business.id))
+    return redirect('/business/{}'.format(current_user.business_id))
 
 
 @app.route('/reservation')
@@ -343,11 +343,11 @@ def show_reservations():
     if session.get('start_date'): 
         res_date = session['start_date']
         res = Reservation.query.join(Reservation.service).filter(Service.business_id
-                                             == current_user.business.id, 
+                                             == current_user.business_id, 
                                              func.date(Reservation.start_date) == res_date).all()
     else:
         res = Reservation.query.join(Reservation.service).filter(Service.business_id
-                                     == current_user.business.id).all()
+                                     == current_user.business_id).all()
 
     ser = current_user.business.services
 
@@ -450,11 +450,11 @@ def show_map():
     if session.get('start_date'): 
         res_date = session['start_date']
         res = Reservation.query.join(Reservation.service).filter(Service.business_id
-                                             == current_user.business.id, 
+                                             == current_user.business_id, 
                                              func.date(Reservation.start_date) == res_date).all()
     else:
         res = Reservation.query.join(Reservation.service).filter(Service.business_id
-                                     == current_user.business.id).all()
+                                     == current_user.business_id).all()
 
     #then grab the animal each reservation pertains to
     animals_list = []
