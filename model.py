@@ -294,7 +294,8 @@ def add_animal(**kwargs):
                  breed=kwargs.get('breed'), 
                  birthday=kwargs.setdefault('birthday', None), 
                  vet=kwargs.get('vet'),
-                 note=kwargs.get('note')
+                 note=kwargs.get('note'),
+                 photo_path=kwargs.get('photo_path')
                  )
 
     db.session.add(a)
