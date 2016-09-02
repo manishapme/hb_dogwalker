@@ -40,7 +40,13 @@
             <h3>Services</h3>
             <ul id='service_list'>
                 {% for service in current_user.business.services %}
-                    <li class='service_li' data-target-div-id='service_update' data-service-id='{{ service.id }}'><a href='#'>{{ service.description }}</a>, ${{ service.cost }}</li>
+                    <li class='service_li' data-target-div-id='service_update' 
+                                            data-service-id='{{ service.id }}' 
+                                            data-service-description='{{ service.description }}' 
+                                            data-service-cost='{{ service.cost }}' 
+                                            >
+                        <a href='#'>{{ service.description }}</a>, ${{ service.cost }}
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}

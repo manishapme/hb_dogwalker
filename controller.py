@@ -58,7 +58,7 @@ def login():
     password = request.form.get('password')
     user = User.query.filter_by(user_name=user_name).first()
 
-    if bcrypt.check_password_hash(user.password, password):
+    if user and bcrypt.check_password_hash(user.password, password):
         login_user(user)
         return redirect('/business')
     else:

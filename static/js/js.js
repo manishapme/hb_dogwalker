@@ -18,7 +18,6 @@ $( document ).ready(function() {
 
 
     // BUSINESS
-
     // // EVENT LISTENERS
     $('#bizToolbarEdit').on('click', divToggleHidden);
     $('#bizToolbarAddPet').on('click', divToggleHidden);
@@ -35,6 +34,8 @@ $( document ).ready(function() {
         $(divID).toggleClass('hidden');
         if( $(this).data('service-id') ){
             $(divID+' form div input[name=id]').val($(this).data('service-id'));            
+            $(divID+' form div input[name=description]').val($(this).data('service-description'));            
+            $(divID+' form div input[name=cost]').val($(this).data('service-cost'));            
         }
         // as javascript    this.attr('data-target-div-id')
         // jquery target    console.log(event.target.attr('data-target-div-id');

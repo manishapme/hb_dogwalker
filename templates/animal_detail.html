@@ -20,45 +20,55 @@
 </div>
 
 <div class='row'>
-    <div class='col-xs-8'>   
-        <dl class='dl-horizontal'>
-            <dt>Species</dt>
-            <dd>{{ animal.species }}</dd>
+    <div class='col-xs-8'>
+        <table>
+            <tr>
+                <td>
+                    <img src='{{ animal.photo_path }}' alt='{{ animal.name }}' style='width: 200px'>
+                </td>
+                <td>
+                    <dl class='dl-horizontal'>
+                        <dt>Species</dt>
+                        <dd>{{ animal.species }}</dd>
 
-            <dt>Breed</dt>
-            <dd>{{ animal.breed }}</dd>
+                        <dt>Breed</dt>
+                        <dd>{{ animal.breed }}</dd>
 
-            <dt>Birthday</dt>
-            <dd>{{ animal.birthday }}</dd>
+                        <dt>Birthday</dt>
+                        <dd>{{ animal.birthday }}</dd>
 
-            <dt>Vet</dt>
-            <dd>{{ animal.vet }}</dd>
+                        <dt>Vet</dt>
+                        <dd>{{ animal.vet }}</dd>
 
-            <dt>Note</dt>
-            <dd>{{ animal.note }}</dd>
-        </dl>
-        <dl class='dl-horizontal'>
-            <dt>Primary Person</dt>
-            <dd>{{ animal.people[0].fullname }}</dd>
+                        <dt>Note</dt>
+                        <dd>{{ animal.note }}</dd>
+                    </dl>
 
-            <dt>Street</dt>
-            <dd>{{ animal.people[0].street }}</dd>
+                    <dl class='dl-horizontal'>
+                        <dt>Primary Person</dt>
+                        <dd>{{ animal.people[0].fullname }}</dd>
 
-            <dt>City</dt>
-            <dd>{{ animal.people[0].city }}</dd>
+                        <dt>Street</dt>
+                        <dd>{{ animal.people[0].street }}</dd>
 
-            <dt>State</dt>
-            <dd>{{ animal.people[0].state }}</dd>
+                        <dt>City</dt>
+                        <dd>{{ animal.people[0].city }}</dd>
 
-            <dt>Zip</dt>
-            <dd>{{ animal.people[0].zipcode }}</dd>
+                        <dt>State</dt>
+                        <dd>{{ animal.people[0].state }}</dd>
 
-            <dt>Phone</dt>
-            <dd>{{ animal.people[0].phone }}</dd>
+                        <dt>Zip</dt>
+                        <dd>{{ animal.people[0].zipcode }}</dd>
 
-            <dt>Email</dt>
-            <dd>{{ animal.people[0].email }}</dd>
-        </dl>
+                        <dt>Phone</dt>
+                        <dd>{{ animal.people[0].phone }}</dd>
+
+                        <dt>Email</dt>
+                        <dd>{{ animal.people[0].email }}</dd>
+                    </dl>
+                </td>
+            </tr>
+        </table>
         <div id='animal_detail'>
             <h3>Pets people</h3>
             {% for person in animal.people %}

@@ -1,7 +1,7 @@
-    <div id='date_filter'>
-        <h3>Select date to view reservations.</h3>
-        <form action='/reservation/date' method='GET' id='date_form_filter'>
+    <div id='date_filter' class='p-b-1'>
+        <form class='form-inline' action='/reservation/date' method='GET' id='date_form_filter'>
             <div class='form-group'>
+                <label>Select date to view reservations.</label>
                 <input class='form-control' 
                        type='date' name='date_filter' 
                        placeholder='Date Filter' 
@@ -11,8 +11,6 @@
                         {% endif %}
                        >
             </div>
-
-
             <div class='form-group'>
                 <input class='btn btn-primary' type='submit' value='Filter on Date'>
             </div>

@@ -87,7 +87,7 @@ def populate_animals():
     Animal.query.delete()
 
     for i, row in enumerate(open('seed_data/dogs.csv')):
-        business_id, name, species, breed, birthday, vet, note = row.rstrip().split(",")
+        business_id, name, species, breed, birthday, vet, note, photo_path = row.rstrip().split(",")
 
         a = Animal(business_id=business_id,
                name=name, 
@@ -95,7 +95,8 @@ def populate_animals():
                birthday=birthday,
                vet=vet, 
                note=note,
-               species=species)
+               species=species,
+               photo_path=photo_path)
         db.session.add(a)
     db.session.commit()
     return None

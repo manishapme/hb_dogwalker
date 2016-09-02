@@ -3,7 +3,7 @@ import unittest
 import controller
 # from controller import app
 from model import db, connect_to_db
-from seed_testdata import (populate_business, populate_users, populate_animals,
+from seed_testdata_csv import (populate_business, populate_users, populate_animals,
                            populate_people, populate_services, 
                            populate_reservations)
 

@@ -145,6 +145,7 @@ class Animal(db.Model):
     vet = db.Column(db.Text)
     note = db.Column(db.Text)
     species = db.Column(db.String(64))
+    photo_path = db.Column(db.String(64))
 
     business = db.relationship('Business', backref=db.backref('animals', order_by=name))
     people = db.relationship('Person', secondary=personanimal, backref=db.backref('personanimal'))
@@ -158,6 +159,7 @@ class Animal(db.Model):
         self.vet = kwargs.get('vet', self.vet)
         self.note = kwargs.get('note', self.note)
         self.species = kwargs.get('species', self.species)
+        self.photo_path = kwargs.get('photo_path', self.photo_path)
 
         db.session.commit()
 
