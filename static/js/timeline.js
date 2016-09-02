@@ -14,12 +14,12 @@ $( document ).ready(function() {
             console.log(result);
             var items = new vis.DataSet(result);
             var options = {
-                groupOrder: 'content'  // groupOrder can be a property name or a sorting function
+            zoomable: false,
+            margin: 0,
+            groupOrder: 'content'  // groupOrder can be a property name or a sorting function
+
             };
-            // var options = {
-            //     // zoomable: false,
-            //     // margin: 0
-            // };
+
             var names = ['Walk', 'Board'];
             var groups = new vis.DataSet();
             for (var g = 0; g < 2; g++) {
