@@ -9,7 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (LoginManager, login_user, logout_user, login_required,
                              current_user)
 from model import (User, Person, Animal, Service, Business, Reservation, connect_to_db, db, add_user, add_business, add_animal, 
-                   add_personanimal, add_person, add_service, add_reservation, get_animals_for_biz) 
+                   add_personanimal, add_person, add_service, add_reservation, get_animals_list) 
 from sqlalchemy.sql import func
 import dictalchemy
 from flask_bcrypt import Bcrypt
@@ -195,7 +195,7 @@ def show_animal_all():
 @login_required
 def add_animal_():
     """Add animals to a specific business."""
-
+    print 'in route'
     r = request.form
     a = add_animal(
                    business_id=r.get('business_id', current_user.business_id), 
@@ -223,8 +223,7 @@ def add_animal_():
         # if they added a person we also add the join record at same time
         add_personanimal(a, p)
 
-    animals = get_animals_for_biz(current_user.business_id, 'json') 
-    # return redirect('/business/{}'.format(current_user.business_id))
+    animals = get_animals_list(current_user.business_id, 'json')
     return jsonify(animals)
 
 

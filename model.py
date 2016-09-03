@@ -349,28 +349,20 @@ def add_reservation(**kwargs):
     return r
 
 
-def get_animals_for_biz(business_id, output_format='json'):
+def get_animals_list(business_id, output_format=None):
     """For specified business return all animals in specified format."""
 
-    animals = Animal.query.filter(Animal.business_id==business_id).all() 
+    animals = Animal.query.filter(Animal.business_id==business_id).order_by(Animal.name).all() 
+
     if output_format == 'json':
         output = []
         for animal in animals:
-            animal_details = {}
-            key = 'id'
-            val = animal.id
-            animal_details[key] = val
-
-            key = 'name'
-            val = animal.name
-            animal_details[key] = val
-
-            key = 'person'
-            val = animal.people[0].fullname
-            animal_details[key] = val
-
-            output.append(animal_details)
+            # converting each object to a dictionary will allow jsonify to work in next step
+            a = dictalchemy.utils.asdict(animal)
+            a['person'] = animal.people[0].fullname
+            output.append(a)
         return output
+
     else:
         return animals
 
