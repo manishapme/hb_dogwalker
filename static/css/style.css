@@ -1,6 +1,19 @@
+html {
+
+    background: linear-gradient(rgba(255, 255, 255, .6), rgba(255, 255, 255, .6)), 
+        url('/static/images/little-puppies-friends-picjumbo-com.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 body {
     margin: 70px 0;
-    font-family: 'Myriad', 'Oxygen', sans-serif;
+    height: 100%;
+    font-family: 'Oxygen', sans-serif;
+    background: transparent;
+
 }
 
 .whiteText {
@@ -23,8 +36,31 @@ body {
 
 .rounded {
     border-radius: 10px;
+    background: rgba(217,237,247, .6)
 }
 
 .page-header {
     margin-top: 0px;
+}
+
+.navbar-inverse {
+    background-color: #081D2B;
+}
+
+.navbar-inverse .navbar-brand:hover, 
+.navbar-inverse .navbar-brand:focus,
+.navbar-inverse .navbar-brand {
+    font-family: 'Oswald', sans-serif;
+    background-color: transparent;
+    color: #90DBFF;
+}
+
+.rowAlpha {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .7);
+    padding: 1em;
+
+}
+h1, h2, h3 {
+    font-family: 'Oswald', sans-serif;
 }

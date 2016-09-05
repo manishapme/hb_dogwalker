@@ -206,6 +206,7 @@ def add_animal_():
                    birthday=r.get('birthday') or None, 
                    vet=r.get('vet'),
                    note=r.get('note'),
+                   photo_path=r.get('photo_path')
                  )
     # if they've included person data we also create a person
     if r.get('fullname'):
@@ -258,6 +259,7 @@ def update_animal_(animal_id):
                    birthday=r.get('birthday') or None, 
                    vet=r.get('vet'),
                    note=r.get('note'),
+                   photo_path=r.get('photo_path')
                  )
 
     if r.get('fullname'):
@@ -479,8 +481,8 @@ if __name__ == '__main__':
 
     app.debug = True # app.debug = os.environ['FLASK_DEBUG']
    # only show toolbar when debug is true
-    if app.debug:
-        DebugToolbarExtension(app) 
+    # if app.debug:
+    #     DebugToolbarExtension(app) 
 
 
     connect_to_db(app)

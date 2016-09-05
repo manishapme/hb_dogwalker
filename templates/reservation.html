@@ -3,7 +3,10 @@
 {% block title %}Reservations{% endblock %}
 
 {% block content %}
-<div class='row'>
+<div class='page-header'>
+    <h1>Reservations</h1>
+</div>
+<div class='row rowAlpha'>
     <div class='col-xs-8'>
         {% if reservations %}
         {% include '/forms/date_filter.html' %}
