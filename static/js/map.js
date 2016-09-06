@@ -3,7 +3,7 @@ $( document ).ready(function() {
     
     // // EVENT LISTENERS
     $('#schedule_date_filter #date_form_filter').on( 'submit', scheduleShow);
-    if ($('#date_form_filter input[name=date_filter').val()){
+    if ($('#date_form_filter input[name=date_filter]').val()){
         //render map if the date filter is already populated from session data
         initMap();
     }
