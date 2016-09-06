@@ -201,7 +201,7 @@ def show_animal_all():
 @login_required
 def add_animal_():
     """Add animals to a specific business."""
-    print 'in route'
+
     r = request.form
     a = add_animal(
                    business_id=r.get('business_id', current_user.business_id), 
@@ -352,8 +352,7 @@ def show_reservations():
                                      == current_user.business_id).all()
 
     ser = current_user.business.services
-    print res
-    print len(res)
+
     if res:
         session['res_count'] = True
 
@@ -483,9 +482,16 @@ def geocode_address():
     r = r.get('results')
     r = r[0].get('geometry')
     r = r.get('location')
-    print 
 
     return "hello"
+
+@app.template_filter('strftime')
+def date_format(value, format='%B %d, %Y'):
+    """Custom filter for formatting datetime object as date in Jinja."""
+
+    return value.strftime(format)
+# jinja_env.filters['datetime'] = format_datetime
+
 
 if __name__ == '__main__':
 

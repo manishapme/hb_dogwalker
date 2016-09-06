@@ -26,8 +26,8 @@
                     <tr>
                         <td>{{ res.animal.name }}</td>
                         <td>{{ res.service.description }}</td>
-                        <td>{{ res.start_date}}</td>
-                        <td>{{ res.end_date}}</td>
+                        <td>{{ res.start_date|strftime }}</td>
+                        <td>{{ res.end_date|strftime }}</td>
                         <td>{{ res.cost }}</td>
                         <td>{{ res.note }}</td>
                     </tr>                
