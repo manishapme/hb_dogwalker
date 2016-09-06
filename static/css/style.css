@@ -1,7 +1,7 @@
 html {
 
     background: linear-gradient(rgba(255, 255, 255, .6), rgba(255, 255, 255, .6)), 
-        url('/static/images/little-puppies-friends-picjumbo-com.jpg') no-repeat center center fixed; 
+        url('/static/images/little-puppies-friends.jpg') no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -41,6 +41,8 @@ body {
 
 .page-header {
     margin-top: 0px;
+    border-bottom: 0 solid #eee;
+    padding-bottom: 0;
 }
 
 .navbar-inverse {
@@ -58,7 +60,7 @@ body {
 .rowAlpha {
     border-radius: 10px;
     background: rgba(255, 255, 255, .7);
-    padding: 1em;
+    padding: 1.5em;
 
 }
 h1, h2, h3 {
