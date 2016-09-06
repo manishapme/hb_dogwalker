@@ -6,13 +6,11 @@ This tool is intended to be a multi-user web application that is available to th
  
 
 ## Table of Contents
-* [ERD](#ERD)
 * [Technologies Used](#technologiesused)
-* [Version 2.0](#v2)
+* [ERD](#ERD)
+* [How it works](#how)
+* [Version 1.0](#v1)
 * [Author](#author)
-
-## <a name="ERD"></a>ERD
-* [PDF](/static/images/readme/erd_dogwalker.pdf)
 
 ## <a name="technologiesused"></a>Technologies Used
 * [Python](https://www.python.org/)
@@ -28,10 +26,35 @@ This tool is intended to be a multi-user web application that is available to th
 * [Google Maps Directions API](https://developers.google.com/maps/documentation/javascript/directions)
 * [Vis.js Timeline](http://visjs.org)
 
+## <a name="ERD"></a>ERD
+Version one launched with a normalized data model built for a limited set of features. The User, Business, Service, Person, Animal, Reservation and PersonAnimal entities were created and represent a variety of joins. The model allows easy extension of the additional entities required to support the next set of features.
+
+![PDF](/static/images/readme/erd_dogwalker.png)
+
+## <a name="how"></a>How it works
+####Registration
+As a multi-user solution, the system requires registration and authentication. Passwords are hashed and stored in encrypted form.
+
+![Registration](/static/images/readme/homepage.png)
+
+####Business Overview
+After the user is registered, they are able to view the details of their business on the overview page. This page is initially rendered by Jinja, but adding and editing is handled via ajax requests.
+
+![Overview](/static/images/readme/overview.png)
+
+####Routing
+Users can view the reservations that have been made for a specified day and map a route via the Google Directions API. The addressess for all scheduled pets are are scraped from the page using jquery and passed to the API as a list of waypoints. The opitimize parameter is set to ensure user receives most efficient directions. 
+
+![Routing](/static/images/readme/map.png)
+
+####Timeline
+Users can view the reservations on a timeline using the vis.js library. 
+
+![Timeline](/static/images/readme/timeline.png)
 
 ## <a name="v1"></a>Version 1.0
 
-Future phases will enable invoicing and automate messaging of photos so owners can always know how their pets are doing.
+Future phases will enable invoicing, uploading photos and automate messaging of photos to owners. This allows business to communicate to pet-owners while building an organized history of their activities. The system will also be mobile optimized.
 
 ## <a name="author"></a>Author
 Manisha Patel is a software engineer from the San Francisco Bay area.

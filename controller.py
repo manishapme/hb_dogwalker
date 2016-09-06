@@ -485,6 +485,7 @@ def geocode_address():
 
     return "hello"
 
+
 @app.template_filter('strftime')
 def date_format(value, format='%B %d, %Y'):
     """Custom filter for formatting datetime object as date in Jinja."""
