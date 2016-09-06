@@ -43,7 +43,7 @@ After the user is registered, they are able to view the details of their busines
 ![Overview](/static/images/readme/overview.png)
 
 ####Routing
-Users can view the reservations for a specified day and map a route via the Google Directions API. The addressess for all scheduled pets are are collected from the page using JQuery and passed to the API as a list of waypoints. The opitimize parameter (for Google Directions API) is set to ensure user receives the most efficient directions. 
+Users can view the reservations for a specified day and map a route via the Google Directions API. The addressess for all scheduled pets are are collected from the page using jQuery and passed to the API as a list of waypoints. The opitimize parameter (for Google Directions API) is set to ensure user receives the most efficient directions. 
 
 ![Routing](/static/images/readme/map.png)
 
