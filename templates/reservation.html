@@ -8,8 +8,10 @@
 </div>
 <div class='row rowAlpha'>
     <div class='col-xs-8'>
+        {% if session['res_count'] is defined %}        
+            {% include '/forms/date_filter.html' %}
+        {% endif %}
         {% if reservations %}
-        {% include '/forms/date_filter.html' %}
         <div class='table-responsive'>
             <table class='table table-bordered'>
                 <tr>

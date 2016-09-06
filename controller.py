@@ -72,6 +72,12 @@ def logout():
     """Logout current user."""
 
     logout_user()
+    if session.get('start_date'):
+        del session['start_date']
+
+    if session.get('res_count'):
+        del session['res_count']
+    
     return redirect('/')
 
 
@@ -346,6 +352,10 @@ def show_reservations():
                                      == current_user.business_id).all()
 
     ser = current_user.business.services
+    print res
+    print len(res)
+    if res:
+        session['res_count'] = True
 
     return render_template('reservation.html', reservations=res, services=ser)
 
@@ -362,7 +372,6 @@ def filter_reservations(format_json=None):
     session['start_date'] = res_date
     
     res = Reservation.query.join(Reservation.service).filter(Service.business_id == biz_id, func.date(Reservation.start_date) == res_date).all()
-
     ser = current_user.business.services
 
     if not format_json:
@@ -434,6 +443,7 @@ def add_reservation_():
                  note=r.get('note')
                  )
 
+    session['res_count'] = True
     return redirect('/reservation')
 
 

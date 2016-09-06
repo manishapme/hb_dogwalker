@@ -1,5 +1,5 @@
     <div id='reservation_add'>
-        <h3>Make a reservations for this dog to receive a service.</h3>
+        <h3>Schedule a service.</h3>
         <form action='/reservation/add' method='POST' id='reservation_form_add'>
             <select class='form-control' name='animal_id'>
                 {% for animal in current_user.business.animals %}

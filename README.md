@@ -12,7 +12,7 @@ This tool is intended to be a multi-user web application that is available to th
 * [Author](#author)
 
 ## <a name="ERD"></a>ERD
-![PDF](/static/images/erd_dogwalker.pdf)
+* [PDF](/static/images/erd_dogwalker.pdf)
 
 ## <a name="technologiesused"></a>Technologies Used
 * [Python](https://www.python.org/)
