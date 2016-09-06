@@ -2,7 +2,7 @@
 
 Dogwalker is a small business manager targeting the pet care professional. Most individuals working with pets have talents and skills in relating to animals. Many are also sole proprietors who must also manage administrative tasks.
 
-This tool is intended to be a multi-user web application that is available to these individuals to make the office management part of their business simpler. It gives them a place to track information about the pets they care for, the humans that pay the bills, create reservations and view their upcoming schedule. 
+This tool is a multi-user web application for these individuals to make the office management part of their business simpler. It gives them a place to track information about the pets they care for, the humans that pay the bills, create reservations and view their upcoming schedule. 
  
 
 ## Table of Contents
@@ -43,7 +43,7 @@ After the user is registered, they are able to view the details of their busines
 ![Overview](/static/images/readme/overview.png)
 
 ####Routing
-Users can view the reservations that have been made for a specified day and map a route via the Google Directions API. The addressess for all scheduled pets are are scraped from the page using jquery and passed to the API as a list of waypoints. The opitimize parameter is set to ensure user receives most efficient directions. 
+Users can view the reservations for a specified day and map a route via the Google Directions API. The addressess for all scheduled pets are are collected from the page using JQuery and passed to the API as a list of waypoints. The opitimize parameter (for Google Directions API) is set to ensure user receives the most efficient directions. 
 
 ![Routing](/static/images/readme/map.png)
 
