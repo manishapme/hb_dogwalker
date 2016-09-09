@@ -87,6 +87,8 @@ class Business(db.Model):
     business_phone = db.Column(db.String(10))
     url = db.Column(db.String(64))
     license = db.Column(db.String(64))
+    geo_lat = db.Column(db.Numeric)
+    geo_long = db.Column(db.Numeric)
 
     def format_address(self):
         """Return the address as a waypoint string"""
@@ -107,7 +109,6 @@ class Business(db.Model):
         self.license = kwargs.get('license', self.license)
 
         db.session.commit()
-
 
 
 # A many-to-many association requiring only keys DOESN'T require a class definition  
@@ -268,6 +269,7 @@ def add_business(**kwargs):
 
     db.session.add(b)
     db.session.commit()
+
     return b
 
 
