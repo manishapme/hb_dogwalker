@@ -130,6 +130,8 @@ def register():
 def show_business_page(business_id=None):
     """For logged in user, show detail or form to add details."""
 
+    # note by always using the business_id from user record, we effectively lock the route. 
+    # cannot view another users business by typing into address bar
     if current_user.business_id:
         #a user who's signed up AND entered some business detail
         return render_template('business_detail.html')
@@ -157,6 +159,10 @@ def update_business_():
                       url=r.get('url'),
                       license=r.get('license')
                       )
+ 
+    place_id = geocode_address(b.format_address())
+    if place_id:
+        b.update_business(place_id=place_id)        
 
     return jsonify(dictalchemy.utils.asdict(b))
 
@@ -469,21 +475,19 @@ def show_map():
     return render_template('map.html', animals=animals_list)
 
 
-@app.route('/geocode')
-def geocode_address():
+# @app.route('/geocode')
+def geocode_address(address):
     """Take a given address and geocode it."""
 
-    address = current_user.business.format_address().replace(' ', '%20')
-    print address
+    address = address.replace(' ', '%20')
     url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+address+'&key='+os.environ['GOOGLE_MAPS_KEY']
-    print url
-    r = requests.get(url).content
-    r = json.loads(r)
-    r = r.get('results')
-    r = r[0].get('geometry')
-    r = r.get('location')
+    # convert string to object using json loads
+    r = json.loads(requests.get(url).content)
+    # pretty deep nesting to get the place id out of the returned object
+    return r.get('results')[0].get('place_id')
 
-    return "hello"
+
+    # return "hello"
 
 
 @app.template_filter('strftime')

@@ -87,8 +87,7 @@ class Business(db.Model):
     business_phone = db.Column(db.String(10))
     url = db.Column(db.String(64))
     license = db.Column(db.String(64))
-    geo_lat = db.Column(db.Numeric)
-    geo_long = db.Column(db.Numeric)
+    place_id = db.Column(db.String(64))
 
     def format_address(self):
         """Return the address as a waypoint string"""
@@ -107,6 +106,7 @@ class Business(db.Model):
         self.business_phone = kwargs.get('business_phone', self.business_phone)
         self.url = kwargs.get('url', self.url)
         self.license = kwargs.get('license', self.license)
+        self.place_id = kwargs.get('place_id', self.place_id)
 
         db.session.commit()
 
@@ -264,7 +264,8 @@ def add_business(**kwargs):
                  business_zip=kwargs.get('business_zip'), 
                  business_phone=kwargs.get('business_phone'), 
                  url=kwargs.get('url'), 
-                 license=kwargs.get('license')
+                 license=kwargs.get('license'),
+                 place_id=kwargs.get('place_id')
                  )
 
     db.session.add(b)
