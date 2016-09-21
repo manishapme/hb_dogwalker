@@ -8,7 +8,7 @@
 </div>
 <div class='row rowAlpha'>
     <div id='schedule_date_filter'>{% include '/forms/date_filter.html' %}</div>
-    <ul id='scheduled_address_list'>
+    <ul id='scheduled_address_list' data-place-id='{{ place_id }}'>
         {% for animal in animals %}
             <li id='{{ animal.id }}' data-address='{{ animal.people[0].format_address() }}'>
                 {{ animal.name }},  

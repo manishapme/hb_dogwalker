@@ -28,7 +28,8 @@ $( document ).ready(function() {
 
     function calcRoute(directionsService, directionsDisplay) {
         //@todo get business address as default starting route using geocode latlong
-        var start = {lat: 37.5015665, lng: -121.9730203};
+        var placeId = $('#scheduled_address_list').data('place-id');
+        var start = {'placeId': placeId};
         var end = '2 Graham Place, Oakland, CA 94619';
         var waypoints = getWaypoints();
         var request = {

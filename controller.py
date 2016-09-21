@@ -175,6 +175,14 @@ def add_business_():
     # suffix of '_' on functionname to avoid name collision with method
 
     r = request.form
+    
+    #geocode address with separate call before adding to DB
+    if r.get('street') and r.get('city') and r.get('state') and r.get('zip'):
+        place_id = geocode_address("{},{},{},{}".format(r.get('street'), r.get('city'), 
+                                   r.get('state'), r.get('zip'))
+                                   )
+    print place_id
+
     new_business = add_business(
                                 business_name=r.get('business_name'),
                                 business_street=r.get('street'),
@@ -183,9 +191,9 @@ def add_business_():
                                 business_zip=r.get('zip'),
                                 business_phone=r.get('phone'),
                                 url=r.get('url'),
-                                license=r.get('license')
+                                license=r.get('license'),
+                                place_id=place_id or ''
                                )
-
 
     #after creating new business, ensure it is associated with current user
     #@todo, if we ever have a superadmin role, this breaks
@@ -472,7 +480,7 @@ def show_map():
     for r in res:
         animals_list.append(r.animal)
 
-    return render_template('map.html', animals=animals_list)
+    return render_template('map.html', animals=animals_list, place_id=current_user.business.place_id)
 
 
 # @app.route('/geocode')
