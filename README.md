@@ -3,6 +3,8 @@
 Dogwalker is a small business manager targeting the pet care professional. Most individuals working with pets have talents and skills in relating to animals. Many are also sole proprietors who must also manage administrative tasks.
 
 This tool is a multi-user web application for these individuals to make the office management part of their business simpler. It gives them a place to track information about the pets they care for, the humans that pay the bills, create reservations and view their upcoming schedule. 
+
+It is deployed at: <a src="http://hb-dogwalker.herokuapp.com/">http://hb-dogwalker.herokuapp.com/</a>
  
 
 ## Table of Contents
