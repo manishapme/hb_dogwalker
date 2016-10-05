@@ -511,7 +511,7 @@ if __name__ == '__main__':
     PORT = int(os.environ.get("PORT", 5000))
     DEBUG = 'NO_DEBUG' not in os.environ
 
-    connect_to_db(app)
+    connect_to_db(app, os.environ.get('DATABASE_URL'))
 
     # we are setting the host to 0.0.0.0 because we are running in vagrant
     # if using Mac's python would not need to be specified
