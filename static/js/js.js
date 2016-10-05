@@ -21,9 +21,9 @@ $( document ).ready(function() {
     // // EVENT LISTENERS
     $('#bizToolbarEdit').on('click', divToggleHidden);
     $('#bizToolbarAddPet').on('click', divToggleHidden);
-    $('#bizToolbarEditPet').on('click', divToggleHidden);
+    $('#bizToolbarEditPet').on('click', divToggleHidden); //animal detail
     $('#bizToolbarAddService').on('click', divToggleHidden);
-    $('#bizToolbarAddPersonToAnimal').on('click', divToggleHidden);
+    $('#bizToolbarAddPersonToAnimal').on('click', divToggleHidden); //animal detail
     $('.service_li').on('click', divToggleHidden);
     $('#animal_form_add').on('submit', animalAdd);
     $('#business_form_update').on( 'submit', businessUpdate);
@@ -31,14 +31,24 @@ $( document ).ready(function() {
     function divToggleHidden(event){
         // activated on button click. shows correct form.
         var divID = '#' + $(this).data('target-div-id');
-        $(divID).toggleClass('hidden');
+        var isHidden = $(divID).hasClass('hidden');
+
+        // ensure all divs hidden before toggling the new selection
+        $('#business_update,#animal_add,#service_add,#service_update,#animal_update,#person_add_to_animal').addClass('hidden')
+
+        if (isHidden){
+            $(divID).removeClass('hidden');
+        } else {
+            $(divID).addClass('hidden');
+        }
+
         if( $(this).data('service-id') ){
+            // prepopulate form data with the information from clicked on link
             $(divID+' form div input[name=id]').val($(this).data('service-id'));            
             $(divID+' form div input[name=description]').val($(this).data('service-description'));            
             $(divID+' form div input[name=cost]').val($(this).data('service-cost'));            
         }
         // as javascript    this.attr('data-target-div-id')
-        // jquery target    console.log(event.target.attr('data-target-div-id');
     }
 
 

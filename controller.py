@@ -483,7 +483,6 @@ def show_map():
     return render_template('map.html', animals=animals_list, place_id=current_user.business.place_id)
 
 
-# @app.route('/geocode')
 def geocode_address(address):
     """Take a given address and geocode it."""
 
@@ -493,9 +492,6 @@ def geocode_address(address):
     r = json.loads(requests.get(url).content)
     # pretty deep nesting to get the place id out of the returned object
     return r.get('results')[0].get('place_id')
-
-
-    # return "hello"
 
 
 @app.template_filter('strftime')
