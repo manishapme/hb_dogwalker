@@ -501,17 +501,18 @@ def date_format(value, format='%B %d, %Y'):
     return value.strftime(format)
 # jinja_env.filters['datetime'] = format_datetime
 
+@app.route('/error')
+def error():
+    raise Exception('Error encountered.')
+
 
 if __name__ == '__main__':
 
-    app.debug = True # app.debug = os.environ['FLASK_DEBUG']
-   # only show toolbar when debug is true
-    # if app.debug:
-    #     DebugToolbarExtension(app) 
-
+    PORT = int(os.environ.get("PORT", 5000))
+    DEBUG = 'NO_DEBUG' not in os.environ
 
     connect_to_db(app)
 
     # we are setting the host to 0.0.0.0 because we are running in vagrant
     # if using Mac's python would not need to be specified
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=PORT, debug=DEBUG)
