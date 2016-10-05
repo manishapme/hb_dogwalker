@@ -176,7 +176,8 @@ def populate_reservations():
 
 ##############################################################################
 if __name__ == "__main__":
-    connect_to_db(app)
+
+    connect_to_db(app, os.environ.get('DATABASE_URL'))
 
     # For housekeeping, clean slate
     db.drop_all()
