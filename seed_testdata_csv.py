@@ -1,5 +1,6 @@
 # populate test data
 # @todo use separate db for tests
+import os
 from model import User, Business, Animal, Person, Service, Reservation
 from model import connect_to_db, db
 from controller import app, bcrypt
